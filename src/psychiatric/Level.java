@@ -3,11 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
+import elements.Room;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
+import rooms.InitialRoom;
 
 public class Level {
+    private File[] files;
     private ArrayList<Room> rooms;
     private Room actualRoom;
     
@@ -22,10 +26,13 @@ public class Level {
     public Level() {
         rooms = new ArrayList<>();
         
-        Room room1 = new Room("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\pruebasMapa\\src\\rooms\\room1");
-        Room room2 = new Room("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\pruebasMapa\\src\\rooms\\room2");
-        Room room3 = new Room("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\pruebasMapa\\src\\rooms\\room3");
-        Room room4 = new Room("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\pruebasMapa\\src\\rooms\\room4");
+        File filesRooms = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\pruebasMapa\\src\\filesRooms");
+        files = filesRooms.listFiles();
+
+        InitialRoom room1 = new InitialRoom(files[0]);
+        InitialRoom room2 = new InitialRoom(files[1]);
+        InitialRoom room3 = new InitialRoom(files[2]);
+        InitialRoom room4 = new InitialRoom(files[3]);
         
         room1.setRoomRight(room2);
         room1.setRoomDown(room3);
@@ -41,6 +48,8 @@ public class Level {
         
         rooms.add(room1);
         rooms.add(room2);
+        rooms.add(room3);
+        rooms.add(room4);
         
         Player player = new Player(500, 500); //Lógica de psiquiatrico
         
