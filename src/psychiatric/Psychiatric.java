@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
+import elements.*;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -16,10 +17,22 @@ public class Psychiatric {
     public Psychiatric() {
         levels = new ArrayList<>();
         
+        // TEST
+        levels.add(new Level());
+        /*
         for(int i = 0; i < LEVELS; i++){
             levels.add(new Level());
-        }
+        }*/
+        
         actualLevel = levels.get(0);
+    }
+    
+    public int getWidth(){
+        return Quadrant.WIDTH * Room.QUADRANTS_WIDTH;
+    }
+    
+    public int getHeight(){
+        return Quadrant.HEIGHT * Room.QUADRANTS_HEIGHT;
     }
     
     public void draw(Graphics g) {

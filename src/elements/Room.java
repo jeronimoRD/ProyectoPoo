@@ -15,17 +15,18 @@ public abstract class Room{
     
     protected File editor;
     
-    private Room roomUp;
-    private Room roomDown;
-    private Room roomRight;
-    private Room roomLeft;
+    protected boolean doorUp;
+    protected boolean doorDown;
+    protected boolean doorRight;
+    protected boolean doorLeft;
     
+    public static final int DOOR = 'P';
     public static final int WALL = 'X';
     public static final int FLOOR = 'O';
     
     protected Quadrant[][] quadrants; //Array normal
-    public static final int QUADRANTS_ROW = 10;
-    public static final int QUADRANTS_HEIGHT = 10;
+    public static final int QUADRANTS_WIDTH = 3;
+    public static final int QUADRANTS_HEIGHT = 3;
     
     public Room(File editor) {
         this.editor = editor;
@@ -62,40 +63,23 @@ public abstract class Room{
         }
         return checkEntry();
     }
-    
-    
-    public void setRoomUp(Room roomUp) {
-        this.roomUp = roomUp;
+
+    public boolean isDoorUp() {
+        return doorUp;
     }
 
-    public void setRoomDown(Room roomDown) {
-        this.roomDown = roomDown;
+    public boolean isDoorDown() {
+        return doorDown;
     }
 
-    public void setRoomRight(Room roomRight) {
-        this.roomRight = roomRight;
+    public boolean isDoorRight() {
+        return doorRight;
     }
 
-    public void setRoomLeft(Room roomLeft) {
-        this.roomLeft = roomLeft;
+    public boolean isDoorLeft() {
+        return doorLeft;
     }
-
-    public Room getRoomUp() {
-        return roomUp;
-    }
-
-    public Room getRoomDown() {
-        return roomDown;
-    }
-
-    public Room getRoomRight() {
-        return roomRight;
-    }
-
-    public Room getRoomLeft() {
-        return roomLeft;
-    }
-
+ 
     public Player getPlayer() {
         return player;
     }

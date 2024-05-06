@@ -4,24 +4,19 @@
  */
 package rooms;
 
-import elements.Quadrant;
-import elements.Room;
-import static elements.Room.FLOOR;
-import static elements.Room.QUADRANTS_HEIGHT;
-import static elements.Room.QUADRANTS_ROW;
-import static elements.Room.WALL;
+import elements.*;
+import static elements.Room.*;
+import quadrants.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import quadrants.Floor;
-import quadrants.Wall;
 
 public class InitialRoom extends Room{
     
     public InitialRoom(File editor) {
         super(editor);
         
-        quadrants = new Quadrant[QUADRANTS_ROW][QUADRANTS_HEIGHT];
+        quadrants = new Quadrant[QUADRANTS_WIDTH][QUADRANTS_HEIGHT];
         
         try {
             FileReader file = new FileReader(editor);
@@ -41,6 +36,23 @@ public class InitialRoom extends Room{
                     
                 }else if((char)instruction == FLOOR){
                     quadrants[row][column] = new Floor(quadrantX, quadrantY);
+                    
+                    column += 1;
+                    quadrantX += Quadrant.WIDTH;
+                
+                }else if((char)instruction == DOOR){
+                    
+                    if(row == 0){
+                        this.doorUp = true;
+                    }else if(row + 1 == QUADRANTS_HEIGHT){
+                        this.doorDown = true;
+                    }else if(column == 0){
+                        this.doorLeft = true;
+                    }else if(column + 1 == QUADRANTS_WIDTH){
+                        this.doorRight = true;
+                    }
+                    
+                    quadrants[row][column] = new Door(quadrantX, quadrantY);
                     
                     column += 1;
                     quadrantX += Quadrant.WIDTH;

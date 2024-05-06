@@ -8,13 +8,13 @@ import elements.Quadrant;
 import elements.Room;
 import static elements.Room.FLOOR;
 import static elements.Room.QUADRANTS_HEIGHT;
-import static elements.Room.QUADRANTS_ROW;
 import static elements.Room.WALL;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import quadrants.Floor;
 import quadrants.Wall;
+import static elements.Room.QUADRANTS_WIDTH;
 
 public class EnemyRoom extends Room{
     
@@ -26,7 +26,7 @@ public class EnemyRoom extends Room{
         this.enemies = enemies;
         
         //CREATE ROOM
-        quadrants = new Quadrant[QUADRANTS_ROW][QUADRANTS_HEIGHT];
+        quadrants = new Quadrant[QUADRANTS_WIDTH][QUADRANTS_HEIGHT];
         
         try {
             FileReader file = new FileReader(editor);

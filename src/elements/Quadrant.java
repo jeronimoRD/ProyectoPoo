@@ -5,7 +5,6 @@
 package elements;
 
 import java.awt.Color;
-import elements.Sprite;
 
 public abstract class Quadrant extends Sprite{
 
