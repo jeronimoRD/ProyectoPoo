@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements;
+package quadrants;
 
+import elements.Sprite;
 import java.awt.Color;
 
 public abstract class Quadrant extends Sprite{

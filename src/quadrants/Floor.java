@@ -4,7 +4,6 @@
  */
 package quadrants;
 
-import elements.Quadrant;
 import java.awt.Color;
 import java.awt.Graphics;
 

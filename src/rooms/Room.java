@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements;
+package rooms;
 
+import quadrants.Quadrant;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -14,6 +15,11 @@ public abstract class Room{
     protected Player player;
     
     protected File editor;
+    
+    protected Room roomUp;
+    protected Room roomDown;
+    protected Room roomRight;
+    protected Room roomLeft;
     
     protected boolean doorUp;
     protected boolean doorDown;
@@ -30,6 +36,16 @@ public abstract class Room{
     
     public Room(File editor) {
         this.editor = editor;
+        
+        roomUp = null;
+        roomDown = null;
+        roomRight = null;
+        roomLeft = null;
+        
+        doorUp = false;
+        doorDown = false;
+        doorRight = false;
+        doorLeft = false;
     }
 
     public void draw(Graphics g) {
@@ -78,6 +94,38 @@ public abstract class Room{
 
     public boolean isDoorLeft() {
         return doorLeft;
+    }
+
+    public Room getRoomUp() {
+        return roomUp;
+    }
+
+    public void setRoomUp(Room roomUp) {
+        this.roomUp = roomUp;
+    }
+
+    public Room getRoomDown() {
+        return roomDown;
+    }
+
+    public void setRoomDown(Room roomDown) {
+        this.roomDown = roomDown;
+    }
+
+    public Room getRoomRight() {
+        return roomRight;
+    }
+
+    public void setRoomRight(Room roomRight) {
+        this.roomRight = roomRight;
+    }
+
+    public Room getRoomLeft() {
+        return roomLeft;
+    }
+
+    public void setRoomLeft(Room roomLeft) {
+        this.roomLeft = roomLeft;
     }
  
     public Player getPlayer() {
