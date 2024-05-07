@@ -16,7 +16,10 @@ public class Level {
     private Room[] rooms;
     private Room actualRoom;
     
-    public static final int ROOMS_LEVEL = 4;
+    public static final int ROOMS_TOTAL = 7;
+    public static final int ROOMS_REWARDS = 2; 
+    
+    public static final int HALLWAYS = ROOMS_TOTAL - ROOMS_REWARDS; // >= ROOMS_REWARDS + 2
 
     private static final int UP = 0;
     private static final int DOWN = 1;
@@ -36,15 +39,15 @@ public class Level {
         threeFiles = newTrheeFiles.listFiles();
         
         //CREATE ROOMS
-        rooms = new Room[ROOMS_LEVEL];
+        rooms = new Room[ROOMS_TOTAL];
             //INITIAL ROOM
         InitialRoom initialRoom = new InitialRoom(oneFiles[(int)(Math.random()*(oneFiles.length))]);
         rooms[0] = initialRoom;
         
         //CREATE RANDOM HALLWAY
-        for(int r = 0; r < ROOMS_LEVEL; r++){
+        for(int r = 0; r < HALLWAYS; r++){
             
-            if(r == ROOMS_LEVEL - 2){
+            if(r == HALLWAYS - 2){
                 while(true){
                     FinalRoom finalRoom = new FinalRoom(oneFiles[(int)(Math.random()*(oneFiles.length))]);
                     
@@ -52,28 +55,28 @@ public class Level {
                         if(finalRoom.isDoorDown()){
                            rooms[r].setRoomUp(finalRoom);
                            finalRoom.setRoomDown(rooms[r]);
-                           rooms[r+1] = finalRoom;
+                           rooms[rooms.length - 1] = finalRoom;
                            break;
                         }
                     }else if(rooms[r].getRoomDown() == null && rooms[r].isDoorDown()){
                         if(finalRoom.isDoorUp()){
                             rooms[r].setRoomDown(finalRoom);
                             finalRoom.setRoomUp(rooms[r]);
-                            rooms[r+1] = finalRoom;
+                            rooms[rooms.length - 1] = finalRoom;
                             break;
                         }
                     }else if(rooms[r].getRoomRight() == null && rooms[r].isDoorRight()){
                         if(finalRoom.isDoorLeft()){
                             rooms[r].setRoomRight(finalRoom);
                             finalRoom.setRoomLeft(rooms[r]);
-                            rooms[r+1] = finalRoom;
+                            rooms[rooms.length - 1] = finalRoom;
                             break;
                         }
                     }else if(rooms[r].getRoomLeft() == null && rooms[r].isDoorLeft()){
                         if(finalRoom.isDoorRight()){
                             rooms[r].setRoomLeft(finalRoom);
                             finalRoom.setRoomRight(rooms[r]);
-                            rooms[r+1] = finalRoom;
+                            rooms[rooms.length - 1] = finalRoom;
                             break;
                         }
                     }
@@ -115,6 +118,107 @@ public class Level {
                     }
                 }
             }
+        }
+        
+        //CREATE REWARDS ROOMS
+        for(int rr = 0; rr < ROOMS_REWARDS; rr++){
+            int doors = 0;
+            int indexRoom = (int)(Math.random()*(HALLWAYS - 2))+1;
+            System.out.println("Numero" + indexRoom); //1 -> ROOMS - 1
+            
+            if(rooms[indexRoom].isDoorUp()){
+                doors ++;
+            }if(rooms[indexRoom].isDoorDown()){
+                doors ++;
+            }if(rooms[indexRoom].isDoorRight()){
+                doors ++;
+            }if(rooms[indexRoom].isDoorLeft()){
+                doors ++;
+            }
+            
+            System.out.println("Doors:" + doors);
+            System.out.println(rooms[indexRoom].isDoorUp());
+            System.out.println(rooms[indexRoom].isDoorDown());
+            System.out.println(rooms[indexRoom].isDoorRight());
+            System.out.println(rooms[indexRoom].isDoorLeft());
+            if(doors == 2){
+                while(true){
+                    EnemyRoom newRoom = new EnemyRoom(threeFiles[(int)(Math.random()*(threeFiles.length))]);
+                    
+                    if((rooms[indexRoom].isDoorUp() & !newRoom.isDoorUp()) | (rooms[indexRoom].isDoorDown() & !newRoom.isDoorDown())
+                    | (rooms[indexRoom].isDoorRight() & !newRoom.isDoorRight()) | (rooms[indexRoom].isDoorLeft() & !newRoom.isDoorLeft())){
+                    }else{
+                        System.out.println("Recibido");
+                        System.out.println(newRoom.isDoorUp());
+                        System.out.println(newRoom.isDoorDown());
+                        System.out.println(newRoom.isDoorRight());
+                        System.out.println(newRoom.isDoorLeft());
+                        
+                        //ASSOCIATION
+                        newRoom.setRoomUp(rooms[indexRoom].getRoomUp());
+                        if(rooms[indexRoom].getRoomUp() != null){
+                            rooms[indexRoom].getRoomUp().setRoomDown(newRoom);
+                        }
+                        
+                        newRoom.setRoomDown(rooms[indexRoom].getRoomDown());
+                        if(rooms[indexRoom].getRoomDown() != null){
+                            rooms[indexRoom].getRoomDown().setRoomUp(newRoom);
+                        }
+                        
+                        newRoom.setRoomRight(rooms[indexRoom].getRoomRight());
+                        if(rooms[indexRoom].getRoomRight() != null){
+                            rooms[indexRoom].getRoomRight().setRoomLeft(newRoom);
+                        }
+                        
+                        newRoom.setRoomLeft(rooms[indexRoom].getRoomLeft());
+                        if(rooms[indexRoom].getRoomLeft() != null){
+                            rooms[indexRoom].getRoomLeft().setRoomRight(newRoom);
+                        }
+
+                        rooms[indexRoom] = newRoom;
+                        
+                        //CREATE BONUS ROOM
+                        while(true){
+                            RewardRoom rewardRoom = new RewardRoom(oneFiles[(int)(Math.random()*(oneFiles.length))]);
+
+                            if(newRoom.getRoomUp() == null && newRoom.isDoorUp()){
+                                if(rewardRoom.isDoorDown()){
+                                   newRoom.setRoomUp(rewardRoom);
+                                   rewardRoom.setRoomDown(newRoom);
+                                   rooms[(HALLWAYS - 1)+ rr] = rewardRoom;
+                                   break;
+                                }
+                            }else if(newRoom.getRoomDown() == null && newRoom.isDoorDown()){
+                                if(rewardRoom.isDoorUp()){
+                                   newRoom.setRoomDown(rewardRoom);
+                                   rewardRoom.setRoomUp(newRoom);
+                                   rooms[(HALLWAYS - 1)+ rr] = rewardRoom;
+                                   break;
+                                }
+                            }else if(newRoom.getRoomRight() == null && newRoom.isDoorRight()){
+                                if(rewardRoom.isDoorLeft()){
+                                   newRoom.setRoomRight(rewardRoom);
+                                   rewardRoom.setRoomLeft(newRoom);
+                                   rooms[(HALLWAYS - 1)+ rr] = rewardRoom;
+                                   break;
+                                }
+                            }else if(newRoom.getRoomLeft() == null && newRoom.isDoorLeft()){
+                                if(rewardRoom.isDoorRight()){
+                                   newRoom.setRoomLeft(rewardRoom);
+                                   rewardRoom.setRoomRight(newRoom);
+                                   rooms[(HALLWAYS - 1)+ rr] = rewardRoom;
+                                   break;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        
+        for(Room room: rooms){
+            System.out.println(room);
         }
         
         //CREATE PLAYER

@@ -17,12 +17,8 @@ import quadrants.*;
 
 public class RewardRoom extends Room{
         
-    private int rewards;
-    
     public RewardRoom(File editor) {
         super(editor);
-        
-        this.rewards = rewards;
         
         //CREATE ROOM
         quadrants = new Quadrant[QUADRANTS_WIDTH][QUADRANTS_HEIGHT];

@@ -5,7 +5,6 @@
 package rooms;
 
 import quadrants.Quadrant;
-import elements.*;
 import static rooms.Room.*;
 import quadrants.*;
 import java.io.File;
