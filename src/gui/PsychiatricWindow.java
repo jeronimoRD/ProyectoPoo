@@ -4,6 +4,7 @@
  */
 package gui;
 import java.awt.Graphics;
+import java.awt.Image;
 import psychiatric.Psychiatric;
 import java.awt.event.KeyEvent;
 
@@ -18,7 +19,10 @@ public class PsychiatricWindow extends javax.swing.JFrame {
     @Override
     public void paint(Graphics g){
         super.paint(g);
-        psychiatric.draw(g);
+        Image image = createImage(this.getWidth(), getHeight());
+        psychiatric.draw(image.getGraphics());
+        
+        g.drawImage(image, 0, 0, null);
     }
     
     public PsychiatricWindow() {

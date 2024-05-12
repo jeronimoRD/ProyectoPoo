@@ -29,13 +29,13 @@ public class Level {
     public Level() {
         
         //CREATE FILES LEVELS
-        File newOneFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\pruebasMapa\\src\\filesOneDoor");
+        File newOneFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\ProyectoPoo\\src\\filesOneDoor");
         oneFiles = newOneFiles.listFiles();
         
-        File newTwoFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\pruebasMapa\\src\\filesTwoDoors");
+        File newTwoFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\ProyectoPoo\\src\\filesTwoDoors");
         twoFiles = newTwoFiles.listFiles();
         
-        File newTrheeFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\pruebasMapa\\src\\filesThreeDoors");
+        File newTrheeFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\ProyectoPoo\\src\\filesThreeDoors");
         threeFiles = newTrheeFiles.listFiles();
         
         //CREATE ROOMS
