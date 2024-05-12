@@ -124,7 +124,6 @@ public class Level {
         for(int rr = 0; rr < ROOMS_REWARDS; rr++){
             int doors = 0;
             int indexRoom = (int)(Math.random()*(HALLWAYS - 2))+1;
-            System.out.println("Numero" + indexRoom); //1 -> ROOMS - 1
             
             if(rooms[indexRoom].isDoorUp()){
                 doors ++;
@@ -136,11 +135,6 @@ public class Level {
                 doors ++;
             }
             
-            System.out.println("Doors:" + doors);
-            System.out.println(rooms[indexRoom].isDoorUp());
-            System.out.println(rooms[indexRoom].isDoorDown());
-            System.out.println(rooms[indexRoom].isDoorRight());
-            System.out.println(rooms[indexRoom].isDoorLeft());
             if(doors == 2){
                 while(true){
                     EnemyRoom newRoom = new EnemyRoom(threeFiles[(int)(Math.random()*(threeFiles.length))]);
@@ -148,11 +142,6 @@ public class Level {
                     if((rooms[indexRoom].isDoorUp() & !newRoom.isDoorUp()) | (rooms[indexRoom].isDoorDown() & !newRoom.isDoorDown())
                     | (rooms[indexRoom].isDoorRight() & !newRoom.isDoorRight()) | (rooms[indexRoom].isDoorLeft() & !newRoom.isDoorLeft())){
                     }else{
-                        System.out.println("Recibido");
-                        System.out.println(newRoom.isDoorUp());
-                        System.out.println(newRoom.isDoorDown());
-                        System.out.println(newRoom.isDoorRight());
-                        System.out.println(newRoom.isDoorLeft());
                         
                         //ASSOCIATION
                         newRoom.setRoomUp(rooms[indexRoom].getRoomUp());
@@ -217,15 +206,7 @@ public class Level {
             }
         }
         
-        for(Room room: rooms){
-            System.out.println(room);
-        }
-        
-        //CREATE PLAYER
-        Player player = new Player(Room.QUADRANTS_WIDTH*Quadrant.WIDTH/2, Room.QUADRANTS_HEIGHT*Quadrant.HEIGHT/2); //Lógica de psiquiatrico
-        
         actualRoom = rooms[0];
-        actualRoom.setPlayer(player);
     }
     
     public void draw(Graphics g) {
@@ -259,5 +240,9 @@ public class Level {
                 
             }
         }
+    }
+    
+    public void setPlayer(Player player) {
+        actualRoom.setPlayer(player);
     }
 }

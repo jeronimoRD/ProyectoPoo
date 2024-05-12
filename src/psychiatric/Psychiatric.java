@@ -7,25 +7,24 @@ import quadrants.Quadrant;
 import rooms.Room;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class Psychiatric {
-    private ArrayList<Level> levels;
+    private Level [] levels;
     private Level actualLevel;
-    
     public static final int LEVELS = 3; //Array normal
-
+    
+    private Player player;
+    
     public Psychiatric() {
-        levels = new ArrayList<>();
+        Player player = new Player(Room.QUADRANTS_WIDTH*Quadrant.WIDTH/2, Room.QUADRANTS_HEIGHT*Quadrant.HEIGHT/2);
+        levels = new Level[LEVELS];
         
-        // TEST
-        levels.add(new Level());
-        /*
         for(int i = 0; i < LEVELS; i++){
-            levels.add(new Level());
-        }*/
+            levels[i] = new Level();
+        }
         
-        actualLevel = levels.get(0);
+        actualLevel = levels[0];
+        actualLevel.setPlayer(player);
     }
     
     public int getWidth(){
