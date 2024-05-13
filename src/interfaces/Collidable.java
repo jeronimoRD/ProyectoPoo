@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package interfaces;
+
 import java.awt.Graphics;
 
 public interface Collidable {

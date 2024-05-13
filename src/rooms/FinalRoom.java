@@ -4,7 +4,6 @@
  */
 package rooms;
 
-import quadrants.Quadrant;
 import static rooms.Room.DOOR;
 import static rooms.Room.FLOOR;
 import static rooms.Room.QUADRANTS_HEIGHT;
@@ -14,14 +13,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import quadrants.*;
 
 public class FinalRoom extends Room {
     public FinalRoom(File editor) {
         super(editor);
         
         collisions = new ArrayList<>();
-        quadrants = new Quadrant[QUADRANTS_WIDTH][QUADRANTS_HEIGHT];
+        
         
         try {
             FileReader file = new FileReader(editor);
@@ -35,19 +33,17 @@ public class FinalRoom extends Room {
             while ((instruction = file.read()) != -1) {
                 if((char)instruction == WALL){
                     collisions.add(new rWall(quadrantX, quadrantY));
-                    quadrants[row][column] = new Wall(quadrantX, quadrantY);
                     
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
+                    quadrantX += rWall.WIDTH;
                     
                 }else if((char)instruction == FLOOR){
-                    quadrants[row][column] = new Floor(quadrantX, quadrantY);
                     
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
+                    quadrantX += rWall.WIDTH;
                     
                 }else if((char)instruction == DOOR){
-                    
+                    //collisions.add(new rDoor(quadrantX, quadrantY));
                     if(row == 0){
                         this.doorUp = true;
                     }else if(row + 1 == QUADRANTS_HEIGHT){
@@ -58,15 +54,13 @@ public class FinalRoom extends Room {
                         this.doorRight = true;
                     }
                     
-                    quadrants[row][column] = new Door(quadrantX, quadrantY);
-                    
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
+                    quadrantX += rWall.WIDTH;
                     
                 }else{ //2 SPACES FOR LINE
                     if(column == 0){
                         row += 1;
-                        quadrantY += Quadrant.HEIGHT;
+                        quadrantY += rWall.HEIGHT;
                     }else{
                         column = 0;
                         quadrantX = 0; 
@@ -77,6 +71,5 @@ public class FinalRoom extends Room {
         } catch (IOException e) {
             throw new RuntimeException("Error: File no found");
         }
-        
     }
 }

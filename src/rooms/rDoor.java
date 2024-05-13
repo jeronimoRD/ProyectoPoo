@@ -9,11 +9,12 @@ import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class rWall extends Sprite implements Collidable{
-    public static final int WIDTH = 100;
-    public static final int HEIGHT = 100;
-    public rWall(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.BLACK);
+public class rDoor extends Sprite implements Collidable{
+    
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
+    public rDoor(int x, int y) {
+        super(x, y, WIDTH, HEIGHT, Color.ORANGE);
     }
 
     @Override

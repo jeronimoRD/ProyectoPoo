@@ -4,13 +4,10 @@
  */
 package rooms;
 
-import quadrants.Quadrant;
 import static rooms.Room.*;
-import quadrants.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import interfaces.Collidable;
 import java.util.ArrayList;
 
 public class InitialRoom extends Room{
@@ -19,7 +16,6 @@ public class InitialRoom extends Room{
         super(editor);
         
         collisions = new ArrayList<>();
-        quadrants = new Quadrant[QUADRANTS_WIDTH][QUADRANTS_HEIGHT];
         
         try {
             FileReader file = new FileReader(editor);
@@ -33,19 +29,17 @@ public class InitialRoom extends Room{
             while ((instruction = file.read()) != -1) {
                 if((char)instruction == WALL){
                     collisions.add(new rWall(quadrantX, quadrantY));
-                    quadrants[row][column] = new Wall(quadrantX, quadrantY);
                     
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
+                    quadrantX += rWall.WIDTH;
                     
                 }else if((char)instruction == FLOOR){
-                    quadrants[row][column] = new Floor(quadrantX, quadrantY);
                     
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
-                
-                }else if((char)instruction == DOOR){
+                    quadrantX += rWall.WIDTH;
                     
+                }else if((char)instruction == DOOR){
+                    //collisions.add(new rDoor(quadrantX, quadrantY));
                     if(row == 0){
                         this.doorUp = true;
                     }else if(row + 1 == QUADRANTS_HEIGHT){
@@ -56,15 +50,13 @@ public class InitialRoom extends Room{
                         this.doorRight = true;
                     }
                     
-                    quadrants[row][column] = new Door(quadrantX, quadrantY);
-                    
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
+                    quadrantX += rWall.WIDTH;
                     
                 }else{ //2 SPACES FOR LINE
                     if(column == 0){
                         row += 1;
-                        quadrantY += Quadrant.HEIGHT;
+                        quadrantY += rWall.HEIGHT;
                     }else{
                         column = 0;
                         quadrantX = 0; 

@@ -34,13 +34,12 @@ public abstract class Room extends Sprite{
     public static final int WALL = 'X';
     public static final int FLOOR = 'O';
     
-    protected Quadrant[][] quadrants; //Array normal
-    public static final int QUADRANTS_WIDTH = 3;
-    public static final int QUADRANTS_HEIGHT = 3;
+    public static final int QUADRANTS_WIDTH = 10;
+    public static final int QUADRANTS_HEIGHT = 8;
     
     protected ArrayList<Collidable> collisions;
-    public static final int WIDTH = 300;
-    public static final int HEIGHT = 300;
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 800;
     
     public Room(File editor) {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
@@ -62,7 +61,6 @@ public abstract class Room extends Sprite{
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
         
-        System.out.println(collisions.size());
         for(Collidable collision: collisions){
             collision.draw(g);
         }
@@ -73,10 +71,10 @@ public abstract class Room extends Sprite{
         if(player.getY() < 0){
             return 0;
         }
-        if(player.getY() > QUADRANTS_HEIGHT*Quadrant.HEIGHT){
+        if(player.getY() > Room.HEIGHT){
             return 1;
         }
-        if(player.getX() > QUADRANTS_HEIGHT*Quadrant.HEIGHT){
+        if(player.getX() > Room.WIDTH){
             return 2;
         }
         if(player.getX() < 0){

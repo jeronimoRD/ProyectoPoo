@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
-import quadrants.Quadrant;
 import rooms.Room;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -16,7 +15,7 @@ public class Psychiatric {
     private Player player;
     
     public Psychiatric() {
-        Player player = new Player(Room.QUADRANTS_WIDTH*Quadrant.WIDTH/2, Room.QUADRANTS_HEIGHT*Quadrant.HEIGHT/2);
+        Player player = new Player(Room.WIDTH/2, Room.HEIGHT/2);
         levels = new Level[LEVELS];
         
         for(int i = 0; i < LEVELS; i++){
@@ -28,11 +27,11 @@ public class Psychiatric {
     }
     
     public int getWidth(){
-        return Quadrant.WIDTH * Room.QUADRANTS_WIDTH;
+        return Room.WIDTH;
     }
     
     public int getHeight(){
-        return Quadrant.HEIGHT * Room.QUADRANTS_HEIGHT;
+        return Room.HEIGHT;
     }
     
     public void draw(Graphics g) {
