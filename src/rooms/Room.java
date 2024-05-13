@@ -4,10 +4,12 @@
  */
 package rooms;
 
+import interfaces.Collidable;
 import quadrants.Quadrant;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import psychiatric.Player;
 
 public abstract class Room{
@@ -134,6 +136,16 @@ public abstract class Room{
 
     public void setPlayer(Player player) {
         this.player = player;
+        
+        ArrayList<Collidable> collisions = new ArrayList<>();
+        for(Quadrant[] row: quadrants){
+            for(Quadrant quadrant: row){
+                if(quadrant.checkCollision(null)){
+                    collisions.add(quadrant);
+                }
+            }
+        }
+        player.setCollisions(collisions);
     }
     
 }

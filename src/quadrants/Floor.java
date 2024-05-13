@@ -4,6 +4,7 @@
  */
 package quadrants;
 
+import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -19,4 +20,8 @@ public class Floor extends Quadrant{
         g.fillRect(x, y, width, height);
     }
     
+    @Override
+    public boolean checkCollision(Collidable collidable) {
+        return false;
+    }
 }

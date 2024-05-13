@@ -5,9 +5,10 @@
 package quadrants;
 
 import elements.Sprite;
+import interfaces.Collidable;
 import java.awt.Color;
 
-public abstract class Quadrant extends Sprite{
+public abstract class Quadrant extends Sprite implements Collidable{
 
     public static final int WIDTH = 100;
     public static final int HEIGHT = 100;

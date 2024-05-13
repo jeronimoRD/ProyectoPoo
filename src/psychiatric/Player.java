@@ -5,20 +5,28 @@
 package psychiatric;
 
 import elements.Sprite;
+import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
-public class Player extends Sprite{
+public class Player extends Sprite implements Collidable{
     
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     public static final int STEP = 10;
     
+    private ArrayList<Collidable> collisions;
+    
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
     }
 
+    public void setCollisions(ArrayList<Collidable> collisions) {
+        this.collisions = collisions;
+    }
+    
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
@@ -26,6 +34,9 @@ public class Player extends Sprite{
     }
     
     public void move(int code){
+        int px = x;
+        int py = y;
+        
         if(code == KeyEvent.VK_UP){
             y -= STEP;
         }
@@ -38,5 +49,30 @@ public class Player extends Sprite{
         if(code == KeyEvent.VK_LEFT){
             x -= STEP;
         }
+        
+        for(Collidable collision: collisions){
+            if(checkCollision(collision)){
+                x = px;
+                y = py;
+                return;
+            }
+        }
+    }
+    
+    @Override
+    public boolean checkCollision(Collidable collidable) {
+        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
+            return true;
+        }
+        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
+            return true;
+        }
+        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
+            return true;
+        }
+        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+            return true;
+        }
+        return false;
     }
 }

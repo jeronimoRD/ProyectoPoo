@@ -4,10 +4,11 @@
  */
 package quadrants;
 
+import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Wall extends Quadrant{
+public class Wall extends Quadrant implements Collidable{
 
     public Wall(int x, int y) {
         super(x, y, Color.BLACK);
@@ -18,5 +19,9 @@ public class Wall extends Quadrant{
         g.setColor(color);
         g.fillRect(x, y, width, height);
     }
-    
+
+    @Override
+    public boolean checkCollision(Collidable collidable) {
+        return true;
+    }
 }
