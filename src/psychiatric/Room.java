@@ -2,17 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package rooms;
+package psychiatric;
 
 import elements.Sprite;
 import interfaces.Collidable;
 import java.awt.Color;
-import quadrants.Quadrant;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
-import psychiatric.Player;
 
 public abstract class Room extends Sprite{
 
@@ -33,9 +31,6 @@ public abstract class Room extends Sprite{
     public static final int DOOR = 'P';
     public static final int WALL = 'X';
     public static final int FLOOR = 'O';
-    
-    public static final int QUADRANTS_WIDTH = 10;
-    public static final int QUADRANTS_HEIGHT = 8;
     
     protected ArrayList<Collidable> collisions;
     public static final int WIDTH = 1000;

@@ -2,19 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package rooms;
+package collidables;
 
 import elements.Sprite;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class rDoor extends Sprite implements Collidable{
-    
-    public static final int WIDTH = 50;
-    public static final int HEIGHT = 50;
-    public rDoor(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.ORANGE);
+public class Wall extends Sprite implements Collidable{
+    public static final int WIDTH = 100;
+    public static final int HEIGHT = 100;
+    public Wall(int x, int y) {
+        super(x, y, WIDTH, HEIGHT, Color.BLACK);
     }
 
     @Override
