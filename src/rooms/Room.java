@@ -4,7 +4,9 @@
  */
 package rooms;
 
+import elements.Sprite;
 import interfaces.Collidable;
+import java.awt.Color;
 import quadrants.Quadrant;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -12,7 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import psychiatric.Player;
 
-public abstract class Room{
+public abstract class Room extends Sprite{
 
     protected Player player;
     
@@ -36,7 +38,12 @@ public abstract class Room{
     public static final int QUADRANTS_WIDTH = 3;
     public static final int QUADRANTS_HEIGHT = 3;
     
+    protected ArrayList<Collidable> collisions;
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = 300;
+    
     public Room(File editor) {
+        super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         this.editor = editor;
         
         roomUp = null;
@@ -50,11 +57,14 @@ public abstract class Room{
         doorLeft = false;
     }
 
+    @Override
     public void draw(Graphics g) {
-        for(Quadrant[] row: quadrants){
-            for(Quadrant quadrant: row){
-                quadrant.draw(g);
-            }
+        g.setColor(color);
+        g.fillRect(x, y, WIDTH, HEIGHT);
+        
+        System.out.println(collisions.size());
+        for(Collidable collision: collisions){
+            collision.draw(g);
         }
         player.draw(g);
     }
@@ -136,15 +146,6 @@ public abstract class Room{
 
     public void setPlayer(Player player) {
         this.player = player;
-        
-        ArrayList<Collidable> collisions = new ArrayList<>();
-        for(Quadrant[] row: quadrants){
-            for(Quadrant quadrant: row){
-                if(quadrant.checkCollision(null)){
-                    collisions.add(quadrant);
-                }
-            }
-        }
         player.setCollisions(collisions);
     }
     

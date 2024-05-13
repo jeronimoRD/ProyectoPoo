@@ -10,12 +10,15 @@ import quadrants.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import interfaces.Collidable;
+import java.util.ArrayList;
 
 public class InitialRoom extends Room{
     
     public InitialRoom(File editor) {
         super(editor);
         
+        collisions = new ArrayList<>();
         quadrants = new Quadrant[QUADRANTS_WIDTH][QUADRANTS_HEIGHT];
         
         try {
@@ -29,6 +32,7 @@ public class InitialRoom extends Room{
             
             while ((instruction = file.read()) != -1) {
                 if((char)instruction == WALL){
+                    collisions.add(new rWall(quadrantX, quadrantY));
                     quadrants[row][column] = new Wall(quadrantX, quadrantY);
                     
                     column += 1;

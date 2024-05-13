@@ -13,12 +13,14 @@ import static rooms.Room.WALL;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import quadrants.*;
 
 public class FinalRoom extends Room {
     public FinalRoom(File editor) {
         super(editor);
         
+        collisions = new ArrayList<>();
         quadrants = new Quadrant[QUADRANTS_WIDTH][QUADRANTS_HEIGHT];
         
         try {
@@ -32,6 +34,7 @@ public class FinalRoom extends Room {
             
             while ((instruction = file.read()) != -1) {
                 if((char)instruction == WALL){
+                    collisions.add(new rWall(quadrantX, quadrantY));
                     quadrants[row][column] = new Wall(quadrantX, quadrantY);
                     
                     column += 1;
