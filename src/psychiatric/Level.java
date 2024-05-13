@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
-import quadrants.Quadrant;
 import rooms.*;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -219,7 +218,7 @@ public class Level {
             Player player = actualRoom.getPlayer();
             
             if(mov == UP & actualRoom.isDoorUp()){
-                player.setY(Room.QUADRANTS_HEIGHT*Quadrant.HEIGHT);
+                player.setY(Room.HEIGHT);
                 actualRoom = actualRoom.getRoomUp();
                 actualRoom.setPlayer(player);
                 
@@ -234,7 +233,7 @@ public class Level {
                 actualRoom.setPlayer(player);
                 
             }else if(mov == LEFT & actualRoom.isDoorLeft()){
-                player.setX(Room.QUADRANTS_WIDTH*Quadrant.WIDTH);
+                player.setX(Room.WIDTH);
                 actualRoom = actualRoom.getRoomLeft();
                 actualRoom.setPlayer(player);
                 

@@ -4,16 +4,15 @@
  */
 package rooms;
 
-import quadrants.Quadrant;
-import static rooms.Room.DOOR;
-import static rooms.Room.FLOOR;
-import static rooms.Room.QUADRANTS_HEIGHT;
-import static rooms.Room.QUADRANTS_WIDTH;
-import static rooms.Room.WALL;
+import psychiatric.Room;
+import collidables.Wall;
+import static psychiatric.Room.DOOR;
+import static psychiatric.Room.FLOOR;
+import static psychiatric.Room.WALL;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import quadrants.*;
+import java.util.ArrayList;
 
 public class EnemyRoom extends Room{
     
@@ -21,11 +20,15 @@ public class EnemyRoom extends Room{
         super(editor);
         
         //CREATE ROOM
-        quadrants = new Quadrant[QUADRANTS_WIDTH][QUADRANTS_HEIGHT];
+        collisions = new ArrayList<>();
+        
         
         try {
             FileReader file = new FileReader(editor);
             int instruction;
+            
+            int quadrants_width = WIDTH/100;
+            int quadrants_height = HEIGHT/100;
             
             int quadrantX = 0;
             int quadrantY = 0;
@@ -34,38 +37,35 @@ public class EnemyRoom extends Room{
             
             while ((instruction = file.read()) != -1) {
                 if((char)instruction == WALL){
-                    quadrants[row][column] = new Wall(quadrantX, quadrantY);
+                    collisions.add(new Wall(quadrantX, quadrantY));
                     
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
+                    quadrantX += Wall.WIDTH;
                     
                 }else if((char)instruction == FLOOR){
-                    quadrants[row][column] = new Floor(quadrantX, quadrantY);
                     
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
+                    quadrantX += Wall.WIDTH;
                     
                 }else if((char)instruction == DOOR){
-                    
+                    //collisions.add(new rDoor(quadrantX, quadrantY));
                     if(row == 0){
                         this.doorUp = true;
-                    }else if(row + 1 == QUADRANTS_HEIGHT){
+                    }else if(row + 1 == quadrants_height){
                         this.doorDown = true;
                     }else if(column == 0){
                         this.doorLeft = true;
-                    }else if(column + 1 == QUADRANTS_WIDTH){
+                    }else if(column + 1 == quadrants_width){
                         this.doorRight = true;
                     }
                     
-                    quadrants[row][column] = new Door(quadrantX, quadrantY);
-                    
                     column += 1;
-                    quadrantX += Quadrant.WIDTH;
+                    quadrantX += Wall.WIDTH;
                     
                 }else{ //2 SPACES FOR LINE
                     if(column == 0){
                         row += 1;
-                        quadrantY += Quadrant.HEIGHT;
+                        quadrantY += Wall.HEIGHT;
                     }else{
                         column = 0;
                         quadrantX = 0; 
