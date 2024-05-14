@@ -4,24 +4,29 @@
  */
 package rooms;
 
-import psychiatric.Room;
 import collidables.Wall;
-import static psychiatric.Room.DOOR;
-import static psychiatric.Room.FLOOR;
-import static psychiatric.Room.WALL;
+import interfaces.Collidable;
+import static rooms.Room.DOOR;
+import static rooms.Room.FLOOR;
+import static rooms.Room.WALL;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import psychiatric.Reward;
 
 public class RewardRoom extends Room{
         
-    public RewardRoom(File editor) {
+    private int numberRewards;
+    private ArrayList<Reward> rewards;
+    
+    public RewardRoom(File editor, int numberRewards) {
         super(editor);
+        this.numberRewards = numberRewards;
         
         //CREATE ROOM
         collisions = new ArrayList<>();
-        
+        rewards = new ArrayList<>();
         
         try {
             FileReader file = new FileReader(editor);
@@ -75,6 +80,29 @@ public class RewardRoom extends Room{
             file.close();
         } catch (IOException e) {
             throw new RuntimeException("Error: File no found");
+        }
+        
+        //ADD REWARDS
+        rewards = new ArrayList<>();
+        
+        for(int i = 0; i < numberRewards; i++){
+            boolean aggregate;
+            Reward reward = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                reward = new Reward(px, py);
+                aggregate = true;
+
+                for(Collidable collision: collisions){
+                    if(reward.checkCollision(collision)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            rewards.add(reward);
+            collisions.add(reward);
         }
     }
 }
