@@ -4,11 +4,10 @@
  */
 package rooms;
 
-import psychiatric.Room;
 import collidables.Wall;
-import static psychiatric.Room.DOOR;
-import static psychiatric.Room.FLOOR;
-import static psychiatric.Room.WALL;
+import static rooms.Room.DOOR;
+import static rooms.Room.FLOOR;
+import static rooms.Room.WALL;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;

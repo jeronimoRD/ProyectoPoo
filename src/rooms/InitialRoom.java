@@ -4,9 +4,8 @@
  */
 package rooms;
 
-import psychiatric.Room;
 import collidables.Wall;
-import static psychiatric.Room.*;
+import static rooms.Room.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;

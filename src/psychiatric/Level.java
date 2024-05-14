@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
+import rooms.Room;
 import rooms.*;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -84,7 +85,7 @@ public class Level {
             }
             else{
                 while(true){
-                    EnemyRoom newRoom = new EnemyRoom(twoFiles[(int)(Math.random()*(twoFiles.length))]);
+                    EnemyRoom newRoom = new EnemyRoom(twoFiles[(int)(Math.random()*(twoFiles.length))], 2); //MONSTERS
                     
                     if(rooms[r].isDoorUp() && rooms[r].getRoomUp() == null){
                         if(newRoom.isDoorDown()){
@@ -136,7 +137,7 @@ public class Level {
             
             if(doors == 2){
                 while(true){
-                    EnemyRoom newRoom = new EnemyRoom(threeFiles[(int)(Math.random()*(threeFiles.length))]);
+                    EnemyRoom newRoom = new EnemyRoom(threeFiles[(int)(Math.random()*(threeFiles.length))], 2); //MONSTERS
                     
                     if((rooms[indexRoom].isDoorUp() & !newRoom.isDoorUp()) | (rooms[indexRoom].isDoorDown() & !newRoom.isDoorDown())
                     | (rooms[indexRoom].isDoorRight() & !newRoom.isDoorRight()) | (rooms[indexRoom].isDoorLeft() & !newRoom.isDoorLeft())){

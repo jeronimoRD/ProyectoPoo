@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
+import rooms.Room;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 

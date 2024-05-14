@@ -4,24 +4,28 @@
  */
 package rooms;
 
-import psychiatric.Room;
 import collidables.Wall;
-import static psychiatric.Room.DOOR;
-import static psychiatric.Room.FLOOR;
-import static psychiatric.Room.WALL;
+import interfaces.Collidable;
+import static rooms.Room.DOOR;
+import static rooms.Room.FLOOR;
+import static rooms.Room.WALL;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import psychiatric.Enemy;
 
 public class EnemyRoom extends Room{
     
-    public EnemyRoom(File editor) {
+    private int numberEnemies;
+    private ArrayList<Enemy> enemies;
+    
+    public EnemyRoom(File editor, int numberEnemies) {
         super(editor);
+        this.numberEnemies = numberEnemies;
         
         //CREATE ROOM
         collisions = new ArrayList<>();
-        
         
         try {
             FileReader file = new FileReader(editor);
@@ -78,6 +82,26 @@ public class EnemyRoom extends Room{
         }
         
         //ADD ENEMIES
+        enemies = new ArrayList<>();
+        
+        for(int i = 0; i < numberEnemies; i++){
+            boolean aggregate;
+            Enemy enemy = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                enemy = new Enemy(px, py);
+                aggregate = true;
+
+                for(Collidable collision: collisions){
+                    if(enemy.checkCollision(collision)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            enemies.add(enemy);
+            collisions.add(enemy);
+        }
     }
-    
 }
