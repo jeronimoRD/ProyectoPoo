@@ -16,7 +16,7 @@ public class Level {
     private Room[] rooms;
     private Room actualRoom;
     
-    public static final int ROOMS_TOTAL = 7;
+    public static final int ROOMS_TOTAL = 8;
     public static final int ROOMS_REWARDS = 2; 
     
     public static final int HALLWAYS = ROOMS_TOTAL - ROOMS_REWARDS; // >= ROOMS_REWARDS + 2
@@ -168,7 +168,7 @@ public class Level {
                         
                         //CREATE BONUS ROOM
                         while(true){
-                            RewardRoom rewardRoom = new RewardRoom(oneFiles[(int)(Math.random()*(oneFiles.length))]);
+                            RewardRoom rewardRoom = new RewardRoom(oneFiles[(int)(Math.random()*(oneFiles.length))], 1);
 
                             if(newRoom.getRoomUp() == null && newRoom.isDoorUp()){
                                 if(rewardRoom.isDoorDown()){
