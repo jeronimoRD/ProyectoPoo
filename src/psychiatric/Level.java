@@ -3,11 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
-import rooms.Room;
-import rooms.*;
+import io.RoomReader;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Level {
     private File[] oneFiles;
@@ -26,7 +27,7 @@ public class Level {
     private static final int RIGHT = 2;
     private static final int LEFT = 3;
     
-    public Level() {
+    public Level() throws FileNotFoundException, IOException {
         
         //CREATE FILES LEVELS
         File newOneFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\ProyectoPoo\\src\\filesOneDoor");
@@ -35,14 +36,14 @@ public class Level {
         File newTwoFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\ProyectoPoo\\src\\filesTwoDoors");
         twoFiles = newTwoFiles.listFiles();
         
-        File newTrheeFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\ProyectoPoo\\src\\filesThreeDoors");
-        threeFiles = newTrheeFiles.listFiles();
+        File newThreeFiles = new File("C:\\Users\\korez\\OneDrive\\Documents\\NetBeansProjects\\ProyectoPoo\\src\\filesThreeDoors");
+        threeFiles = newThreeFiles.listFiles();
         
         //CREATE ROOMS
         rooms = new Room[ROOMS_TOTAL];
             //INITIAL ROOM
-        InitialRoom initialRoom = new InitialRoom(oneFiles[(int)(Math.random()*(oneFiles.length))]);
-        rooms[0] = initialRoom;
+        RoomReader roomReader = new RoomReader(oneFiles[(int)(Math.random()*(oneFiles.length))]);
+        rooms[0] = roomReader.read();
         
         //CREATE RANDOM HALLWAY
         for(int r = 0; r < HALLWAYS; r++){

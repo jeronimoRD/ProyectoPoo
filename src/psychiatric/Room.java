@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package rooms;
+package psychiatric;
 
 import elements.Sprite;
 import interfaces.Collidable;
@@ -11,16 +11,11 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
-import psychiatric.Player;
 
-public abstract class Room extends Sprite{
+public class Room extends Sprite{
 
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
-    
-    public static final int DOOR = 'P';
-    public static final int WALL = 'X';
-    public static final int FLOOR = 'O';
     
     protected Player player;
     
@@ -36,11 +31,16 @@ public abstract class Room extends Sprite{
     protected boolean doorRight;
     protected boolean doorLeft;
     
+    private ArrayList<Enemy> enemies;
+    private ArrayList<Reward> rewards;
     protected ArrayList<Collidable> collisions;
     
-    public Room(File editor) {
+    public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
-        this.editor = editor;
+        
+        collisions = new ArrayList<>();
+        rewards = new ArrayList<>();
+        enemies = new ArrayList<>();
         
         roomUp = null;
         roomDown = null;
@@ -103,6 +103,22 @@ public abstract class Room extends Sprite{
         return doorLeft;
     }
 
+    public void setDoorUp(boolean doorUp) {
+        this.doorUp = doorUp;
+    }
+
+    public void setDoorDown(boolean doorDown) {
+        this.doorDown = doorDown;
+    }
+
+    public void setDoorRight(boolean doorRight) {
+        this.doorRight = doorRight;
+    }
+
+    public void setDoorLeft(boolean doorLeft) {
+        this.doorLeft = doorLeft;
+    }
+
     public Room getRoomUp() {
         return roomUp;
     }
@@ -134,7 +150,11 @@ public abstract class Room extends Sprite{
     public void setRoomLeft(Room roomLeft) {
         this.roomLeft = roomLeft;
     }
- 
+
+    public void addCollision(Collidable collision) {
+        collisions.add(collision);
+    }
+    
     public Player getPlayer() {
         return player;
     }
@@ -144,4 +164,47 @@ public abstract class Room extends Sprite{
         player.setCollisions(collisions);
     }
     
+    public void addEnemy(int numberEnemies){
+        for(int i = 0; i < numberEnemies; i++){
+            boolean aggregate;
+            Enemy enemy = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                enemy = new Enemy(px, py);
+                aggregate = true;
+
+                for(Collidable collision: collisions){
+                    if(enemy.checkCollision(collision)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            enemies.add(enemy);
+            collisions.add(enemy);
+        }
+    }
+    
+    public void addReward(int numberRewards){
+        for(int i = 0; i < numberRewards; i++){
+            boolean aggregate;
+            Reward reward = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                reward = new Reward(px, py);
+                aggregate = true;
+
+                for(Collidable collision: collisions){
+                    if(reward.checkCollision(collision)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            rewards.add(reward);
+            collisions.add(reward);
+        }
+    }
 }

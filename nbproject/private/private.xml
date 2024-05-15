@@ -3,17 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/interfaces/Collidable.java</file>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/rooms/InitialRoom.java</file>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/rooms/rDoor.java</file>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/psychiatric/Player.java</file>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/quadrants/Quadrant.java</file>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/rooms/FinalRoom.java</file>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/rooms/rWall.java</file>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/quadrants/Wall.java</file>
             <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/rooms/RewardRoom.java</file>
             <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/psychiatric/Level.java</file>
-            <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/rooms/Room.java</file>
             <file>file:/C:/Users/korez/OneDrive/Documents/NetBeansProjects/ProyectoPoo/src/rooms/EnemyRoom.java</file>
         </group>
     </open-files>
