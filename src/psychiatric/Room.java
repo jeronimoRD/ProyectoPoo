@@ -86,7 +86,65 @@ public class Room extends Sprite{
         }
         return checkEntry();
     }
+    
+    public void addCollision(Collidable collision) {
+        collisions.add(collision);
+    }
 
+    public void addEnemy(int numberEnemies){
+        for(int i = 0; i < numberEnemies; i++){
+            boolean aggregate;
+            Enemy enemy = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                enemy = new Enemy(px, py);
+                aggregate = true;
+
+                for(Collidable collision: collisions){
+                    if(enemy.checkCollision(collision)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            enemies.add(enemy);
+            collisions.add(enemy);
+        }
+    }
+    
+    public void addReward(int numberRewards){
+        for(int i = 0; i < numberRewards; i++){
+            boolean aggregate;
+            Reward reward = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                reward = new Reward(px, py);
+                aggregate = true;
+
+                for(Collidable collision: collisions){
+                    if(reward.checkCollision(collision)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            rewards.add(reward);
+            collisions.add(reward);
+        }
+    }
+    
+    //GETTERS AND SETTERS
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+        player.setCollisions(collisions);
+    }
+    
     public boolean isDoorUp() {
         return doorUp;
     }
@@ -149,62 +207,5 @@ public class Room extends Sprite{
 
     public void setRoomLeft(Room roomLeft) {
         this.roomLeft = roomLeft;
-    }
-
-    public void addCollision(Collidable collision) {
-        collisions.add(collision);
-    }
-    
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-        player.setCollisions(collisions);
-    }
-    
-    public void addEnemy(int numberEnemies){
-        for(int i = 0; i < numberEnemies; i++){
-            boolean aggregate;
-            Enemy enemy = null;
-            do{
-                int px = (int) (Math.random() * (WIDTH));
-                int py = (int) (Math.random() * (HEIGHT));
-                enemy = new Enemy(px, py);
-                aggregate = true;
-
-                for(Collidable collision: collisions){
-                    if(enemy.checkCollision(collision)){
-                        aggregate = false;
-                        break;
-                    }
-                }
-            }while(!aggregate);
-            enemies.add(enemy);
-            collisions.add(enemy);
-        }
-    }
-    
-    public void addReward(int numberRewards){
-        for(int i = 0; i < numberRewards; i++){
-            boolean aggregate;
-            Reward reward = null;
-            do{
-                int px = (int) (Math.random() * (WIDTH));
-                int py = (int) (Math.random() * (HEIGHT));
-                reward = new Reward(px, py);
-                aggregate = true;
-
-                for(Collidable collision: collisions){
-                    if(reward.checkCollision(collision)){
-                        aggregate = false;
-                        break;
-                    }
-                }
-            }while(!aggregate);
-            rewards.add(reward);
-            collisions.add(reward);
-        }
     }
 }

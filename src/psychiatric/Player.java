@@ -18,9 +18,6 @@ public class Player extends Sprite implements Collidable{
     public static final int STEP = 10;
     
     private ArrayList<Collidable> collisions;
-    private static final int WALL = 1;
-    private static final int DOOR = 2;
-    
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);

@@ -5,20 +5,24 @@
 package psychiatric;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Psychiatric {
     private Level [] levels;
     private Level actualLevel;
-    public static final int LEVELS = 3; //Array normal
-    
-    private Player player;
+    public static final int LEVELS = 3; //POSSIBLE NORMAL ARRAY
     
     public Psychiatric() {
         Player player = new Player(Room.WIDTH/2, Room.HEIGHT/2);
         levels = new Level[LEVELS];
         
         for(int i = 0; i < LEVELS; i++){
-            levels[i] = new Level();
+            try {
+                levels[i] = new Level();
+            } catch (IOException ex) { //EXCEPTION FILES
+                Logger.getLogger(Psychiatric.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
         }
         
         actualLevel = levels[0];
