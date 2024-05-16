@@ -83,9 +83,6 @@ public class Room extends Sprite{
     public int keyPressed(int code){
         if(code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT){
             player.move(code);
-            for(Enemy enemy: enemies){ //TEST
-                enemy.move(); //TEST
-            } //TEST
         }
         return checkEntry();
     }
@@ -105,7 +102,7 @@ public class Room extends Sprite{
                 aggregate = true;
 
                 for(Collidable collision: collisions){
-                    if(enemy.checkCollision(collision)){
+                    if(enemy.checkCollisionHitbox(collision)){
                         aggregate = false;
                         break;
                     }
@@ -128,7 +125,7 @@ public class Room extends Sprite{
                 aggregate = true;
 
                 for(Collidable collision: collisions){
-                    if(reward.checkCollision(collision)){
+                    if(reward.checkCollisionHitbox(collision)){
                         aggregate = false;
                         break;
                     }

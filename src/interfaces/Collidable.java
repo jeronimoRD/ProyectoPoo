@@ -13,5 +13,6 @@ public interface Collidable {
     public int getHeight();
     public void draw(Graphics g);
     
-    public boolean checkCollision(Collidable collidable);
+    public boolean checkCollisionHitbox(Collidable collidable); //TEST
+    public boolean checkCollisionTouch(Collidable collidable); //TEST
 }

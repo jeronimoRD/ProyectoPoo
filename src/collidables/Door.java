@@ -24,8 +24,8 @@ public class Door extends Sprite implements Collidable{
     }
 
     @Override
-    public boolean checkCollision(Collidable collidable) {
-        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
+    public boolean checkCollisionHitbox(Collidable collidable) {
+    if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
@@ -36,6 +36,27 @@ public class Door extends Sprite implements Collidable{
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
             return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkCollisionTouch(Collidable collidable) {
+        if(collidable.getY() == y + height | collidable.getY() + collidable.getHeight() == y){
+            if(x <= collidable.getX() & collidable.getX() <= x + width){
+                return true;
+            }
+            else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
+                return true;
+            }
+        }
+        if(collidable.getX() == x + width | collidable.getX() + collidable.getWidth() == x){
+            if(y <= collidable.getY() & collidable.getY() <= y + height){
+                return true;
+            }
+            else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
+                return true;
+            }
         }
         return false;
     }
