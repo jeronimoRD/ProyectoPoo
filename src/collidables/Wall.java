@@ -10,8 +10,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Wall extends Sprite implements Collidable{
+    
     public static final int WIDTH = 100;
     public static final int HEIGHT = 100;
+    
     public Wall(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.BLACK);
     }

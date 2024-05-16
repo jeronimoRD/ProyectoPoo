@@ -5,11 +5,11 @@
 package psychiatric;
 
 import elements.Sprite;
+import enemies.*;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 
 public class Room extends Sprite{
@@ -17,23 +17,21 @@ public class Room extends Sprite{
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
     
-    protected Player player;
+    private Player player;
     
-    protected File editor;
+    private Room roomUp;
+    private Room roomDown;
+    private Room roomRight;
+    private Room roomLeft;
     
-    protected Room roomUp;
-    protected Room roomDown;
-    protected Room roomRight;
-    protected Room roomLeft;
-    
-    protected boolean doorUp;
-    protected boolean doorDown;
-    protected boolean doorRight;
-    protected boolean doorLeft;
+    private boolean doorUp;
+    private boolean doorDown;
+    private boolean doorRight;
+    private boolean doorLeft;
     
     private ArrayList<Enemy> enemies;
     private ArrayList<Reward> rewards;
-    protected ArrayList<Collidable> collisions;
+    private ArrayList<Collidable> collisions;
     
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
@@ -91,14 +89,14 @@ public class Room extends Sprite{
         collisions.add(collision);
     }
 
-    public void addEnemy(int numberEnemies){
+    public void addWalker(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
             Enemy enemy = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
-                enemy = new Enemy(px, py);
+                enemy = new Walker(px, py); 
                 aggregate = true;
 
                 for(Collidable collision: collisions){

@@ -68,6 +68,7 @@ public class PsychiatricWindow extends javax.swing.JFrame {
     public static void main(String args[]) {
         PsychiatricWindow psychiatricW = new PsychiatricWindow();
         Psychiatric psychiatric = new Psychiatric();
+        
         // Valores a obtener con psiquiatrico
         psychiatricW.setSize(psychiatric.getWidth(), psychiatric.getHeight());
         psychiatricW.setPsychiatric(psychiatric);

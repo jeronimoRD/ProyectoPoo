@@ -102,7 +102,7 @@ public class Level {
                         }
                     }
                 }
-                room.addEnemy(2);
+                room.addWalker(2);
             }
         }
         
@@ -191,7 +191,7 @@ public class Level {
                         break;
                     }
                 }
-                room.addEnemy(2);
+                room.addWalker(2);
                 rewardRoom.addReward(1);
             }
         }

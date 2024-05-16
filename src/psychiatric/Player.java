@@ -34,7 +34,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
     
-    public void move(int code){
+    public void move(int code){ // REDUNDANT?
         if(code == KeyEvent.VK_UP){
             y -= STEP;
             for(Collidable collision: collisions){
@@ -75,7 +75,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
 
     @Override
     public boolean checkCollisionHitbox(Collidable collidable) {
-    if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){

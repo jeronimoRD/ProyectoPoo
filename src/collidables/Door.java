@@ -13,6 +13,7 @@ public class Door extends Sprite implements Collidable{
     
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
+    
     public Door(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.ORANGE);
     }

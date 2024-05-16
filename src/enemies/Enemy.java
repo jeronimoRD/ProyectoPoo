@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package psychiatric;
+package enemies;
 
 import elements.Sprite;
 import interfaces.Collidable;
@@ -11,13 +11,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-public class Enemy extends Sprite implements Damageable{ //IS COLLIDABLE TOO
+public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     
-    private ArrayList<Collidable> collisions;
-    private Damageable player;
+    protected ArrayList<Collidable> collisions;
+    protected Damageable player;
     
     public Enemy(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.RED);
@@ -39,7 +39,7 @@ public class Enemy extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     @Override
     public boolean checkCollisionHitbox(Collidable collidable) {
-    if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
