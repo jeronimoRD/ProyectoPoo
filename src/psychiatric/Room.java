@@ -83,6 +83,9 @@ public class Room extends Sprite{
     public int keyPressed(int code){
         if(code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT){
             player.move(code);
+            for(Enemy enemy: enemies){ //TEST
+                enemy.move(); //TEST
+            } //TEST
         }
         return checkEntry();
     }
@@ -109,6 +112,7 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
+            enemy.setCollisions(collisions);
             collisions.add(enemy);
         }
     }
@@ -143,6 +147,9 @@ public class Room extends Sprite{
     public void setPlayer(Player player) {
         this.player = player;
         player.setCollisions(collisions);
+        for(Enemy enemy: enemies){
+            enemy.setDamageable(player);
+        }
     }
     
     public boolean isDoorUp() {

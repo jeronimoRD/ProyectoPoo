@@ -6,12 +6,13 @@ package psychiatric;
 
 import elements.Sprite;
 import interfaces.Collidable;
+import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public class Player extends Sprite implements Collidable{
+public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
