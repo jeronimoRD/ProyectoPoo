@@ -55,7 +55,7 @@ public class RoomReader {
 
         while ((instruction = reader.read()) != -1) {
             if((char)instruction == WALL){
-                room.addCollision(new Wall(quadrantX, quadrantY));
+                room.addSolid(new Wall(quadrantX, quadrantY));
 
                 column += 1;
                 quadrantX += Wall.WIDTH;

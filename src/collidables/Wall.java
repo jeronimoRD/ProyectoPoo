@@ -8,8 +8,9 @@ import elements.Sprite;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
+import interfaces.Solid;
 
-public class Wall extends Sprite implements Collidable{
+public class Wall extends Sprite implements Solid{
     
     public static final int WIDTH = 100;
     public static final int HEIGHT = 100;
@@ -41,8 +42,42 @@ public class Wall extends Sprite implements Collidable{
         return false;
     }
 
+    
     @Override
-    public boolean checkCollisionTouch(Collidable collidable) {
+    public boolean checkCollisionHitbox(Collidable collidable, int direction) {
+        if(direction == UP){
+            if(y == collidable.getY() + collidable.getHeight()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        else if(direction == DOWN){
+            if(y + height == collidable.getY()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        else if(direction == LEFT){
+            if(x == collidable.getX() + collidable.getWidth()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        else if(direction == RIGHT){
+            if(x + width == collidable.getX()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        /*
         if(collidable.getY() == y + height | collidable.getY() + collidable.getHeight() == y){
             if(x <= collidable.getX() & collidable.getX() <= x + width){
                 return true;
@@ -59,6 +94,8 @@ public class Wall extends Sprite implements Collidable{
                 return true;
             }
         }
+        return false;
+        */
         return false;
     }
 }

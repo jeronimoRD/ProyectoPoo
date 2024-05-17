@@ -4,13 +4,10 @@
  */
 package enemies;
 
+import interfaces.Collidable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author korez
- */
 public class WalkerThread extends Thread{
     private volatile boolean paused;
     private boolean running;
@@ -35,17 +32,96 @@ public class WalkerThread extends Thread{
             wx = walker.getX();
             wy = walker.getY();
             
-            //WITHOUT COLLISIONS
+            boolean still;
             
+            //WITHOUT COLLISIONS
             if(wx < px){
-                walker.setX(wx + walker.STEP);
+                still = false;
+                for(Collidable collision: walker.solids){
+                    if(collision != walker){
+                        if(walker.checkCollisionHitbox(collision, walker.RIGHT)){
+                            System.out.println("co");
+                            still = true;
+                        }
+                    }
+                }
+                if(!still){
+                    walker.setX(wx + walker.STEP);
+                    for(Collidable collision: walker.solids){
+                        if(walker.checkCollisionHitbox(collision)){
+                            if(collision != walker){
+                                walker.setX(collision.getX() - walker.getWidth());
+                                break;
+                            }
+                        }
+                    }
+                }
             }if(wx > px){
-                walker.setX(wx - walker.STEP);
+                still = false;
+                for(Collidable collision: walker.solids){
+                    if(collision != walker){
+                        if(walker.checkCollisionHitbox(collision, walker.LEFT)){
+                            System.out.println("co");
+                            still = true;
+                        }
+                    }
+                }
+                if(!still){
+                    walker.setX(wx - walker.STEP);
+                    for(Collidable collision: walker.solids){
+                        if(walker.checkCollisionHitbox(collision)){
+                            if(collision != walker){
+                                walker.setX(collision.getX()+collision.getWidth());
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             if(wy < py){
+                still = false;
+                for(Collidable collision: walker.solids){
+                    if(collision != walker){
+                        if(walker.checkCollisionHitbox(collision, walker.DOWN)){
+                            System.out.println("co");
+                            still = true;
+                        }
+                    }
+                }
+                if(!still){
                 walker.setY(wy + walker.STEP);
+                    for(Collidable collision: walker.solids){
+                        if(walker.checkCollisionHitbox(collision)){
+                            if(collision != walker){
+                                System.out.println("abajo");
+                                walker.setY(collision.getY() - walker.getHeight());
+                                break;
+                            }
+                        }
+                    }
+                }
             }if(wy > py){
+                still = false;
+                for(Collidable collision: walker.solids){
+                    if(collision != walker){
+                        if(walker.checkCollisionHitbox(collision, walker.UP)){
+                            System.out.println("co");
+                            still = true;
+                        }
+                    }
+                }
+                if(!still){
                 walker.setY(wy - walker.STEP);
+                    for(Collidable collision: walker.solids){
+                        if(walker.checkCollisionHitbox(collision)){
+                            if(collision != walker){
+                                System.out.println("arr");
+                                walker.setY(collision.getY()+collision.getHeight());
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             
             try {

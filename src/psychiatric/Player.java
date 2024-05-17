@@ -7,6 +7,7 @@ package psychiatric;
 import elements.Sprite;
 import interfaces.Collidable;
 import interfaces.Damageable;
+import interfaces.Solid;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -18,14 +19,14 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public static final int HEIGHT = 20;
     public static final int STEP = 10;
     
-    private ArrayList<Collidable> collisions;
+    private ArrayList<Solid> solids;
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
     }
 
-    public void setCollisions(ArrayList<Collidable> collisions) {
-        this.collisions = collisions;
+    public void setSolids(ArrayList<Solid> solids) {
+        this.solids = solids;
     }
     
     @Override
@@ -37,36 +38,36 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public void move(int code){ // REDUNDANT?
         if(code == KeyEvent.VK_UP){
             y -= STEP;
-            for(Collidable collision: collisions){
-                if(checkCollisionHitbox(collision)){
-                    y = collision.getY()+collision.getHeight();
+            for(Solid solid: solids){
+                if(checkCollisionHitbox(solid)){
+                    y = solid.getY()+solid.getHeight();
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_DOWN){
             y += STEP;
-            for(Collidable collision: collisions){
-                if(checkCollisionHitbox(collision)){
-                    y = collision.getY() - HEIGHT;
+            for(Solid solid: solids){
+                if(checkCollisionHitbox(solid)){
+                    y = solid.getY() - HEIGHT;
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_RIGHT){
             x += STEP;
-            for(Collidable collision: collisions){
-                if(checkCollisionHitbox(collision)){
-                    x = collision.getX() - WIDTH;
+            for(Solid solid: solids){
+                if(checkCollisionHitbox(solid)){
+                    x = solid.getX() - WIDTH;
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_LEFT){
             x -= STEP;
-            for(Collidable collision: collisions){
-                if(checkCollisionHitbox(collision)){
-                    x = collision.getX()+collision.getWidth();
+            for(Solid solid: solids){
+                if(checkCollisionHitbox(solid)){
+                    x = solid.getX()+solid.getWidth();
                     return;
                 }
             }
@@ -91,7 +92,40 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     }
 
     @Override
-    public boolean checkCollisionTouch(Collidable collidable) {
+    public boolean checkCollisionHitbox(Collidable collidable, int direction) {
+        if(direction == UP){
+            if(y == collidable.getY() + collidable.getHeight()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        else if(direction == DOWN){
+            if(y + height == collidable.getY()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        else if(direction == LEFT){
+            if(x == collidable.getX() + collidable.getWidth()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        else if(direction == RIGHT){
+            if(x + width == collidable.getX()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        /*
         if(collidable.getY() == y + height | collidable.getY() + collidable.getHeight() == y){
             if(x <= collidable.getX() & collidable.getX() <= x + width){
                 return true;
@@ -108,6 +142,8 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
                 return true;
             }
         }
+        return false;
+        */
         return false;
     }
 }
