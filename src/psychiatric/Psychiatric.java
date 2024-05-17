@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
+import interfaces.Drawable;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 public class Psychiatric {
     private Level [] levels;
     private Level actualLevel;
+    private Drawable drawable;
     public static final int LEVELS = 3; //POSSIBLE NORMAL ARRAY
     
     public Psychiatric() {
@@ -45,5 +47,8 @@ public class Psychiatric {
         if(code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT){
             actualLevel.keyPressed(code);
         }
+    }
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;
     }
 }

@@ -3,12 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gui;
+import interfaces.Drawable;
 import java.awt.Graphics;
 import java.awt.Image;
 import psychiatric.Psychiatric;
 import java.awt.event.KeyEvent;
 
-public class PsychiatricWindow extends javax.swing.JFrame {
+public class PsychiatricWindow extends javax.swing.JFrame implements Drawable{
 
     private Psychiatric psychiatric;
     
@@ -69,9 +70,18 @@ public class PsychiatricWindow extends javax.swing.JFrame {
         PsychiatricWindow psychiatricW = new PsychiatricWindow();
         Psychiatric psychiatric = new Psychiatric();
         // Valores a obtener con psiquiatrico
+        
+        // se debe implementar luego de tener el resto de clases con drawable
+        psychiatric.setDrawable(psychiatricW);
+        
         psychiatricW.setSize(psychiatric.getWidth(), psychiatric.getHeight());
         psychiatricW.setPsychiatric(psychiatric);
         psychiatricW.setVisible(true);
+    }
+
+    @Override
+    public void redraw() {
+        repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -11,12 +11,17 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
+import interfaces.Drawable;
+import java.awt.image.BufferedImage;
 
 public class Room extends Sprite{
 
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
     
+    private Drawable drawable;
+    private BufferedImage buffer;  
+
     protected Player player;
     
     protected File editor;
@@ -38,6 +43,8 @@ public class Room extends Sprite{
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         
+        buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);  // Inicializar búfer
+
         collisions = new ArrayList<>();
         rewards = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -55,13 +62,28 @@ public class Room extends Sprite{
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, WIDTH, HEIGHT);
+        Graphics bufferGraphics = buffer.getGraphics();
+
+        bufferGraphics.setColor(color);
+        bufferGraphics.fillRect(x, y, WIDTH, HEIGHT);
         
         for(Collidable collision: collisions){
-            collision.draw(g);
+            collision.draw(bufferGraphics);
         }
-        player.draw(g);
+        player.draw(bufferGraphics);
+        
+        g.drawImage(buffer, 0, 0, null);
+
+        // Liberar el contexto gráfico del búfer
+        bufferGraphics.dispose();
+
+        // Redibujar la escena (implementación depende de la interfaz Drawable)
+        if (drawable != null) {
+            drawable.redraw();
+        }else{
+            System.out.println("trite");
+        }
+            
     }
 
     public int checkEntry(){
@@ -135,6 +157,9 @@ public class Room extends Sprite{
         }
     }
     
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;
+    }
     //GETTERS AND SETTERS
     public Player getPlayer() {
         return player;

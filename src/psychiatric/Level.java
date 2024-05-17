@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
+import interfaces.Drawable;
 import io.RoomReader;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -11,7 +12,7 @@ import java.io.IOException;
 public class Level {
     private Room[] rooms;
     private Room actualRoom;
-    
+    private Drawable drawable;
     public static final int ROOMS_TOTAL = 8;
     public static final int ROOMS_REWARDS = 2; 
     
@@ -201,6 +202,10 @@ public class Level {
     
     public void draw(Graphics g) {
         actualRoom.draw(g);
+    }
+    
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;
     }
     
     public void keyPressed(int code){
