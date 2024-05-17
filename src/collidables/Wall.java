@@ -8,9 +8,8 @@ import elements.Sprite;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
-import interfaces.Solid;
 
-public class Wall extends Sprite implements Solid{
+public class Wall extends Sprite implements Collidable{
     
     public static final int WIDTH = 100;
     public static final int HEIGHT = 100;
@@ -47,7 +46,12 @@ public class Wall extends Sprite implements Solid{
     public boolean checkCollisionHitbox(Collidable collidable, int direction) {
         if(direction == UP){
             if(y == collidable.getY() + collidable.getHeight()){
-                return true;
+                if(x <= collidable.getX() & collidable.getX() <= x + width){
+                    return true;
+                }
+                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -55,7 +59,12 @@ public class Wall extends Sprite implements Solid{
         
         else if(direction == DOWN){
             if(y + height == collidable.getY()){
-                return true;
+                if(x <= collidable.getX() & collidable.getX() <= x + width){
+                    return true;
+                }
+                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -63,7 +72,12 @@ public class Wall extends Sprite implements Solid{
         
         else if(direction == LEFT){
             if(x == collidable.getX() + collidable.getWidth()){
-                return true;
+                if(y <= collidable.getY() & collidable.getY() <= y + height){
+                    return true;
+                }
+                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -71,31 +85,16 @@ public class Wall extends Sprite implements Solid{
         
         else if(direction == RIGHT){
             if(x + width == collidable.getX()){
-                return true;
+                if(y <= collidable.getY() & collidable.getY() <= y + height){
+                    return true;
+                }
+                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
+                    return true;
+                }
             }else{
                 return false;
             }
         }
-        
-        /*
-        if(collidable.getY() == y + height | collidable.getY() + collidable.getHeight() == y){
-            if(x <= collidable.getX() & collidable.getX() <= x + width){
-                return true;
-            }
-            else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                return true;
-            }
-        }
-        if(collidable.getX() == x + width | collidable.getX() + collidable.getWidth() == x){
-            if(y <= collidable.getY() & collidable.getY() <= y + height){
-                return true;
-            }
-            else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                return true;
-            }
-        }
-        return false;
-        */
         return false;
     }
 }

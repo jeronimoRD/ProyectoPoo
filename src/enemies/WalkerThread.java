@@ -37,7 +37,7 @@ public class WalkerThread extends Thread{
             //WITHOUT COLLISIONS
             if(wx < px){
                 still = false;
-                for(Collidable collision: walker.solids){
+                for(Collidable collision: walker.collidables){
                     if(collision != walker){
                         if(walker.checkCollisionHitbox(collision, walker.RIGHT)){
                             System.out.println("co");
@@ -47,7 +47,7 @@ public class WalkerThread extends Thread{
                 }
                 if(!still){
                     walker.setX(wx + walker.STEP);
-                    for(Collidable collision: walker.solids){
+                    for(Collidable collision: walker.collidables){
                         if(walker.checkCollisionHitbox(collision)){
                             if(collision != walker){
                                 walker.setX(collision.getX() - walker.getWidth());
@@ -58,7 +58,7 @@ public class WalkerThread extends Thread{
                 }
             }if(wx > px){
                 still = false;
-                for(Collidable collision: walker.solids){
+                for(Collidable collision: walker.collidables){
                     if(collision != walker){
                         if(walker.checkCollisionHitbox(collision, walker.LEFT)){
                             System.out.println("co");
@@ -68,7 +68,7 @@ public class WalkerThread extends Thread{
                 }
                 if(!still){
                     walker.setX(wx - walker.STEP);
-                    for(Collidable collision: walker.solids){
+                    for(Collidable collision: walker.collidables){
                         if(walker.checkCollisionHitbox(collision)){
                             if(collision != walker){
                                 walker.setX(collision.getX()+collision.getWidth());
@@ -80,7 +80,7 @@ public class WalkerThread extends Thread{
             }
             if(wy < py){
                 still = false;
-                for(Collidable collision: walker.solids){
+                for(Collidable collision: walker.collidables){
                     if(collision != walker){
                         if(walker.checkCollisionHitbox(collision, walker.DOWN)){
                             System.out.println("co");
@@ -90,7 +90,7 @@ public class WalkerThread extends Thread{
                 }
                 if(!still){
                 walker.setY(wy + walker.STEP);
-                    for(Collidable collision: walker.solids){
+                    for(Collidable collision: walker.collidables){
                         if(walker.checkCollisionHitbox(collision)){
                             if(collision != walker){
                                 System.out.println("abajo");
@@ -102,7 +102,7 @@ public class WalkerThread extends Thread{
                 }
             }if(wy > py){
                 still = false;
-                for(Collidable collision: walker.solids){
+                for(Collidable collision: walker.collidables){
                     if(collision != walker){
                         if(walker.checkCollisionHitbox(collision, walker.UP)){
                             System.out.println("co");
@@ -112,7 +112,7 @@ public class WalkerThread extends Thread{
                 }
                 if(!still){
                 walker.setY(wy - walker.STEP);
-                    for(Collidable collision: walker.solids){
+                    for(Collidable collision: walker.collidables){
                         if(walker.checkCollisionHitbox(collision)){
                             if(collision != walker){
                                 System.out.println("arr");

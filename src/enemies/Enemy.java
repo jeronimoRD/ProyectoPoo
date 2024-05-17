@@ -7,7 +7,6 @@ package enemies;
 import elements.Sprite;
 import interfaces.Collidable;
 import interfaces.Damageable;
-import interfaces.Solid;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     
-    protected ArrayList<Solid> solids;
+    protected ArrayList<Collidable> collidables;
     protected Damageable player;
     
     public Enemy(int x, int y) {
@@ -34,8 +33,8 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
         this.player = damageable;
     }
     
-    public void setSolids(ArrayList<Solid> solids) {
-        this.solids = solids;
+    public void setCollidables(ArrayList<Collidable> collidable) {
+        this.collidables = collidable;
     }
     
     @Override
@@ -108,26 +107,6 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
                 return false;
             }
         }
-        
-        /*
-        if(collidable.getY() == y + height | collidable.getY() + collidable.getHeight() == y){
-            if(x <= collidable.getX() & collidable.getX() <= x + width){
-                return true;
-            }
-            else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                return true;
-            }
-        }
-        if(collidable.getX() == x + width | collidable.getX() + collidable.getWidth() == x){
-            if(y <= collidable.getY() & collidable.getY() <= y + height){
-                return true;
-            }
-            else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                return true;
-            }
-        }
-        return false;
-        */
         return false;
     }
 }

@@ -7,7 +7,6 @@ package psychiatric;
 import elements.Sprite;
 import interfaces.Collidable;
 import interfaces.Damageable;
-import interfaces.Solid;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -19,14 +18,14 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public static final int HEIGHT = 20;
     public static final int STEP = 10;
     
-    private ArrayList<Solid> solids;
+    private ArrayList<Collidable> collidables;
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
     }
 
-    public void setSolids(ArrayList<Solid> solids) {
-        this.solids = solids;
+    public void setCollidables(ArrayList<Collidable> collidable) {
+        this.collidables = collidable;
     }
     
     @Override
@@ -38,36 +37,36 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public void move(int code){ // REDUNDANT?
         if(code == KeyEvent.VK_UP){
             y -= STEP;
-            for(Solid solid: solids){
-                if(checkCollisionHitbox(solid)){
-                    y = solid.getY()+solid.getHeight();
+            for(Collidable collidable: collidables){
+                if(checkCollisionHitbox(collidable)){
+                    y = collidable.getY()+collidable.getHeight();
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_DOWN){
             y += STEP;
-            for(Solid solid: solids){
-                if(checkCollisionHitbox(solid)){
-                    y = solid.getY() - HEIGHT;
+            for(Collidable collidable: collidables){
+                if(checkCollisionHitbox(collidable)){
+                    y = collidable.getY() - HEIGHT;
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_RIGHT){
             x += STEP;
-            for(Solid solid: solids){
-                if(checkCollisionHitbox(solid)){
-                    x = solid.getX() - WIDTH;
+            for(Collidable collidable: collidables){
+                if(checkCollisionHitbox(collidable)){
+                    x = collidable.getX() - WIDTH;
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_LEFT){
             x -= STEP;
-            for(Solid solid: solids){
-                if(checkCollisionHitbox(solid)){
-                    x = solid.getX()+solid.getWidth();
+            for(Collidable collidable: collidables){
+                if(checkCollisionHitbox(collidable)){
+                    x = collidable.getX()+collidable.getWidth();
                     return;
                 }
             }
@@ -95,7 +94,12 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public boolean checkCollisionHitbox(Collidable collidable, int direction) {
         if(direction == UP){
             if(y == collidable.getY() + collidable.getHeight()){
-                return true;
+                if(x <= collidable.getX() & collidable.getX() <= x + width){
+                    return true;
+                }
+                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -103,7 +107,12 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         
         else if(direction == DOWN){
             if(y + height == collidable.getY()){
-                return true;
+                if(x <= collidable.getX() & collidable.getX() <= x + width){
+                    return true;
+                }
+                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -111,7 +120,12 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         
         else if(direction == LEFT){
             if(x == collidable.getX() + collidable.getWidth()){
-                return true;
+                if(y <= collidable.getY() & collidable.getY() <= y + height){
+                    return true;
+                }
+                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -119,31 +133,16 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         
         else if(direction == RIGHT){
             if(x + width == collidable.getX()){
-                return true;
+                if(y <= collidable.getY() & collidable.getY() <= y + height){
+                    return true;
+                }
+                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
+                    return true;
+                }
             }else{
                 return false;
             }
         }
-        
-        /*
-        if(collidable.getY() == y + height | collidable.getY() + collidable.getHeight() == y){
-            if(x <= collidable.getX() & collidable.getX() <= x + width){
-                return true;
-            }
-            else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                return true;
-            }
-        }
-        if(collidable.getX() == x + width | collidable.getX() + collidable.getWidth() == x){
-            if(y <= collidable.getY() & collidable.getY() <= y + height){
-                return true;
-            }
-            else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                return true;
-            }
-        }
-        return false;
-        */
         return false;
     }
 }

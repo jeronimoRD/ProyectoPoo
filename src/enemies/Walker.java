@@ -8,7 +8,7 @@ import interfaces.Damageable;
 
 public class Walker extends Enemy{
     private WalkerThread walkerThread;
-    public static final int STEP = 5;
+    public static final int STEP = 10;
     
     public Walker(int x, int y) {
         super(x, y);

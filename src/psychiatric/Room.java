@@ -6,11 +6,11 @@ package psychiatric;
 
 import elements.Sprite;
 import enemies.*;
+import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import interfaces.Solid;
 
 public class Room extends Sprite{
 
@@ -31,12 +31,12 @@ public class Room extends Sprite{
     
     private ArrayList<Enemy> enemies;
     private ArrayList<Reward> rewards;
-    private ArrayList<Solid> solids;
+    private ArrayList<Collidable> collidables;
     
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         
-        solids = new ArrayList<>();
+        collidables = new ArrayList<>();
         rewards = new ArrayList<>();
         enemies = new ArrayList<>();
         
@@ -62,8 +62,8 @@ public class Room extends Sprite{
         for(Reward reward: rewards){
             reward.draw(g);
         }
-        for(Solid solid: solids){
-            solid.draw(g);
+        for(Collidable collidable: collidables){
+            collidable.draw(g);
         }
         player.draw(g);
     }
@@ -91,8 +91,8 @@ public class Room extends Sprite{
         return checkEntry();
     }
     
-    public void addSolid(Solid solid) {
-        solids.add(solid);
+    public void addCollidable(Collidable collidable) {
+        collidables.add(collidable);
     }
 
     public void addWalker(int numberEnemies){
@@ -105,15 +105,15 @@ public class Room extends Sprite{
                 enemy = new Walker(px, py); 
                 aggregate = true;
 
-                for(Solid solid: solids){
-                    if(enemy.checkCollisionHitbox(solid)){
+                for(Collidable collidable: collidables){
+                    if(enemy.checkCollisionHitbox(collidable)){
                         aggregate = false;
                         break;
                     }
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setSolids(solids);
+            enemy.setCollidables(collidables);
         }
     }
     
@@ -127,8 +127,8 @@ public class Room extends Sprite{
                 reward = new Reward(px, py);
                 aggregate = true;
 
-                for(Solid solid: solids){
-                    if(reward.checkCollisionHitbox(solid)){
+                for(Collidable collidable: collidables){
+                    if(reward.checkCollisionHitbox(collidable)){
                         aggregate = false;
                         break;
                     }
@@ -145,7 +145,7 @@ public class Room extends Sprite{
 
     public void setPlayer(Player player) {
         this.player = player;
-        player.setSolids(solids);
+        player.setCollidables(collidables);
         for(Enemy enemy: enemies){
             enemy.setDamageable(player);
         }
