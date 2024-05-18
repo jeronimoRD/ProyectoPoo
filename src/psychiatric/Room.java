@@ -4,6 +4,9 @@
  */
 package psychiatric;
 
+import Inventory.ConcreteObject;
+import Inventory.Object;
+import Weapons.Weapon;
 import elements.Sprite;
 import enemies.*;
 import interfaces.Collidable;
@@ -11,129 +14,197 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-public class Room extends Sprite{
+public class Room extends Sprite {
 
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
-    
+
     private Player player;
-    
+
     private Room roomUp;
     private Room roomDown;
     private Room roomRight;
     private Room roomLeft;
-    
+
     private boolean doorUp;
     private boolean doorDown;
     private boolean doorRight;
     private boolean doorLeft;
-    
+    private int numberObjects;
+
+    private ArrayList<Object> weapons;
     private ArrayList<Enemy> enemies;
     private ArrayList<Reward> rewards;
     private ArrayList<Collidable> collisions;
-    
-    public Room() {
+    private List<Object> objects;
+
+    public Room(int numberObjects) {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
-        
+
         collisions = new ArrayList<>();
         rewards = new ArrayList<>();
         enemies = new ArrayList<>();
-        
+        objects = new ArrayList<>();
+
         roomUp = null;
         roomDown = null;
         roomRight = null;
         roomLeft = null;
-        
+
         doorUp = false;
         doorDown = false;
         doorRight = false;
         doorLeft = false;
+
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
-        
-        for(Collidable collision: collisions){
+
+        for (Collidable collision : collisions) {
             collision.draw(g);
         }
-        player.draw(g);
+
+        for (Object object : getObjects()) {
+            object.draw(g);
+        }
+
+        if (player != null) {
+            player.draw(g);
+        }
     }
 
-    public int checkEntry(){
-        if(player.getY() < 0){
+    public int checkEntry() {
+        if (player.getY() < 0) {
             return 0;
         }
-        if(player.getY() > Room.HEIGHT){
+        if (player.getY() > Room.HEIGHT) {
             return 1;
         }
-        if(player.getX() > Room.WIDTH){
+        if (player.getX() > Room.WIDTH) {
             return 2;
         }
-        if(player.getX() < 0){
+        if (player.getX() < 0) {
             return 3;
         }
         return -1;
     }
-    
-    public int keyPressed(int code){
-        if(code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT){
+
+    public int keyPressed(int code) {
+        if (code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT) {
             player.move(code);
         }
         return checkEntry();
     }
-    
+
     public void addCollision(Collidable collision) {
         collisions.add(collision);
     }
 
-    public void addWalker(int numberEnemies){
-        for(int i = 0; i < numberEnemies; i++){
+    public void addWalker(int numberEnemies) {
+        for (int i = 0; i < numberEnemies; i++) {
             boolean aggregate;
             Enemy enemy = null;
-            do{
+            do {
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
-                enemy = new Walker(px, py); 
+                enemy = new Walker(px, py);
                 aggregate = true;
 
-                for(Collidable collision: collisions){
-                    if(enemy.checkCollisionHitbox(collision)){
+                for (Collidable collision : collisions) {
+                    if (enemy.checkCollisionHitbox(collision)) {
                         aggregate = false;
                         break;
                     }
                 }
-            }while(!aggregate);
+            } while (!aggregate);
             enemies.add(enemy);
             enemy.setCollisions(collisions);
             collisions.add(enemy);
         }
     }
-    
-    public void addReward(int numberRewards){
-        for(int i = 0; i < numberRewards; i++){
+
+    public void addObject(int numberObjects) {
+        for (int i = 0; i < numberObjects; i++) {
+            boolean aggregate;
+            Object object = null;
+            do {
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                object = new Object(px, py) {
+                    @Override
+                    public Sprite getSprite() {
+                        return null;
+                    }
+
+                    @Override
+                    public int getWidth() {
+                        return 0;
+                    }
+
+                    @Override
+                    public int getHeight() {
+                        return 0;
+                    }
+
+                };
+                aggregate = true;
+
+                for (Collidable collision : collisions) {
+                    if (object.checkCollisionHitbox(collision)) {
+                        aggregate = false;
+                        break;
+                    }
+                }
+            } while (!aggregate);
+            boolean add = getObjects().add(object);
+            object.setCollisions(collisions);
+            collisions.add(object);
+        }
+    }
+
+    public void addReward(int numberRewards) {
+        for (int i = 0; i < numberRewards; i++) {
             boolean aggregate;
             Reward reward = null;
-            do{
+            do {
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
                 reward = new Reward(px, py);
                 aggregate = true;
 
-                for(Collidable collision: collisions){
-                    if(reward.checkCollisionHitbox(collision)){
+                for (Collidable collision : collisions) {
+                    if (reward.checkCollisionHitbox(collision)) {
                         aggregate = false;
                         break;
                     }
                 }
-            }while(!aggregate);
+            } while (!aggregate);
             rewards.add(reward);
             collisions.add(reward);
         }
     }
-    
+
+    public Object pickUpObject(int x, int y) {
+        for (Object object : objects) {
+            if (object.contains(x, y)) {
+                objects.remove(object);
+                return object;
+            }
+        }
+        return null;
+    }
+
+    public void removeObject(Object object) {
+        getObjects().remove(object);
+        collisions.remove(object); // Asegúrate de eliminarlo también de la lista de colisiones si es necesario
+    }
+
     //GETTERS AND SETTERS
     public Player getPlayer() {
         return player;
@@ -142,11 +213,11 @@ public class Room extends Sprite{
     public void setPlayer(Player player) {
         this.player = player;
         player.setCollisions(collisions);
-        for(Enemy enemy: enemies){
+        for (Enemy enemy : enemies) {
             enemy.setDamageable(player);
         }
     }
-    
+
     public boolean isDoorUp() {
         return doorUp;
     }
@@ -210,4 +281,24 @@ public class Room extends Sprite{
     public void setRoomLeft(Room roomLeft) {
         this.roomLeft = roomLeft;
     }
+
+    /**
+     * @return the objects
+     */
+    public Object getObjectAt(int x, int y) {
+        for (Object obj : getObjects()) {
+            if (obj.getX() == x && obj.getY() == y) {
+                return obj;
+            }
+        }
+        return null; // Devuelve null si no hay ningún objeto en esas coordenadas
+    }
+
+    /**
+     * @return the objects
+     */
+    public List<Object> getObjects() {
+        return objects;
+    }
+
 }

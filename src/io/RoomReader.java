@@ -33,7 +33,7 @@ public class RoomReader {
     }
     
     public Room read(int doors) throws IOException{
-        Room room = new Room();
+        Room room = new Room(doors);
         FileReader reader = null;
         if(doors == 1){
             reader = new FileReader(oneDoor[(int)(Math.random()*(oneDoor.length))]);
