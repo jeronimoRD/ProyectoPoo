@@ -4,6 +4,7 @@
  */
 package io;
 import collidables.Wall;
+import interfaces.Drawable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class RoomReader {
     private File[] oneDoor;
     private File[] twoDoor;
     private File[] threeDoor;
-    
+    private Drawable drawable;
     private static final int DOOR = 'P';
     private static final int WALL = 'X';
     private static final int FLOOR = 'O';

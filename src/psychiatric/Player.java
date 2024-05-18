@@ -7,18 +7,20 @@ package psychiatric;
 import elements.Sound;
 import elements.Sprite;
 import interfaces.Collidable;
+import interfaces.Drawable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public class Player extends Sprite implements Collidable{
+public class Player extends Sprite implements Collidable,Drawable{
     
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     public static final int STEP = 10;
     private Sound moveSound;
-    
+    private Drawable drawable;
+
     private ArrayList<Collidable> collisions;
     
     public Player(int x, int y) {
@@ -36,6 +38,9 @@ public class Player extends Sprite implements Collidable{
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
     
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;    
+    }
     public void move(int code){
         int px = x;
         int py = y;
@@ -78,5 +83,10 @@ public class Player extends Sprite implements Collidable{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void redraw() {
+        drawable.redraw();
     }
 }

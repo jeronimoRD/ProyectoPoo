@@ -72,7 +72,7 @@ public class PsychiatricWindow extends javax.swing.JFrame implements Drawable{
         // Valores a obtener con psiquiatrico
         
         // se debe implementar luego de tener el resto de clases con drawable
-        psychiatric.setDrawable(psychiatricW);
+        psychiatric.setDrawable(psychiatricW); // Configura el drawable en Psychiatric
         
         psychiatricW.setSize(psychiatric.getWidth(), psychiatric.getHeight());
         psychiatricW.setPsychiatric(psychiatric);

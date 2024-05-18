@@ -42,7 +42,7 @@ public class Room extends Sprite{
     
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
-        
+        this.drawable = drawable;
         buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);  // Inicializar búfer
 
         collisions = new ArrayList<>();
@@ -58,31 +58,32 @@ public class Room extends Sprite{
         doorDown = false;
         doorRight = false;
         doorLeft = false;
+        
     }
 
     @Override
     public void draw(Graphics g) {
-        Graphics bufferGraphics = buffer.getGraphics();
+        //Graphics bufferGraphics = buffer.getGraphics();
 
-        bufferGraphics.setColor(color);
-        bufferGraphics.fillRect(x, y, WIDTH, HEIGHT);
+        g.setColor(color);
+        g.fillRect(x, y, WIDTH, HEIGHT);
         
         for(Collidable collision: collisions){
-            collision.draw(bufferGraphics);
+            collision.draw(g);
         }
-        player.draw(bufferGraphics);
+        player.draw(g);
         
-        g.drawImage(buffer, 0, 0, null);
+      // g.drawImage(buffer, 0, 0, null);
 
         // Liberar el contexto gráfico del búfer
-        bufferGraphics.dispose();
+        //bufferGraphics.dispose();
 
         // Redibujar la escena (implementación depende de la interfaz Drawable)
-        if (drawable != null) {
-            drawable.redraw();
-        }else{
-            System.out.println("trite");
-        }
+     //   if (drawable != null) {
+       //     drawable.redraw();
+       // }else{
+        //    System.out.println("trite");
+        //}
             
     }
 
