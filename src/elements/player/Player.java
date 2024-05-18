@@ -5,6 +5,7 @@
 package elements.player;
 
 import elements.Sprite;
+import elements.inventory.Inventory;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
@@ -25,6 +26,8 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     private HeartCooldown heartColldown;
     private Heart[] hearts;
     
+    private Inventory inventory;
+    
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
         hearts = new Heart[LIVES];
@@ -38,6 +41,8 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
             px += 60;
         }
         heartColldown.start();
+        
+        inventory = new Inventory();
     }
     
     @Override
@@ -183,5 +188,9 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     public void setCollidables(ArrayList<Collidable> collidable) {
         this.collidables = collidable;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

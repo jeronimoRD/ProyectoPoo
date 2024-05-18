@@ -78,6 +78,8 @@ public class Room extends Sprite{
         for(Heart heart: player.getHearts()){
             heart.draw(g);
         }
+        //INVENTORY
+        player.getInventory().draw(g);
         player.draw(g);
     }
 
