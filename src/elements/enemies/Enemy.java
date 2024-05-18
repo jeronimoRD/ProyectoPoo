@@ -15,6 +15,7 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     
     protected ArrayList<Collidable> collidables;
     protected Damageable player;
+    protected int lifeBar;
     
     public Enemy(int x, int y, int width, int height, Color color) {
         super(x, y, width, height, color);
@@ -27,8 +28,12 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     }
     
     @Override
-    public void takeDamage() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void takeDamage(int damage) {
+        int actualLife = lifeBar - damage;
+        if(actualLife < 0){
+            actualLife = 0;
+        }
+        lifeBar = actualLife;
     }
     
     @Override
@@ -119,5 +124,9 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     
     public void setCollidables(ArrayList<Collidable> collidable) {
         this.collidables = collidable;
+    }
+
+    public int getLifeBar() {
+        return lifeBar;
     }
 }

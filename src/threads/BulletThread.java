@@ -83,7 +83,7 @@ public class BulletThread extends Thread{
             
             //HURT PLAYER
             if(bullet.checkCollision(bullet.getPlayer())){
-                bullet.getPlayer().takeDamage();
+                bullet.getPlayer().takeDamage(0);
             }
             
             try {

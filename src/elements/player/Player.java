@@ -39,10 +39,6 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         }
         heartColldown.start();
     }
-
-    public void setCollidables(ArrayList<Collidable> collidable) {
-        this.collidables = collidable;
-    }
     
     @Override
     public void draw(Graphics g) {
@@ -91,7 +87,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     
     @Override
-    public void takeDamage() {
+    public void takeDamage(int damage) {
         if(!heartColldown.isRecover()){
             for(int h = LIVES - 1; h >= 0; h--){
                 if(hearts[h].isLive()){
@@ -179,5 +175,9 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     //GETTERS AND SETTERS
     public Heart[] getHearts() {
         return hearts;
+    }
+
+    public void setCollidables(ArrayList<Collidable> collidable) {
+        this.collidables = collidable;
     }
 }

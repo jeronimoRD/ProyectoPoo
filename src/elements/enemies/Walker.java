@@ -10,6 +10,7 @@ import java.awt.Color;
 
 public class Walker extends Enemy{
     
+    public static final int LIFE = 50;
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     public static final int STEP = 5;
@@ -19,6 +20,7 @@ public class Walker extends Enemy{
     public Walker(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.RED);
         walkerThread = new WalkerThread(this); //¿(this)debería tener una interfaz?
+        this.lifeBar = LIFE; //VIDA
     }
     
     @Override

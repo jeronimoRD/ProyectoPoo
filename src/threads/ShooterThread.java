@@ -31,7 +31,7 @@ public class ShooterThread extends Thread{
             
             //HURT PLAYER
             if(shooter.checkCollision(shooter.getPlayer())){
-                shooter.getPlayer().takeDamage();
+                shooter.getPlayer().takeDamage(0);
             }
             
             try {

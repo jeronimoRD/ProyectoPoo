@@ -13,6 +13,7 @@ import threads.ShooterThread;
 
 public class Shooter extends Enemy{
     
+    public static final int LIFE = 100;
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     
@@ -21,6 +22,7 @@ public class Shooter extends Enemy{
     
     public Shooter(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.BLUE);
+        this.lifeBar = LIFE; //ADD LIFE
         bullets = new ArrayList<>();
         shooterThread = new ShooterThread(this); //¿4 hilos para 4 dirreciones?
     }
@@ -41,6 +43,7 @@ public class Shooter extends Enemy{
             bullet.draw(g);
         }
     }
+    
     public void explode(Bullet bullet){
         bullets.remove(bullet);
     }

@@ -124,7 +124,7 @@ public class WalkerThread extends Thread{
             
             //HURT PLAYER
             if(walker.checkCollision(walker.getPlayer())){
-                walker.getPlayer().takeDamage();
+                walker.getPlayer().takeDamage(0);
             }
             
             try{
@@ -144,7 +144,6 @@ public class WalkerThread extends Thread{
     }
     
     //GETTERS AND SETTERS
-
     public boolean isRunning() {
         return running;
     }
