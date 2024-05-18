@@ -177,6 +177,10 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         return hearts;
     }
 
+    public ArrayList<Collidable> getCollidables() {
+        return collidables;
+    }
+    
     public void setCollidables(ArrayList<Collidable> collidable) {
         this.collidables = collidable;
     }
