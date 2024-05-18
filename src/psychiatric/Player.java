@@ -4,6 +4,7 @@
  */
 package psychiatric;
 
+import elements.Sound;
 import elements.Sprite;
 import interfaces.Collidable;
 import java.awt.Color;
@@ -16,11 +17,13 @@ public class Player extends Sprite implements Collidable{
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     public static final int STEP = 10;
+    private Sound moveSound;
     
     private ArrayList<Collidable> collisions;
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
+        moveSound = new Sound("C:\\Users\\isabe\\OneDrive\\Escritorio\\ProyectoPoo\\src\\sound\\Grabación (mp3cut.net).wav"); // Ruta a tu archivo de sonido
     }
 
     public void setCollisions(ArrayList<Collidable> collisions) {
@@ -57,6 +60,7 @@ public class Player extends Sprite implements Collidable{
                 return;
             }
         }
+        moveSound.play();
     }
     
     @Override
