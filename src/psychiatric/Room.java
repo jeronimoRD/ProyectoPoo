@@ -4,12 +4,14 @@
  */
 package psychiatric;
 
+import elements.Reward;
+import elements.Player;
 import elements.Sprite;
+import enemies.*;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 
 public class Room extends Sprite{
@@ -17,28 +19,26 @@ public class Room extends Sprite{
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
     
-    protected Player player;
+    private Player player;
     
-    protected File editor;
+    private Room roomUp;
+    private Room roomDown;
+    private Room roomRight;
+    private Room roomLeft;
     
-    protected Room roomUp;
-    protected Room roomDown;
-    protected Room roomRight;
-    protected Room roomLeft;
-    
-    protected boolean doorUp;
-    protected boolean doorDown;
-    protected boolean doorRight;
-    protected boolean doorLeft;
+    private boolean doorUp;
+    private boolean doorDown;
+    private boolean doorRight;
+    private boolean doorLeft;
     
     private ArrayList<Enemy> enemies;
     private ArrayList<Reward> rewards;
-    protected ArrayList<Collidable> collisions;
+    private ArrayList<Collidable> collidables;
     
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         
-        collisions = new ArrayList<>();
+        collidables = new ArrayList<>();
         rewards = new ArrayList<>();
         enemies = new ArrayList<>();
         
@@ -58,26 +58,33 @@ public class Room extends Sprite{
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
         
-        for(Collidable collision: collisions){
-            collision.draw(g);
+        for(Enemy enemy: enemies){
+            enemy.draw(g);
+        }
+        for(Reward reward: rewards){
+            reward.draw(g);
+        }
+        for(Collidable collidable: collidables){
+            collidable.draw(g);
         }
         player.draw(g);
     }
 
+    //NEXTROOM
     public int checkEntry(){
         if(player.getY() < 0){
-            return 0;
+            return Collidable.UP;
         }
         if(player.getY() > Room.HEIGHT){
-            return 1;
+            return Collidable.DOWN;
         }
         if(player.getX() > Room.WIDTH){
-            return 2;
+            return Collidable.RIGHT;
         }
         if(player.getX() < 0){
-            return 3;
+            return Collidable.LEFT;
         }
-        return -1;
+        return -1; //NOTNEXTROOM
     }
     
     public int keyPressed(int code){
@@ -87,29 +94,52 @@ public class Room extends Sprite{
         return checkEntry();
     }
     
-    public void addCollision(Collidable collision) {
-        collisions.add(collision);
+    public void addCollidable(Collidable collidable) {
+        collidables.add(collidable);
     }
 
-    public void addEnemy(int numberEnemies){
+    public void addWalker(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
             Enemy enemy = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
-                enemy = new Enemy(px, py);
+                enemy = new Walker(px, py); 
                 aggregate = true;
 
-                for(Collidable collision: collisions){
-                    if(enemy.checkCollision(collision)){
+                for(Collidable collidable: collidables){
+                    if(enemy.checkCollision(collidable)){
                         aggregate = false;
                         break;
                     }
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            collisions.add(enemy);
+            enemy.setCollidables(collidables); //¿Se agrega a collidables?
+        }
+    }
+    
+    //---------------------ENEMIES---------------------
+    public void addShooter(int numberEnemies){
+        for(int i = 0; i < numberEnemies; i++){
+            boolean aggregate;
+            Enemy enemy = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                enemy = new Shooter(px, py); 
+                aggregate = true;
+
+                for(Collidable collidable: collidables){
+                    if(enemy.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            enemies.add(enemy);
+            enemy.setCollidables(collidables); //¿Se agrega a collidables?
         }
     }
     
@@ -123,17 +153,17 @@ public class Room extends Sprite{
                 reward = new Reward(px, py);
                 aggregate = true;
 
-                for(Collidable collision: collisions){
-                    if(reward.checkCollision(collision)){
+                for(Collidable collidable: collidables){
+                    if(reward.checkCollision(collidable)){
                         aggregate = false;
                         break;
                     }
                 }
             }while(!aggregate);
-            rewards.add(reward);
-            collisions.add(reward);
+            rewards.add(reward); //¿Se agrega a collidables?
         }
     }
+    //---------------------------------------------------
     
     //GETTERS AND SETTERS
     public Player getPlayer() {
@@ -142,7 +172,10 @@ public class Room extends Sprite{
 
     public void setPlayer(Player player) {
         this.player = player;
-        player.setCollisions(collisions);
+        player.setCollidables(collidables);
+        for(Enemy enemy: enemies){
+            enemy.setDamageable(player);
+        }
     }
     
     public boolean isDoorUp() {
