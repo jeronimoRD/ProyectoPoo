@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import threads.HeartCooldown;
 
 public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
@@ -21,11 +22,13 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public static final int STEP = 10;
     
     private ArrayList<Collidable> collidables;
+    private HeartCooldown heartColldown;
     private Heart[] hearts;
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
         hearts = new Heart[LIVES];
+        heartColldown = new HeartCooldown();
         
         int px = 30;
         int py = 40;
@@ -34,6 +37,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
             hearts[h].setLive(true);
             px += 60;
         }
+        heartColldown.start();
     }
 
     public void setCollidables(ArrayList<Collidable> collidable) {
@@ -88,10 +92,13 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     @Override
     public void takeDamage() {
-        for(int h = LIVES - 1; h >= 0; h--){
-            if(hearts[h].isLive()){
-                hearts[h].setLive(false);
-                break;
+        if(!heartColldown.isRecover()){
+            for(int h = LIVES - 1; h >= 0; h--){
+                if(hearts[h].isLive()){
+                    hearts[h].setLive(false);
+                    heartColldown.setRecover(true);
+                    break;
+                }
             }
         }
     }
