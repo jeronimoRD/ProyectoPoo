@@ -4,11 +4,15 @@
  */
 package elements.inventory;
 
+import elements.weapons.Stick;
+import elements.weapons.Weapon;
+import exceptions.FullInventoryException;
 import java.awt.Graphics;
 
 public class Inventory {
     
     private Space[] spaces;
+    private Space selectedWeapon;
     public static final int SPACES_WEAPONS = 2;
     
     public Inventory() {
@@ -20,6 +24,10 @@ public class Inventory {
             spaces[s] = new Space(px, py);
             px += 60;
         }
+        
+        //!!TEST!!
+        addWeapon(new Stick());
+        selectedWeapon = spaces[0];
     }
     
     public void draw(Graphics g) {
@@ -27,4 +35,20 @@ public class Inventory {
             space.draw(g);
         }
     }
+    
+    public void addWeapon(Weapon weapon) throws FullInventoryException{
+        for(Space space: spaces){
+            if(space.getWeapon() == null){
+                space.setWeapon(weapon);
+                return;
+            }
+        }
+        throw new FullInventoryException();
+    }
+    
+    //GETTERS AND SETTERS
+    public Weapon getSelectedWeapon() {
+        return selectedWeapon.getWeapon();
+    }
+    
 }

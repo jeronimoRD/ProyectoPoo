@@ -49,6 +49,10 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
+        
+        inventory.getSelectedWeapon().setX(x + WIDTH + 10);//!!Test!!
+        inventory.getSelectedWeapon().setY(y - 10);//!!Test!!
+        inventory.getSelectedWeapon().draw(g);
     }
     
     public void move(int code){ // REDUNDANT?

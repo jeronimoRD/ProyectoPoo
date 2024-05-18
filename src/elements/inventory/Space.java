@@ -28,8 +28,16 @@ public class Space extends Sprite{
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
         if(weapon != null){
-        
+            g.setColor(Color.GREEN);
+            g.fillRect(x, y, WIDTH, HEIGHT);
         }
     }
-    
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
 }
