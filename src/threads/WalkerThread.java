@@ -4,7 +4,7 @@
  */
 package threads;
 
-import enemies.Walker;
+import elements.enemies.Walker;
 import interfaces.Collidable;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
-import elements.Player;
+import elements.player.Player;
 import exceptions.ImpossibleStructureRoomsException;
 import interfaces.Collidable;
 import io.RoomReader;

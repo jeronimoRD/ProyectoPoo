@@ -5,7 +5,7 @@
 package threads;
 
 import elements.Bullet;
-import enemies.Shooter;
+import elements.enemies.Shooter;
 
 public class ShooterThread extends Thread{
     private volatile boolean paused;

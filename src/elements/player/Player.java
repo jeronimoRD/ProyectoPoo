@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements;
+package elements.player;
 
+import elements.Sprite;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
@@ -15,12 +16,24 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
+    
+    public static final int LIVES = 3;
     public static final int STEP = 10;
     
     private ArrayList<Collidable> collidables;
+    private Heart[] hearts;
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
+        hearts = new Heart[LIVES];
+        
+        int px = 30;
+        int py = 40;
+        for(int h = 0; h < LIVES; h++){
+            hearts[h] = new Heart(px, py);
+            hearts[h].setLive(true);
+            px += 60;
+        }
     }
 
     public void setCollidables(ArrayList<Collidable> collidable) {
@@ -143,5 +156,10 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
             }
         }
         return false;
+    }
+    
+    //GETTERS AND SETTERS
+    public Heart[] getHearts() {
+        return hearts;
     }
 }

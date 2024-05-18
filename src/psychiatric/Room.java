@@ -4,10 +4,13 @@
  */
 package psychiatric;
 
+import elements.enemies.Walker;
+import elements.enemies.Enemy;
+import elements.enemies.Shooter;
 import elements.Reward;
-import elements.Player;
+import elements.player.Player;
 import elements.Sprite;
-import enemies.*;
+import elements.player.Heart;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -55,17 +58,25 @@ public class Room extends Sprite{
 
     @Override
     public void draw(Graphics g) {
+        //FLOOR
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
         
+        //COLLIDABLES
+        for(Collidable collidable: collidables){
+            collidable.draw(g);
+        }
+        //ENEMIES
         for(Enemy enemy: enemies){
             enemy.draw(g);
         }
+        //REWARDS
         for(Reward reward: rewards){
             reward.draw(g);
         }
-        for(Collidable collidable: collidables){
-            collidable.draw(g);
+        //HEARTS
+        for(Heart heart: player.getHearts()){
+            heart.draw(g);
         }
         player.draw(g);
     }
