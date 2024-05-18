@@ -4,7 +4,6 @@
  */
 package elements;
 
-import elements.Sprite;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;

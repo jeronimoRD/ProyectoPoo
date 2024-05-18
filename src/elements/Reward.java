@@ -4,7 +4,6 @@
  */
 package elements;
 
-import elements.Sprite;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -74,26 +73,6 @@ public class Reward extends Sprite implements Collidable{
                 return false;
             }
         }
-        
-        /*
-        if(collidable.getY() == y + height | collidable.getY() + collidable.getHeight() == y){
-            if(x <= collidable.getX() & collidable.getX() <= x + width){
-                return true;
-            }
-            else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                return true;
-            }
-        }
-        if(collidable.getX() == x + width | collidable.getX() + collidable.getWidth() == x){
-            if(y <= collidable.getY() & collidable.getY() <= y + height){
-                return true;
-            }
-            else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                return true;
-            }
-        }
-        return false;
-        */
         return false;
     }    
 }
