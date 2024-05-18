@@ -100,6 +100,7 @@ public class Level {
                         }
                     }
                 }
+                //!!Test!!
                 room.addWalker(1);
                 room.addShooter(1);
             }

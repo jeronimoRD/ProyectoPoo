@@ -31,6 +31,7 @@ public class BulletThread extends Thread{
             int py = bullet.getY();
             int px = bullet.getX();
 
+            //UP
             if(direction == Bullet.UP){
                 py -= Bullet.STEP;
                 bullet.setY(py);
@@ -42,6 +43,7 @@ public class BulletThread extends Thread{
                         }
                     }
                 }
+            //DOWN
             }else if(direction == Bullet.DOWN){
                 py += Bullet.STEP;
                 bullet.setY(py);
@@ -53,6 +55,7 @@ public class BulletThread extends Thread{
                         }
                     }
                 }
+            //RIGHT
             }else if(direction == Bullet.RIGHT){
                 px += Bullet.STEP;
                 bullet.setX(px);
@@ -64,6 +67,7 @@ public class BulletThread extends Thread{
                         }
                     }
                 }
+            //LEFT
             }else if(direction == Bullet.LEFT){
                 px -= Bullet.STEP;
                 bullet.setX(px);
@@ -77,8 +81,13 @@ public class BulletThread extends Thread{
                 }
             }
             
+            //HURT PLAYER
+            if(bullet.checkCollision(bullet.getPlayer())){
+                bullet.getPlayer().takeDamage();
+            }
+            
             try {
-                Thread.sleep(50);
+                Thread.sleep(50); //SPEED OF BULLET
             } catch (InterruptedException ex) {
                 Logger.getLogger(WalkerThread.class.getName()).log(Level.SEVERE, null, ex);
             }

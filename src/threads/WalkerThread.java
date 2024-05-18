@@ -35,10 +35,11 @@ public class WalkerThread extends Thread{
             
             boolean still;
             
+            //RIGHT
             if(wx < px){
                 still = false;
                 for(Collidable collision: walker.getCollidables()){
-                    if(collision != walker & collision != walker.getPlayer()){ //FUTURE HURT
+                    if(collision != walker & collision != walker.getPlayer()){
                         if(walker.checkCollision(collision, walker.RIGHT)){
                             still = true;
                         }
@@ -55,6 +56,7 @@ public class WalkerThread extends Thread{
                         }
                     }
                 }
+            //LEFT
             }if(wx > px){
                 still = false;
                 for(Collidable collision: walker.getCollidables()){
@@ -76,6 +78,7 @@ public class WalkerThread extends Thread{
                     }
                 }
             }
+            //DOWN
             if(wy < py){
                 still = false;
                 for(Collidable collision: walker.getCollidables()){
@@ -96,6 +99,7 @@ public class WalkerThread extends Thread{
                         }
                     }
                 }
+             //UP
             }if(wy > py){
                 still = false;
                 for(Collidable collision: walker.getCollidables()){
@@ -116,6 +120,11 @@ public class WalkerThread extends Thread{
                         }
                     }
                 }
+            }
+            
+            //HURT PLAYER
+            if(walker.checkCollision(walker.getPlayer())){
+                walker.getPlayer().takeDamage();
             }
             
             try{

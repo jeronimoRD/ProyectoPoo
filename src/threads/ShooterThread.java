@@ -29,8 +29,13 @@ public class ShooterThread extends Thread{
             shooter.addBullet(bullet);
             bullet.move(direction);
             
+            //HURT PLAYER
+            if(shooter.checkCollision(shooter.getPlayer())){
+                shooter.getPlayer().takeDamage();
+            }
+            
             try {
-                Thread.sleep(300);
+                Thread.sleep(1000); //SPEED OF SPAWN BULLET
             } catch (InterruptedException ex) {
                 System.out.println("ERROR");
             }

@@ -84,6 +84,17 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
             }
         }
     }
+    
+    
+    @Override
+    public void takeDamage() {
+        for(int h = LIVES - 1; h >= 0; h--){
+            if(hearts[h].isLive()){
+                hearts[h].setLive(false);
+                break;
+            }
+        }
+    }
 
     @Override
     public boolean checkCollision(Collidable collidable) {

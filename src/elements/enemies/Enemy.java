@@ -27,6 +27,11 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     }
     
     @Override
+    public void takeDamage() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
     public boolean checkCollision(Collidable collidable) { // =?
         if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
             return true;
