@@ -4,6 +4,8 @@
  */
 package psychiatric;
 
+import elements.Reward;
+import elements.Player;
 import elements.Sprite;
 import enemies.*;
 import interfaces.Collidable;
@@ -68,20 +70,21 @@ public class Room extends Sprite{
         player.draw(g);
     }
 
+    //NEXTROOM
     public int checkEntry(){
         if(player.getY() < 0){
-            return 0;
+            return Collidable.UP;
         }
         if(player.getY() > Room.HEIGHT){
-            return 1;
+            return Collidable.DOWN;
         }
         if(player.getX() > Room.WIDTH){
-            return 2;
+            return Collidable.RIGHT;
         }
         if(player.getX() < 0){
-            return 3;
+            return Collidable.LEFT;
         }
-        return -1;
+        return -1; //NOTNEXTROOM
     }
     
     public int keyPressed(int code){
@@ -106,14 +109,37 @@ public class Room extends Sprite{
                 aggregate = true;
 
                 for(Collidable collidable: collidables){
-                    if(enemy.checkCollisionHitbox(collidable)){
+                    if(enemy.checkCollision(collidable)){
                         aggregate = false;
                         break;
                     }
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setCollidables(collidables);
+            enemy.setCollidables(collidables); //¿Se agrega a collidables?
+        }
+    }
+    
+    //---------------------ENEMIES---------------------
+    public void addShooter(int numberEnemies){
+        for(int i = 0; i < numberEnemies; i++){
+            boolean aggregate;
+            Enemy enemy = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                enemy = new Shooter(px, py); 
+                aggregate = true;
+
+                for(Collidable collidable: collidables){
+                    if(enemy.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            enemies.add(enemy);
+            enemy.setCollidables(collidables); //¿Se agrega a collidables?
         }
     }
     
@@ -128,15 +154,16 @@ public class Room extends Sprite{
                 aggregate = true;
 
                 for(Collidable collidable: collidables){
-                    if(reward.checkCollisionHitbox(collidable)){
+                    if(reward.checkCollision(collidable)){
                         aggregate = false;
                         break;
                     }
                 }
             }while(!aggregate);
-            rewards.add(reward);
+            rewards.add(reward); //¿Se agrega a collidables?
         }
     }
+    //---------------------------------------------------
     
     //GETTERS AND SETTERS
     public Player getPlayer() {

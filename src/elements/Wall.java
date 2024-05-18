@@ -2,22 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package enemies;
+package elements;
 
-import elements.Sprite;
 import interfaces.Collidable;
-import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
-public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABLE TOO
+public class Wall extends Sprite implements Collidable{
     
-    protected ArrayList<Collidable> collidables;
-    protected Damageable player;
+    public static final int WIDTH = 100;
+    public static final int HEIGHT = 100;
     
-    public Enemy(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height, color);
+    public Wall(int x, int y) {
+        super(x, y, WIDTH, HEIGHT, Color.BLACK);
     }
 
     @Override
@@ -25,24 +22,25 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
         g.setColor(color);
         g.fillRect(x, y, width, height);
     }
-    
+
     @Override
-    public boolean checkCollision(Collidable collidable) { // =?
-        if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+    public boolean checkCollision(Collidable collidable) {
+    if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
             return true;
         }
         return false;
     }
 
+    
     @Override
     public boolean checkCollision(Collidable collidable, int direction) {
         if(direction == UP){
@@ -97,22 +95,5 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
             }
         }
         return false;
-    }
-    
-    //GETTERS AND SETTERS
-    public void setDamageable(Damageable damageable){
-        this.player = damageable;
-    }
-
-    public Damageable getPlayer() {
-        return player;
-    }
-    
-    public ArrayList<Collidable> getCollidables() {
-        return collidables;
-    }
-    
-    public void setCollidables(ArrayList<Collidable> collidable) {
-        this.collidables = collidable;
     }
 }

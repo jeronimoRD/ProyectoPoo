@@ -5,5 +5,5 @@
 package interfaces;
 
 public interface Damageable extends Collidable{
-    //---
+    //---FUTURE IMPLEMENTATION---
 }

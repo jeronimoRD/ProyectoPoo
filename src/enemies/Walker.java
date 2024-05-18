@@ -4,24 +4,31 @@
  */
 package enemies;
 
+import threads.WalkerThread;
 import interfaces.Damageable;
+import java.awt.Color;
 
 public class Walker extends Enemy{
+    
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 20;
+    public static final int STEP = 5;
+    
     private WalkerThread walkerThread;
-    public static final int STEP = 10;
     
     public Walker(int x, int y) {
-        super(x, y);
-        walkerThread = new WalkerThread(this); //INTERFACE?
-    }
-    
-    public void move(){
-        walkerThread.start(); //NO RUN
+        super(x, y, WIDTH, HEIGHT, Color.RED);
+        walkerThread = new WalkerThread(this); //¿(this)debería tener una interfaz?
     }
     
     @Override
     public void setDamageable(Damageable damageable){
         this.player = damageable;
-        move();
+        
+        if(!walkerThread.isRunning()){
+            walkerThread.start();
+        }
+        walkerThread.setRunning(true);
+        
     }
 }

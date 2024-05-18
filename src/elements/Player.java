@@ -2,31 +2,80 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package collidables;
+package elements;
 
 import elements.Sprite;
 import interfaces.Collidable;
+import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
-public class Wall extends Sprite implements Collidable{
+public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
-    public static final int WIDTH = 100;
-    public static final int HEIGHT = 100;
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 20;
+    public static final int STEP = 10;
     
-    public Wall(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.BLACK);
+    private ArrayList<Collidable> collidables;
+    
+    public Player(int x, int y) {
+        super(x, y, WIDTH, HEIGHT, Color.CYAN);
     }
 
+    public void setCollidables(ArrayList<Collidable> collidable) {
+        this.collidables = collidable;
+    }
+    
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
-        g.fillRect(x, y, width, height);
+        g.fillRect(x, y, WIDTH, HEIGHT);
+    }
+    
+    public void move(int code){ // REDUNDANT?
+        if(code == KeyEvent.VK_UP){
+            y -= STEP;
+            for(Collidable collidable: collidables){
+                if(checkCollision(collidable)){
+                    y = collidable.getY()+collidable.getHeight();
+                    return;
+                }
+            }
+        }
+        if(code == KeyEvent.VK_DOWN){
+            y += STEP;
+            for(Collidable collidable: collidables){
+                if(checkCollision(collidable)){
+                    y = collidable.getY() - HEIGHT;
+                    return;
+                }
+            }
+        }
+        if(code == KeyEvent.VK_RIGHT){
+            x += STEP;
+            for(Collidable collidable: collidables){
+                if(checkCollision(collidable)){
+                    x = collidable.getX() - WIDTH;
+                    return;
+                }
+            }
+        }
+        if(code == KeyEvent.VK_LEFT){
+            x -= STEP;
+            for(Collidable collidable: collidables){
+                if(checkCollision(collidable)){
+                    x = collidable.getX()+collidable.getWidth();
+                    return;
+                }
+            }
+        }
     }
 
     @Override
-    public boolean checkCollisionHitbox(Collidable collidable) {
-    if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
+    public boolean checkCollision(Collidable collidable) {
+        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
@@ -41,9 +90,8 @@ public class Wall extends Sprite implements Collidable{
         return false;
     }
 
-    
     @Override
-    public boolean checkCollisionHitbox(Collidable collidable, int direction) {
+    public boolean checkCollision(Collidable collidable, int direction) {
         if(direction == UP){
             if(y == collidable.getY() + collidable.getHeight()){
                 if(x <= collidable.getX() & collidable.getX() <= x + width){

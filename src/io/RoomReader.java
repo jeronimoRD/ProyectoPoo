@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package io;
-import collidables.Wall;
+import elements.Wall;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,9 +17,9 @@ public class RoomReader {
     private File[] twoDoor;
     private File[] threeDoor;
     
-    private static final int DOOR = 'P';
-    private static final int WALL = 'X';
-    private static final int FLOOR = 'O';
+    private static final char DOOR = 'P';
+    private static final char WALL = 'X';
+    private static final char FLOOR = 'O';
 
     public RoomReader(String oneDoor, String twoDoors, String threeDoors){
         File newOneFiles = new File(oneDoor);
@@ -32,14 +32,14 @@ public class RoomReader {
         this.threeDoor = newThreeFiles.listFiles();
     }
     
-    public Room read(int doors) throws IOException{
+    public Room read(int numberDoors) throws IOException{
         Room room = new Room();
         FileReader reader = null;
-        if(doors == 1){
+        if(numberDoors == 1){
             reader = new FileReader(oneDoor[(int)(Math.random()*(oneDoor.length))]);
-        }else if(doors == 2){
+        }else if(numberDoors == 2){
             reader = new FileReader(twoDoor[(int)(Math.random()*(twoDoor.length))]);
-        }else if(doors == 3){
+        }else if(numberDoors == 3){
             reader = new FileReader(threeDoor[(int)(Math.random()*(threeDoor.length))]);
         }
         

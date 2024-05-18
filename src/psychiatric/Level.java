@@ -1,8 +1,11 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
+import elements.Player;
+import exceptions.ImpossibleStructureRoomsException;
+import interfaces.Collidable;
 import io.RoomReader;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -10,29 +13,24 @@ import java.io.IOException;
 
 public class Level {
     private Room[] rooms;
-    private Room actualRoom;
+    private Room actualRoom; 
     
-    public static final int ROOMS_TOTAL = 8;
-    public static final int ROOMS_REWARDS = 2; 
-    
-    public static final int HALLWAYS = ROOMS_TOTAL - ROOMS_REWARDS; // >= ROOMS_REWARDS + 2
-
-    private static final int UP = 0;
-    private static final int DOWN = 1;
-    private static final int RIGHT = 2;
-    private static final int LEFT = 3;
-    
-    public Level() throws IOException {
+    public Level(int totalRooms, int roomsRewards) throws IOException, ImpossibleStructureRoomsException {
+        int hallways = totalRooms - roomsRewards; // >= ROOMS_REWARDS + 2
+        
+        if(hallways - 2 <= 0){
+            throw new ImpossibleStructureRoomsException();
+        } 
         RoomReader roomReader = new RoomReader("filesRooms\\oneDoor", "filesRooms\\twoDoors", "filesRooms\\threeDoors");
         
         //CREATE ROOMS
-        rooms = new Room[ROOMS_TOTAL];
+        rooms = new Room[totalRooms];
         rooms[0] = roomReader.read(1); //INITIAL ROOM
         
         //CREATE RANDOM HALLWAY
-        for(int r = 0; r < HALLWAYS; r++){
+        for(int r = 0; r < hallways; r++){
             Room room;
-            if(r == HALLWAYS - 2){
+            if(r == hallways - 2){
                 while(true){
                     room = roomReader.read(1); //FINAL ROOM
                     
@@ -102,14 +100,15 @@ public class Level {
                         }
                     }
                 }
-                room.addWalker(2);
+                room.addWalker(1);
+                room.addShooter(1);
             }
         }
         
         //CREATE REWARDS ROOMS
-        for(int rr = 0; rr < ROOMS_REWARDS; rr++){
+        for(int rr = 0; rr < roomsRewards; rr++){
             int doors = 0;
-            int indexRoom = (int)(Math.random()*(HALLWAYS - 2))+1;
+            int indexRoom = (int)(Math.random()*(hallways - 2))+1;
             
             if(rooms[indexRoom].isDoorUp()){
                 doors ++;
@@ -162,28 +161,28 @@ public class Level {
                                 if(rewardRoom.isDoorDown()){
                                    room.setRoomUp(rewardRoom);
                                    rewardRoom.setRoomDown(room);
-                                   rooms[(HALLWAYS - 1)+ rr] = rewardRoom;
+                                   rooms[(hallways - 1)+ rr] = rewardRoom;
                                    break;
                                 }
                             }else if(room.getRoomDown() == null && room.isDoorDown()){
                                 if(rewardRoom.isDoorUp()){
                                    room.setRoomDown(rewardRoom);
                                    rewardRoom.setRoomUp(room);
-                                   rooms[(HALLWAYS - 1)+ rr] = rewardRoom;
+                                   rooms[(hallways - 1)+ rr] = rewardRoom;
                                    break;
                                 }
                             }else if(room.getRoomRight() == null && room.isDoorRight()){
                                 if(rewardRoom.isDoorLeft()){
                                    room.setRoomRight(rewardRoom);
                                    rewardRoom.setRoomLeft(room);
-                                   rooms[(HALLWAYS - 1)+ rr] = rewardRoom;
+                                   rooms[(hallways - 1)+ rr] = rewardRoom;
                                    break;
                                 }
                             }else if(room.getRoomLeft() == null && room.isDoorLeft()){
                                 if(rewardRoom.isDoorRight()){
                                    room.setRoomLeft(rewardRoom);
                                    rewardRoom.setRoomRight(room);
-                                   rooms[(HALLWAYS - 1)+ rr] = rewardRoom;
+                                   rooms[(hallways - 1)+ rr] = rewardRoom;
                                    break;
                                 }
                             }
@@ -191,7 +190,9 @@ public class Level {
                         break;
                     }
                 }
-                room.addWalker(2);
+                //!!Test!!
+                room.addWalker(1);
+                room.addShooter(1);
                 rewardRoom.addReward(1);
             }
         }
@@ -208,22 +209,22 @@ public class Level {
             int mov = actualRoom.keyPressed(code);
             Player player = actualRoom.getPlayer();
             
-            if(mov == UP & actualRoom.isDoorUp()){
+            if(mov == Collidable.UP & actualRoom.isDoorUp()){
                 player.setY(Room.HEIGHT);
                 actualRoom = actualRoom.getRoomUp();
                 actualRoom.setPlayer(player);
                 
-            }else if(mov == DOWN & actualRoom.isDoorDown()){
+            }else if(mov == Collidable.DOWN & actualRoom.isDoorDown()){
                 player.setY(0);
                 actualRoom = actualRoom.getRoomDown();
                 actualRoom.setPlayer(player);
                 
-            }else if(mov == RIGHT & actualRoom.isDoorRight()){
+            }else if(mov == Collidable.RIGHT & actualRoom.isDoorRight()){
                 player.setX(0);
                 actualRoom = actualRoom.getRoomRight();
                 actualRoom.setPlayer(player);
                 
-            }else if(mov == LEFT & actualRoom.isDoorLeft()){
+            }else if(mov == Collidable.LEFT & actualRoom.isDoorLeft()){
                 player.setX(Room.WIDTH);
                 actualRoom = actualRoom.getRoomLeft();
                 actualRoom.setPlayer(player);
@@ -232,6 +233,7 @@ public class Level {
         }
     }
     
+    //GETTERS AND SETTERS
     public void setPlayer(Player player) {
         actualRoom.setPlayer(player);
     }
