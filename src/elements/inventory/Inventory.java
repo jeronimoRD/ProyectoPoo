@@ -7,15 +7,18 @@ package elements.inventory;
 import elements.weapons.Stick;
 import elements.weapons.Weapon;
 import exceptions.FullInventoryException;
+import interfaces.Collidable;
 import java.awt.Graphics;
 
 public class Inventory {
     
+    private Collidable collidable;
     private Space[] spaces;
     private Space selectedWeapon;
     public static final int SPACES_WEAPONS = 2;
     
-    public Inventory() {
+    public Inventory(Collidable collidable) {
+        this.collidable = collidable;
         spaces = new Space[SPACES_WEAPONS];
         
         int px = 800;
@@ -26,7 +29,7 @@ public class Inventory {
         }
         
         //!!TEST!!
-        addWeapon(new Stick());
+        addWeapon(new Stick(collidable));
         selectedWeapon = spaces[0];
     }
     

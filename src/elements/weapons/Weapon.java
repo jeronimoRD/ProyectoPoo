@@ -11,27 +11,23 @@ import java.awt.Graphics;
 
 public abstract class Weapon extends Sprite implements Collidable{
 
+    protected Collidable collidable;
     protected HitBox hitbox;
     protected int damage;
     
-    public Weapon(int x, int y, int width, int height, Color color) {
+    public Weapon(int x, int y, int width, int height, Color color, Collidable collidable) {
         super(x, y, width, height, color);
+        this.collidable = collidable;
     }
 
     @Override
-    public void draw(Graphics g){
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
-        if(hitbox != null){
-            hitbox.setX(x);//!!Test!!
-            hitbox.setY(y);//!!Test!!
-            hitbox.draw(g);
-        }
-    }
+    public abstract void draw(Graphics g);
     
     public abstract void drawIcon(Graphics g);
     
-    public abstract void attack();
+    public abstract void attack(Collidable collidable);
+    
+    
 
     @Override
     public boolean checkCollision(Collidable collidable) { // =?
@@ -121,4 +117,6 @@ public abstract class Weapon extends Sprite implements Collidable{
     public void setDamage(int damage) {
         this.damage = damage;
     }
+    
+    
 }

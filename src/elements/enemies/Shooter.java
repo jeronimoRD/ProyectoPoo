@@ -52,6 +52,7 @@ public class Shooter extends Enemy{
     @Override
     public void die() {
         shooterThread.setRunning(false);
+        shooterThread = null;
     }
     
     //GETTERS AND SETTERS

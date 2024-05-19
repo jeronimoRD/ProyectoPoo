@@ -11,6 +11,9 @@ import java.awt.Graphics;
 
 public class HitBox extends Sprite implements Collidable{ //EXTEND SPRITE*
     
+    private Collidable collidable;
+    private int direction;
+    
     public HitBox(int x, int y, int width, int height) {
         super(x, y, width, height, Color.CYAN);
     }
@@ -115,4 +118,30 @@ public class HitBox extends Sprite implements Collidable{ //EXTEND SPRITE*
     public int getHeight() {
         return height;
     }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public Collidable getCollidable() {
+        return collidable;
+    }
+
+    public void setCollidable(Collidable collidable) {
+        this.collidable = collidable;
+    }
+    
+    
 }

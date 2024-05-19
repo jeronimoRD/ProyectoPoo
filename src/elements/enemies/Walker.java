@@ -26,6 +26,7 @@ public class Walker extends Enemy{
     @Override
     public void die(){
         walkerThread.setRunning(false);
+        walkerThread = null;
     }
     
     @Override

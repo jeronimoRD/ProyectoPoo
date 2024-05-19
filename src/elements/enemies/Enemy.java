@@ -37,7 +37,7 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
         lifeBar = actualLife;
     }
     
-    public abstract void die();
+    public abstract void die(); //DAMAGEABLE
     
     @Override
     public boolean checkCollision(Collidable collidable) { // =?

@@ -30,6 +30,8 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     private Inventory inventory;
     
+    private int direction;
+    
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
         hearts = new Heart[LIVES];
@@ -45,7 +47,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         heartCooldown.setTime(COOLDOWN_LIVE);
         heartCooldown.start();
         
-        inventory = new Inventory();
+        inventory = new Inventory(this);
     }
     
     @Override
@@ -62,6 +64,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     public void move(int code){ // REDUNDANT?
         if(code == KeyEvent.VK_UP){
+            direction = UP;
             y -= STEP;
             for(Collidable collidable: collidables){
                 if(checkCollision(collidable)){
@@ -71,6 +74,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
             }
         }
         if(code == KeyEvent.VK_DOWN){
+            direction = DOWN;
             y += STEP;
             for(Collidable collidable: collidables){
                 if(checkCollision(collidable)){
@@ -80,6 +84,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
             }
         }
         if(code == KeyEvent.VK_RIGHT){
+            direction = RIGHT;
             x += STEP;
             for(Collidable collidable: collidables){
                 if(checkCollision(collidable)){
@@ -89,6 +94,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
             }
         }
         if(code == KeyEvent.VK_LEFT){
+            direction = LEFT;
             x -= STEP;
             for(Collidable collidable: collidables){
                 if(checkCollision(collidable)){
@@ -101,7 +107,8 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     public void attack(){
         if(inventory.getSelectedWeapon() != null){
-            inventory.getSelectedWeapon().attack();
+            inventory.getSelectedWeapon().attack(this);
+            inventory.getSelectedWeapon().getHitbox().setDirection(direction);
         }
     }
     
@@ -211,6 +218,8 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public Weapon getActualWeapon(){
         return inventory.getSelectedWeapon();
     }
-    
-    
+
+    public int getDirection() {
+        return direction;
+    }
 }
