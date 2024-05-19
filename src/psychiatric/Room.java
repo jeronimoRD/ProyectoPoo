@@ -114,7 +114,9 @@ public class Room extends Sprite{
         }
         for(Enemy enemy: enemies){
             if(enemy.getLifeBar() == 0){
+                enemy.die();
                 enemies.remove(enemy);
+                collidables.remove(enemy);
                 break;
             }
         }

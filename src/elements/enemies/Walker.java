@@ -24,6 +24,11 @@ public class Walker extends Enemy{
     }
     
     @Override
+    public void die(){
+        walkerThread.setRunning(false);
+    }
+    
+    @Override
     public void setPlayer(Player damageable){
         this.player = damageable;
         

@@ -23,6 +23,13 @@ public class ShooterThread extends Thread{
     @Override
     public void run(){
         while(running){
+            //HURT ITSELF
+            if(shooter.getPlayer().getActualWeapon().getHitbox() != null){
+                if(shooter.checkCollision(shooter.getPlayer().getActualWeapon().getHitbox())){
+                    shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
+                }
+            }
+            
             Bullet bullet = new Bullet(shooter.getX(), shooter.getY());
             bullet.setCollidables(shooter.getCollidables());
             bullet.setPlayer(shooter.getPlayer());
@@ -32,14 +39,6 @@ public class ShooterThread extends Thread{
             //HURT PLAYER
             if(shooter.checkCollision(shooter.getPlayer())){
                 shooter.getPlayer().takeDamage(0);
-            }
-            
-            //HURT ITSELF
-            if(shooter.getPlayer().getActualWeapon().getHitbox() != null){
-                if(shooter.checkCollision(shooter.getPlayer().getActualWeapon().getHitbox())){
-                    System.out.println("si");
-                    shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
-                }
             }
             
             try {

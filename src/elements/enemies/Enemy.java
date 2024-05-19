@@ -37,6 +37,8 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
         lifeBar = actualLife;
     }
     
+    public abstract void die();
+    
     @Override
     public boolean checkCollision(Collidable collidable) { // =?
         if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){

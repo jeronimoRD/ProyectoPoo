@@ -49,6 +49,11 @@ public class Shooter extends Enemy{
         bullets.remove(bullet);
     }
     
+    @Override
+    public void die() {
+        shooterThread.setRunning(false);
+    }
+    
     //GETTERS AND SETTERS
     @Override
     public void setPlayer(Player damageable){

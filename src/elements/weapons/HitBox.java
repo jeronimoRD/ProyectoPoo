@@ -10,35 +10,24 @@ import java.awt.Color; // *
 import java.awt.Graphics;
 
 public class HitBox extends Sprite implements Collidable{ //EXTEND SPRITE*
-    /*
-    private int x;
-    private int y;
-    private int width;
-    private int height;
-*/
-
+    
     public HitBox(int x, int y, int width, int height) {
         super(x, y, width, height, Color.CYAN);
-        /*
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        */
     }
     
     @Override
     public boolean checkCollision(Collidable collidable) {
-        if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        //PUNTO ARRIBA-IZQUIERDO
+        if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+        //PUNTO ABAJO-DERECHA
+        }else if((collidable.getY() <= y + height & y + height <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x + width & x + width <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+         //PUNTO ARRIBA-DERECHA
+        }else if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x + width & x + width <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        //PUNTO ABAJO-IZQUIERDA    
+        }else if((collidable.getY() <= y + height & y + height <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;
         }
         return false;
