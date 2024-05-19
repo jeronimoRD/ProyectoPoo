@@ -4,8 +4,6 @@
  */
 package interfaces;
 
-import java.awt.Graphics;
-
 public interface Collidable {
     
     public static final int UP = 0;
@@ -21,5 +19,4 @@ public interface Collidable {
     public int getY();
     public int getWidth();
     public int getHeight();
-    public void draw(Graphics g); //¿Todo collidable hay que dibujarlo? 
 }

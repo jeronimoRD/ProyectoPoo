@@ -55,7 +55,7 @@ public class RoomReader {
 
         while ((instruction = reader.read()) != -1) {
             if((char)instruction == WALL){
-                room.addCollidable(new Wall(quadrantX, quadrantY));
+                room.addBoundable(new Wall(quadrantX, quadrantY));
 
                 column += 1;
                 quadrantX += Wall.WIDTH;

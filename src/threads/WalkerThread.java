@@ -45,7 +45,7 @@ public class WalkerThread extends Thread{
             //RIGHT
             if(wx < px){
                 still = false;
-                for(Collidable collision: walker.getCollidables()){
+                for(Collidable collision: walker.getBoundables()){
                     if(collision != walker & collision != walker.getPlayer()){
                         if(walker.checkCollision(collision, walker.RIGHT)){
                             still = true;
@@ -54,7 +54,7 @@ public class WalkerThread extends Thread{
                 }
                 if(!still){
                     walker.setX(wx + walker.STEP);
-                    for(Collidable collision: walker.getCollidables()){
+                    for(Collidable collision: walker.getBoundables()){
                         if(walker.checkCollision(collision)){
                             if(collision != walker & collision != walker.getPlayer()){ //FUTURE HURT
                                 walker.setX(collision.getX() - walker.getWidth());
@@ -66,7 +66,7 @@ public class WalkerThread extends Thread{
             //LEFT
             }if(wx > px){
                 still = false;
-                for(Collidable collision: walker.getCollidables()){
+                for(Collidable collision: walker.getBoundables()){
                     if(collision != walker & collision != walker.getPlayer()){ //FUTURE HURT
                         if(walker.checkCollision(collision, walker.LEFT)){
                             still = true;
@@ -75,7 +75,7 @@ public class WalkerThread extends Thread{
                 }
                 if(!still){
                     walker.setX(wx - walker.STEP);
-                    for(Collidable collision: walker.getCollidables()){
+                    for(Collidable collision: walker.getBoundables()){
                         if(walker.checkCollision(collision)){
                             if(collision != walker & collision != walker.getPlayer()){ //FUTURE HURT
                                 walker.setX(collision.getX()+collision.getWidth());
@@ -88,7 +88,7 @@ public class WalkerThread extends Thread{
             //DOWN
             if(wy < py){
                 still = false;
-                for(Collidable collision: walker.getCollidables()){
+                for(Collidable collision: walker.getBoundables()){
                     if(collision != walker & collision != walker.getPlayer()){ //FUTURE HURT
                         if(walker.checkCollision(collision, walker.DOWN)){
                             still = true;
@@ -97,7 +97,7 @@ public class WalkerThread extends Thread{
                 }
                 if(!still){
                 walker.setY(wy + walker.STEP);
-                    for(Collidable collision: walker.getCollidables()){
+                    for(Collidable collision: walker.getBoundables()){
                         if(walker.checkCollision(collision)){
                             if(collision != walker & collision != walker.getPlayer()){ //FUTURE HURT
                                 walker.setY(collision.getY() - walker.getHeight());
@@ -109,7 +109,7 @@ public class WalkerThread extends Thread{
              //UP
             }if(wy > py){
                 still = false;
-                for(Collidable collision: walker.getCollidables()){
+                for(Collidable collision: walker.getBoundables()){
                     if(collision != walker & collision != walker.getPlayer()){ //FUTURE HURT
                         if(walker.checkCollision(collision, walker.UP)){
                             still = true;
@@ -118,7 +118,7 @@ public class WalkerThread extends Thread{
                 }
                 if(!still){
                 walker.setY(wy - walker.STEP);
-                    for(Collidable collision: walker.getCollidables()){
+                    for(Collidable collision: walker.getBoundables()){
                         if(walker.checkCollision(collision)){
                             if(collision != walker & collision != walker.getPlayer()){ //FUTURE HURT
                                 walker.setY(collision.getY()+collision.getHeight());

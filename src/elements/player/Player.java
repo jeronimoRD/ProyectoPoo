@@ -7,6 +7,7 @@ package elements.player;
 import elements.Sprite;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
+import interfaces.Boundable;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
@@ -15,29 +16,34 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import threads.CooldownThread;
 
-public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
+public class Player extends Sprite implements Damageable{
     
+    //CHARACTERISTICS
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     
+    //LIVE
     public static final int LIVES = 3;
-    public static final int STEP = 10;
     public static final int COOLDOWN_LIVE = 2000;
-    
-    private ArrayList<Collidable> collidables;
     private CooldownThread heartCooldown;
     private Heart[] hearts;
     
+    //MOVE
+    public static final int STEP = 10; 
+    private int direction; //¿Aburrido?
+    
+    //ITERACTABLE
     private Inventory inventory;
     
-    private int direction;
+    //BOUNDABLE
+    private ArrayList<Boundable> boundables;
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
         hearts = new Heart[LIVES];
         heartCooldown = new CooldownThread();
         
-        int px = 30;
+        int px = 30; //dimensions of hearts
         int py = 40;
         for(int h = 0; h < LIVES; h++){
             hearts[h] = new Heart(px, py);
@@ -55,50 +61,50 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
         
-        if(inventory.getSelectedWeapon() != null){
+        if(inventory.getSelectedWeapon() != null){ //DRAW OBJETC ON HAND
             inventory.getSelectedWeapon().setX(x + WIDTH + 10);//!!Test!!
             inventory.getSelectedWeapon().setY(y - 10);//!!Test!!
             inventory.getSelectedWeapon().draw(g);
         }
     }
     
-    public void move(int code){ // REDUNDANT?
+    public void move(int code){
         if(code == KeyEvent.VK_UP){
-            direction = UP;
+            direction = UP; //¿Aburrido?
             y -= STEP;
-            for(Collidable collidable: collidables){
-                if(checkCollision(collidable)){
-                    y = collidable.getY()+collidable.getHeight();
+            for(Boundable boundable: boundables){ //CRASH
+                if(checkCollision(boundable)){
+                    y = boundable.getY()+boundable.getHeight();
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_DOWN){
-            direction = DOWN;
+            direction = DOWN; //¿Aburrido?
             y += STEP;
-            for(Collidable collidable: collidables){
-                if(checkCollision(collidable)){
-                    y = collidable.getY() - HEIGHT;
+            for(Boundable boundable: boundables){ //CRASH
+                if(checkCollision(boundable)){
+                    y = boundable.getY() - HEIGHT;
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_RIGHT){
-            direction = RIGHT;
+            direction = RIGHT; //¿Aburrido?
             x += STEP;
-            for(Collidable collidable: collidables){
-                if(checkCollision(collidable)){
-                    x = collidable.getX() - WIDTH;
+            for(Boundable boundable: boundables){ //CRASH
+                if(checkCollision(boundable)){
+                    x = boundable.getX() - WIDTH;
                     return;
                 }
             }
         }
         if(code == KeyEvent.VK_LEFT){
-            direction = LEFT;
+            direction = LEFT; //¿Aburrido?
             x -= STEP;
-            for(Collidable collidable: collidables){
-                if(checkCollision(collidable)){
-                    x = collidable.getX()+collidable.getWidth();
+            for(Boundable boundable: boundables){ //CRASH
+                if(checkCollision(boundable)){
+                    x = boundable.getX()+boundable.getWidth();
                     return;
                 }
             }
@@ -113,7 +119,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     }
     
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage) { //private
         if(!heartCooldown.isRecover()){
             for(int h = LIVES - 1; h >= 0; h--){
                 if(hearts[h].isLive()){
@@ -123,6 +129,11 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
                 }
             }
         }
+    }
+    
+    @Override
+    public void die() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -203,12 +214,12 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         return hearts;
     }
 
-    public ArrayList<Collidable> getCollidables() {
-        return collidables;
+    public ArrayList<Boundable> getBoundables() {
+        return boundables;
     }
     
-    public void setCollidables(ArrayList<Collidable> collidable) {
-        this.collidables = collidable;
+    public void setBoundables(ArrayList<Boundable> boundables) {
+        this.boundables = boundables;
     }
 
     public Inventory getInventory() {

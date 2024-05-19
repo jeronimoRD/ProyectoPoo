@@ -4,6 +4,7 @@
  */
 package elements;
 
+import interfaces.Boundable;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
@@ -18,14 +19,14 @@ public class Bullet extends Sprite implements Collidable{
     public static final int STEP = 5;
     
     private BulletThread bulletThread;
-    private ArrayList<Collidable> collidables;
+    private ArrayList<Boundable> boundables;
     private ArrayList<Bullet> bullets;
     private Damageable player;
     private boolean explode;
     
     public Bullet(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.ORANGE);
-        collidables = new ArrayList<>();
+        boundables = new ArrayList<>();
         bulletThread = new BulletThread(this);
         explode = false;
     }
@@ -124,12 +125,12 @@ public class Bullet extends Sprite implements Collidable{
         this.player = player;
     }
 
-    public void setCollidables(ArrayList<Collidable> collidables) {
-        this.collidables = collidables;
+    public ArrayList<Boundable> getBoundables() {
+        return boundables;
     }
     
-    public ArrayList<Collidable> getCollidables() {
-        return collidables;
+    public void setBoundables(ArrayList<Boundable> boundables) {
+        this.boundables = boundables;
     }
 
     public Damageable getPlayer() {

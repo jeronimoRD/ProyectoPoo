@@ -4,11 +4,12 @@
  */
 package elements; 
 
+import interfaces.Boundable;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Door extends Sprite implements Collidable{
+public class Door extends Sprite implements Boundable{
     
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;

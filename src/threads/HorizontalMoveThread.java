@@ -33,7 +33,7 @@ public class HorizontalMoveThread extends Thread{
             System.out.print(""); //¿QUE?
             if(right){
                 player.setX(player.getX() + player.STEP);
-                for(Collidable collidable: player.getCollidables()){
+                for(Collidable collidable: player.getBoundables()){
                     if(player.checkCollision(collidable)){
                         player.setX(collidable.getX()+collidable.getWidth());
                         return;
@@ -43,7 +43,7 @@ public class HorizontalMoveThread extends Thread{
             }
             else if(left){
                 player.setX(player.getX() - player.STEP);
-                for(Collidable collidable: player.getCollidables()){
+                for(Collidable collidable: player.getBoundables()){
                     if(player.checkCollision(collidable)){
                         player.setX(collidable.getX()+collidable.getWidth());
                         return;

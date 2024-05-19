@@ -27,8 +27,6 @@ public abstract class Weapon extends Sprite implements Collidable{
     
     public abstract void attack(Collidable collidable);
     
-    
-
     @Override
     public boolean checkCollision(Collidable collidable) { // =?
         if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){

@@ -11,6 +11,7 @@ import elements.Reward;
 import elements.player.Player;
 import elements.Sprite;
 import elements.player.Heart;
+import interfaces.Boundable;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -23,8 +24,6 @@ public class Room extends Sprite{
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
     
-    private Player player;
-    
     private Room roomUp;
     private Room roomDown;
     private Room roomRight;
@@ -35,14 +34,15 @@ public class Room extends Sprite{
     private boolean doorRight;
     private boolean doorLeft;
     
+    private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Reward> rewards;
-    private ArrayList<Collidable> collidables;
+    private ArrayList<Boundable> boundables;
     
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         
-        collidables = new ArrayList<>();
+        boundables = new ArrayList<>();
         rewards = new ArrayList<>();
         enemies = new ArrayList<>();
         
@@ -63,9 +63,9 @@ public class Room extends Sprite{
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
         
-        //COLLIDABLES
-        for(Collidable collidable: collidables){
-            collidable.draw(g); //!!CUIDADO!!
+        //BOUNDABLES
+        for(Boundable boundable: boundables){
+            boundable.draw(g);
         }
         //ENEMIES
         for(Enemy enemy: enemies){
@@ -87,16 +87,16 @@ public class Room extends Sprite{
     //NEXTROOM
     public int checkEntry(){
         if(player.getY() < 0){
-            return Collidable.UP;
+            return Boundable.UP;
         }
         if(player.getY() > Room.HEIGHT){
-            return Collidable.DOWN;
+            return Boundable.DOWN;
         }
         if(player.getX() > Room.WIDTH){
-            return Collidable.RIGHT;
+            return Boundable.RIGHT;
         }
         if(player.getX() < 0){
-            return Collidable.LEFT;
+            return Boundable.LEFT;
         }
         return -1; //NOTNEXTROOM
     }
@@ -116,14 +116,13 @@ public class Room extends Sprite{
             if(enemy.getLifeBar() == 0){
                 enemy.die();
                 enemies.remove(enemy);
-                collidables.remove(enemy);
                 break;
             }
         }
     }
     
-    public void addCollidable(Collidable collidable) {
-        collidables.add(collidable);
+    public void addBoundable(Boundable boundable) {
+        boundables.add(boundable);
     }
 
     public void addWalker(int numberEnemies){
@@ -136,7 +135,7 @@ public class Room extends Sprite{
                 enemy = new Walker(px, py); 
                 aggregate = true;
 
-                for(Collidable collidable: collidables){
+                for(Collidable collidable: boundables){
                     if(enemy.checkCollision(collidable)){
                         aggregate = false;
                         break;
@@ -144,7 +143,7 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setCollidables(collidables); //¿Se agrega a collidables?
+            enemy.setBoundables(boundables); //¿Se agrega a collidables?
         }
     }
     
@@ -159,7 +158,7 @@ public class Room extends Sprite{
                 enemy = new Shooter(px, py); 
                 aggregate = true;
 
-                for(Collidable collidable: collidables){
+                for(Collidable collidable: boundables){
                     if(enemy.checkCollision(collidable)){
                         aggregate = false;
                         break;
@@ -167,7 +166,7 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setCollidables(collidables); //¿Se agrega a collidables?
+            enemy.setBoundables(boundables); //¿Se agrega a collidables?
         }
     }
     
@@ -181,7 +180,7 @@ public class Room extends Sprite{
                 reward = new Reward(px, py);
                 aggregate = true;
 
-                for(Collidable collidable: collidables){
+                for(Collidable collidable: boundables){
                     if(reward.checkCollision(collidable)){
                         aggregate = false;
                         break;
@@ -200,7 +199,7 @@ public class Room extends Sprite{
 
     public void setPlayer(Player player) {
         this.player = player;
-        player.setCollidables(collidables);
+        player.setBoundables(boundables);
         for(Enemy enemy: enemies){
             enemy.setPlayer(player);
         }

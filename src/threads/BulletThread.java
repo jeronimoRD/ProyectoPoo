@@ -35,7 +35,7 @@ public class BulletThread extends Thread{
             if(direction == Bullet.UP){
                 py -= Bullet.STEP;
                 bullet.setY(py);
-                for(Collidable collision: bullet.getCollidables()){
+                for(Collidable collision: bullet.getBoundables()){
                     if(bullet.checkCollision(collision)){
                         if(collision != bullet & collision != bullet.getPlayer()){
                             running = false;
@@ -47,7 +47,7 @@ public class BulletThread extends Thread{
             }else if(direction == Bullet.DOWN){
                 py += Bullet.STEP;
                 bullet.setY(py);
-                for(Collidable collision: bullet.getCollidables()){
+                for(Collidable collision: bullet.getBoundables()){
                     if(bullet.checkCollision(collision)){
                         if(collision != bullet & collision != bullet.getPlayer()){
                             running = false;
@@ -59,7 +59,7 @@ public class BulletThread extends Thread{
             }else if(direction == Bullet.RIGHT){
                 px += Bullet.STEP;
                 bullet.setX(px);
-                for(Collidable collision: bullet.getCollidables()){
+                for(Collidable collision: bullet.getBoundables()){
                     if(bullet.checkCollision(collision)){
                         if(collision != bullet & collision != bullet.getPlayer()){
                             running = false;
@@ -71,7 +71,7 @@ public class BulletThread extends Thread{
             }else if(direction == Bullet.LEFT){
                 px -= Bullet.STEP;
                 bullet.setX(px);
-                for(Collidable collision: bullet.getCollidables()){
+                for(Collidable collision: bullet.getBoundables()){
                     if(bullet.checkCollision(collision)){
                         if(collision != bullet & collision != bullet.getPlayer()){
                             running = false;

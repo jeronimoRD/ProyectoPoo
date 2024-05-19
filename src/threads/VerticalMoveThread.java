@@ -31,7 +31,7 @@ public class VerticalMoveThread extends Thread{
             if(up){
                 System.out.println("arriba");
                 player.setY(player.getY() - player.STEP);
-                for(Collidable collidable: player.getCollidables()){
+                for(Collidable collidable: player.getBoundables()){
                     if(player.checkCollision(collidable)){
                         System.out.println("si");
                         player.setY(collidable.getY()+collidable.getHeight());
@@ -43,7 +43,7 @@ public class VerticalMoveThread extends Thread{
             else if(down){
                 System.out.println("abajo");
                 player.setY(player.getY() + player.STEP);
-                for(Collidable collidable: player.getCollidables()){
+                for(Collidable collidable: player.getBoundables()){
                     if(player.checkCollision(collidable)){
                         player.setY(collidable.getY()+player.getHeight());
                         return;

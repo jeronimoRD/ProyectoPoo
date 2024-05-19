@@ -31,7 +31,7 @@ public class ShooterThread extends Thread{
             }
             
             Bullet bullet = new Bullet(shooter.getX(), shooter.getY());
-            bullet.setCollidables(shooter.getCollidables());
+            bullet.setBoundables(shooter.getBoundables());
             bullet.setPlayer(shooter.getPlayer());
             shooter.addBullet(bullet);
             bullet.move(direction);

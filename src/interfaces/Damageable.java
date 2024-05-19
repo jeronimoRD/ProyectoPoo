@@ -6,4 +6,5 @@ package interfaces;
 
 public interface Damageable extends Collidable{
     public void takeDamage(int damage);
+    public void die();
 }
