@@ -4,6 +4,7 @@
  */
 package gui;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import psychiatric.Psychiatric;
 import java.awt.event.KeyEvent;
@@ -11,25 +12,34 @@ import java.awt.event.KeyEvent;
 public class PsychiatricWindow extends javax.swing.JFrame {
 
     private Psychiatric psychiatric;
+    private PsychiatricPanel psychiatricPanel;
+
     
     public void setPsychiatric(Psychiatric psychiatric){
         this.psychiatric = psychiatric;
+        psychiatricPanel.setPsychiatric(psychiatric);
+
     }
     
     @Override
     public void paint(Graphics g){
-        super.paint(g);
-        Image image = createImage(this.getWidth(), getHeight());
-        psychiatric.draw(image.getGraphics());
-        
-        g.drawImage(image, 0, 0, null);
+    super.paint(g);
+        if (psychiatric != null) {
+        Graphics2D g2d = (Graphics2D) g;
+        psychiatric.draw(g2d);
     }
+}
     
     public PsychiatricWindow() {
+        psychiatricPanel = new PsychiatricPanel();
+        add(psychiatricPanel);
         initComponents();
+        
     }
-
+    
+    
     @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

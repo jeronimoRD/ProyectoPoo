@@ -115,4 +115,6 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     public void setCollidables(ArrayList<Collidable> collidable) {
         this.collidables = collidable;
     }
+    
+    
 }

@@ -15,7 +15,8 @@ public class Psychiatric {
     public static final int LEVELS = 3;
     public static final int ROOMS_PER_LEVEL= 4;
     public static final int REWARDS_PER_LEVEL = 1;
-    
+    private boolean gameRunning; // Indica si el juego está en ejecución
+
     public Psychiatric() {
         Player player = new Player(Room.WIDTH/2, Room.HEIGHT/2);
         levels = new Level[LEVELS];
@@ -56,4 +57,24 @@ public class Psychiatric {
     public void draw(Graphics g) {
         actualLevel.draw(g);
     }
+    /*
+     private void startGameLoop() {
+        // Crear un hilo para el bucle de juego
+        Thread gameThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (gameRunning) {
+                    updateGame(); // Actualizar el juego
+                    try {
+                        Thread.sleep(50); // Esperar 50 milisegundos (20 veces por segundo)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        gameThread.start(); // Iniciar el hilo
+    }
+*/
+     
 }

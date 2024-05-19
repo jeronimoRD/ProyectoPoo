@@ -105,6 +105,8 @@ public class Level {
             }
         }
         
+        
+        
         //CREATE REWARDS ROOMS
         for(int rr = 0; rr < roomsRewards; rr++){
             int doors = 0;
@@ -199,6 +201,8 @@ public class Level {
         
         actualRoom = rooms[0];
     }
+    
+
     
     public void draw(Graphics g) {
         actualRoom.draw(g);
