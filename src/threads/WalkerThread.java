@@ -127,6 +127,13 @@ public class WalkerThread extends Thread{
                 walker.getPlayer().takeDamage(0);
             }
             
+            //HURT ITSELF
+            if(walker.getPlayer().getActualWeapon().getHitbox() != null){
+                if(walker.checkCollision(walker.getPlayer().getActualWeapon().getHitbox())){
+                    walker.takeDamage(walker.getPlayer().getActualWeapon().getDamage());
+                }
+            }
+            
             try{
                 Thread.sleep(60);
             } catch (InterruptedException ex) {

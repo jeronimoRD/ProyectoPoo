@@ -4,8 +4,8 @@
  */
 package elements.enemies;
 
+import elements.player.Player;
 import threads.WalkerThread;
-import interfaces.Damageable;
 import java.awt.Color;
 
 public class Walker extends Enemy{
@@ -24,7 +24,7 @@ public class Walker extends Enemy{
     }
     
     @Override
-    public void setDamageable(Damageable damageable){
+    public void setPlayer(Player damageable){
         this.player = damageable;
         
         if(!walkerThread.isRunning()){

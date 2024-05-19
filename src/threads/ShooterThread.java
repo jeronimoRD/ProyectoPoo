@@ -34,6 +34,14 @@ public class ShooterThread extends Thread{
                 shooter.getPlayer().takeDamage(0);
             }
             
+            //HURT ITSELF
+            if(shooter.getPlayer().getActualWeapon().getHitbox() != null){
+                if(shooter.checkCollision(shooter.getPlayer().getActualWeapon().getHitbox())){
+                    System.out.println("si");
+                    shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
+                }
+            }
+            
             try {
                 Thread.sleep(1000); //SPEED OF SPAWN BULLET
             } catch (InterruptedException ex) {

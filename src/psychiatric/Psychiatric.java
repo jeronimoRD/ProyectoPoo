@@ -7,6 +7,7 @@ import elements.player.Player;
 import exceptions.*;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class Psychiatric {
@@ -41,6 +42,12 @@ public class Psychiatric {
     public void keyPressed(int code){
         if(code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT){
             actualLevel.keyPressed(code);
+        }
+    }
+    
+    public void mousePressed(int code){
+        if(code == MouseEvent.BUTTON1){
+            actualLevel.mousePressed(code);
         }
     }
     

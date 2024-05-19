@@ -6,35 +6,29 @@ package elements.weapons;
 
 import elements.Sprite;
 import interfaces.Collidable;
-import java.awt.Color;
+import java.awt.Color; // *
 import java.awt.Graphics;
 
-public abstract class Weapon extends Sprite implements Collidable{
+public class HitBox extends Sprite implements Collidable{ //EXTEND SPRITE*
+    /*
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+*/
 
-    protected HitBox hitbox;
-    protected int damage;
-    
-    public Weapon(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height, color);
-    }
-
-    @Override
-    public void draw(Graphics g){
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
-        if(hitbox != null){
-            hitbox.setX(x);//!!Test!!
-            hitbox.setY(y);//!!Test!!
-            hitbox.draw(g);
-        }
+    public HitBox(int x, int y, int width, int height) {
+        super(x, y, width, height, Color.CYAN);
+        /*
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        */
     }
     
-    public abstract void drawIcon(Graphics g);
-    
-    public abstract void attack();
-
     @Override
-    public boolean checkCollision(Collidable collidable) { // =?
+    public boolean checkCollision(Collidable collidable) {
         if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
             return true;
         }
@@ -106,19 +100,30 @@ public abstract class Weapon extends Sprite implements Collidable{
         return false;
     }
 
-    public HitBox getHitbox() {
-        return hitbox;
+    @Override
+    public void draw(Graphics g) {
+        g.setColor(color);
+        g.fillRect(x, y, width, height);
     }
     
-    public void setHitbox(HitBox hitbox) {
-        this.hitbox = hitbox;
+    //GETTERS AND SETTERS
+    @Override
+    public int getX() {
+        return x;
     }
 
-    public int getDamage() {
-        return damage;
+    @Override
+    public int getY() {
+        return y;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
     }
 }

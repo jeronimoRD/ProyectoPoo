@@ -8,12 +8,13 @@ package threads;
  *
  * @author korez
  */
-public class HeartCooldown extends Thread{
-    private volatile boolean paused;
-    private boolean running;
-    private boolean recover;
+public class CooldownThread extends Thread{
+    protected volatile boolean paused;
+    protected boolean running;
+    protected boolean recover;
+    protected int time;
     
-    public HeartCooldown(){
+    public CooldownThread(){
         this.recover = false;
         this.running = true;
         this.paused = false;
@@ -24,7 +25,7 @@ public class HeartCooldown extends Thread{
         while(running){
             if(recover){
                 try{
-                    Thread.sleep(2000); //SPEED OF COOLDOWN
+                    Thread.sleep(time); //SPEED OF COOLDOWN
                     recover = false;
                 } catch (InterruptedException ex) {
                     System.out.println("ERROR");
@@ -57,5 +58,9 @@ public class HeartCooldown extends Thread{
 
     public void setRecover(boolean recover) {
         this.recover = recover;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }

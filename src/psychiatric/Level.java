@@ -9,6 +9,7 @@ import interfaces.Collidable;
 import io.RoomReader;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class Level {
@@ -231,6 +232,12 @@ public class Level {
                 actualRoom.setPlayer(player);
                 
             }
+        }
+    }
+    
+    public void mousePressed(int code){
+        if(code == MouseEvent.BUTTON1){
+            actualRoom.mousePressed(code);
         }
     }
     

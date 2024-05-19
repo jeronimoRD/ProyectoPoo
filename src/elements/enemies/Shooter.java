@@ -5,6 +5,7 @@
 package elements.enemies;
 
 import elements.Bullet;
+import elements.player.Player;
 import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -50,7 +51,7 @@ public class Shooter extends Enemy{
     
     //GETTERS AND SETTERS
     @Override
-    public void setDamageable(Damageable damageable){
+    public void setPlayer(Player damageable){
         this.player = damageable;
         shot(DOWN); //!!Test!! ¿Por qué solo permite uno?
     }

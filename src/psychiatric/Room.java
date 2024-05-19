@@ -15,6 +15,7 @@ import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class Room extends Sprite{
@@ -64,7 +65,7 @@ public class Room extends Sprite{
         
         //COLLIDABLES
         for(Collidable collidable: collidables){
-            collidable.draw(g);
+            collidable.draw(g); //!!CUIDADO!!
         }
         //ENEMIES
         for(Enemy enemy: enemies){
@@ -105,6 +106,18 @@ public class Room extends Sprite{
             player.move(code);
         }
         return checkEntry();
+    }
+    
+    public void mousePressed(int code){
+        if(code == MouseEvent.BUTTON1){
+            player.attack();
+        }
+        for(Enemy enemy: enemies){
+            if(enemy.getLifeBar() == 0){
+                enemies.remove(enemy);
+                break;
+            }
+        }
     }
     
     public void addCollidable(Collidable collidable) {
@@ -187,7 +200,7 @@ public class Room extends Sprite{
         this.player = player;
         player.setCollidables(collidables);
         for(Enemy enemy: enemies){
-            enemy.setDamageable(player);
+            enemy.setPlayer(player);
         }
     }
     

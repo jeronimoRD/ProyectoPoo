@@ -6,13 +6,14 @@ package elements.player;
 
 import elements.Sprite;
 import elements.inventory.Inventory;
+import elements.weapons.Weapon;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import threads.HeartCooldown;
+import threads.CooldownThread;
 
 public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
@@ -21,9 +22,10 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     public static final int LIVES = 3;
     public static final int STEP = 10;
+    public static final int COOLDOWN_LIVE = 2000;
     
     private ArrayList<Collidable> collidables;
-    private HeartCooldown heartColldown;
+    private CooldownThread heartCooldown;
     private Heart[] hearts;
     
     private Inventory inventory;
@@ -31,7 +33,7 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
         hearts = new Heart[LIVES];
-        heartColldown = new HeartCooldown();
+        heartCooldown = new CooldownThread();
         
         int px = 30;
         int py = 40;
@@ -40,7 +42,8 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
             hearts[h].setLive(true);
             px += 60;
         }
-        heartColldown.start();
+        heartCooldown.setTime(COOLDOWN_LIVE);
+        heartCooldown.start();
         
         inventory = new Inventory();
     }
@@ -50,9 +53,11 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
         
-        inventory.getSelectedWeapon().setX(x + WIDTH + 10);//!!Test!!
-        inventory.getSelectedWeapon().setY(y - 10);//!!Test!!
-        inventory.getSelectedWeapon().draw(g);
+        if(inventory.getSelectedWeapon() != null){
+            inventory.getSelectedWeapon().setX(x + WIDTH + 10);//!!Test!!
+            inventory.getSelectedWeapon().setY(y - 10);//!!Test!!
+            inventory.getSelectedWeapon().draw(g);
+        }
     }
     
     public void move(int code){ // REDUNDANT?
@@ -94,14 +99,19 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
         }
     }
     
+    public void attack(){
+        if(inventory.getSelectedWeapon() != null){
+            inventory.getSelectedWeapon().attack();
+        }
+    }
     
     @Override
     public void takeDamage(int damage) {
-        if(!heartColldown.isRecover()){
+        if(!heartCooldown.isRecover()){
             for(int h = LIVES - 1; h >= 0; h--){
                 if(hearts[h].isLive()){
                     hearts[h].setLive(false);
-                    heartColldown.setRecover(true);
+                    heartCooldown.setRecover(true);
                     break;
                 }
             }
@@ -197,4 +207,10 @@ public class Player extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     public Inventory getInventory() {
         return inventory;
     }
+    
+    public Weapon getActualWeapon(){
+        return inventory.getSelectedWeapon();
+    }
+    
+    
 }

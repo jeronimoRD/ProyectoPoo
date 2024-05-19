@@ -5,6 +5,7 @@
 package elements.enemies;
 
 import elements.Sprite;
+import elements.player.Player;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABLE TOO
     
     protected ArrayList<Collidable> collidables;
-    protected Damageable player;
+    protected Player player;
     protected int lifeBar;
     
     public Enemy(int x, int y, int width, int height, Color color) {
@@ -110,11 +111,11 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     }
     
     //GETTERS AND SETTERS
-    public void setDamageable(Damageable damageable){
+    public void setPlayer(Player damageable){
         this.player = damageable;
     }
 
-    public Damageable getPlayer() {
+    public Player getPlayer() {
         return player;
     }
     
