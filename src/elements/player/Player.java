@@ -4,7 +4,9 @@
  */
 package elements.player;
 
+import threads.TouchCollisionThread;
 import elements.Sprite;
+import elements.enemies.Creature;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
 import interfaces.Boundable;
@@ -22,6 +24,9 @@ public class Player extends Sprite implements Damageable{
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     
+    //COLLIDABLES
+    private TouchCollisionThread touchCollisionThread;
+    
     //LIVE
     public static final int LIVES = 3;
     public static final int COOLDOWN_LIVE = 2000;
@@ -30,6 +35,7 @@ public class Player extends Sprite implements Damageable{
     
     //MOVE
     public static final int STEP = 10; 
+    private int lastMove = -1;
     private int direction; //¿Aburrido?
     
     //ITERACTABLE
@@ -37,6 +43,10 @@ public class Player extends Sprite implements Damageable{
     
     //BOUNDABLE
     private ArrayList<Boundable> boundables;
+    
+    //ENEMIES
+    private ArrayList<Creature> creatures;
+    
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
@@ -54,6 +64,9 @@ public class Player extends Sprite implements Damageable{
         heartCooldown.start();
         
         inventory = new Inventory(this);
+        
+        touchCollisionThread = new TouchCollisionThread(this);
+        touchCollisionThread.start();
     }
     
     @Override
@@ -71,43 +84,23 @@ public class Player extends Sprite implements Damageable{
     public void move(int code){
         if(code == KeyEvent.VK_UP){
             direction = UP; //¿Aburrido?
+            lastMove = UP;
             y -= STEP;
-            for(Boundable boundable: boundables){ //CRASH
-                if(checkCollision(boundable)){
-                    y = boundable.getY()+boundable.getHeight();
-                    return;
-                }
-            }
         }
         if(code == KeyEvent.VK_DOWN){
             direction = DOWN; //¿Aburrido?
+            lastMove = DOWN;
             y += STEP;
-            for(Boundable boundable: boundables){ //CRASH
-                if(checkCollision(boundable)){
-                    y = boundable.getY() - HEIGHT;
-                    return;
-                }
-            }
         }
         if(code == KeyEvent.VK_RIGHT){
             direction = RIGHT; //¿Aburrido?
+            lastMove = RIGHT;
             x += STEP;
-            for(Boundable boundable: boundables){ //CRASH
-                if(checkCollision(boundable)){
-                    x = boundable.getX() - WIDTH;
-                    return;
-                }
-            }
         }
         if(code == KeyEvent.VK_LEFT){
             direction = LEFT; //¿Aburrido?
+            lastMove = LEFT;
             x -= STEP;
-            for(Boundable boundable: boundables){ //CRASH
-                if(checkCollision(boundable)){
-                    x = boundable.getX()+boundable.getWidth();
-                    return;
-                }
-            }
         }
     }
     
@@ -133,7 +126,36 @@ public class Player extends Sprite implements Damageable{
     
     @Override
     public void die() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //GAME OVER
+    }
+    
+    @Override
+    public void touched(Collidable collidable) {
+        //WALL
+        for(Boundable boundable: boundables){
+            if(collidable == boundable){
+                if(lastMove == UP){
+                    y = boundable.getY()+boundable.getHeight();
+                }
+                if(lastMove == DOWN){
+                    y = boundable.getY() - HEIGHT;
+                }
+                if(lastMove == RIGHT){
+                    x = boundable.getX() - WIDTH;
+                }
+                if(lastMove == LEFT){
+                    x = boundable.getX()+boundable.getWidth();
+                }
+            }
+        }
+        //ENEMY
+        if(creatures != null){
+            for(Creature creature: creatures){
+                if(collidable == creature){
+                    takeDamage(0);
+                }
+            }
+        }
     }
 
     @Override
@@ -220,6 +242,18 @@ public class Player extends Sprite implements Damageable{
     
     public void setBoundables(ArrayList<Boundable> boundables) {
         this.boundables = boundables;
+        
+        for(Boundable boundable: boundables){
+            touchCollisionThread.addCollidable(boundable);
+        }
+    }
+    
+    public void setCreatures(ArrayList<Creature> creatures) {
+        this.creatures = creatures;
+        
+        for(Creature creature: creatures){
+            touchCollisionThread.addCollidable(creature);
+        }
     }
 
     public Inventory getInventory() {
@@ -233,4 +267,6 @@ public class Player extends Sprite implements Damageable{
     public int getDirection() {
         return direction;
     }
+
+    
 }

@@ -2,46 +2,70 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements;
+package elements.bullets;
 
+import elements.Sprite;
 import interfaces.Boundable;
 import interfaces.Collidable;
+import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import threads.BulletThread;
 
-public class Wall extends Sprite implements Boundable{
+public class Bullet extends Sprite implements Collidable{
+
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 10;
+    public static final int STEP = 5;
     
-    public static final int WIDTH = 100;
-    public static final int HEIGHT = 100;
+    protected BulletThread bulletThread;
+    protected ArrayList<Boundable> boundables;
+    protected ArrayList<Bullet> bullets;
+    protected Damageable player;
+    protected boolean explode;
     
-    public Wall(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.BLACK);
+    public Bullet(int x, int y) {
+        super(x, y, WIDTH, HEIGHT, Color.ORANGE);
+        boundables = new ArrayList<>();
+        bulletThread = new BulletThread(this);
+        explode = false;
     }
-
+    
+    public void move(int direction){
+        if(!bulletThread.isRunning()){
+            bulletThread.setDirection(direction);
+            bulletThread.start();
+        }
+        bulletThread.setRunning(true);
+    }
+    
     @Override
     public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
+        if(!explode){
+            g.setColor(color);
+            g.fillRect(x, y, width, height);
+        }
     }
 
     @Override
     public boolean checkCollision(Collidable collidable) {
-    if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
+        //PUNTO ARRIBA-IZQUIERDO
+        if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
+        //PUNTO ABAJO-DERECHA
+        }else if((collidable.getY() <= y + height & y + height <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x + width & x + width <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
+         //PUNTO ARRIBA-DERECHA
+        }else if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x + width & x + width <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        //PUNTO ABAJO-IZQUIERDA    
+        }else if((collidable.getY() <= y + height & y + height <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;
         }
         return false;
     }
 
-    
     @Override
     public boolean checkCollision(Collidable collidable, int direction) {
         if(direction == UP){
@@ -96,6 +120,35 @@ public class Wall extends Sprite implements Boundable{
             }
         }
         return false;
+    }
+    
+    //GETTERS AND SETTERS
+    public void setPlayer(Damageable player) {
+        this.player = player;
+    }
+
+    public ArrayList<Boundable> getBoundables() {
+        return boundables;
+    }
+    
+    public void setBoundables(ArrayList<Boundable> boundables) {
+        this.boundables = boundables;
+    }
+
+    public Damageable getPlayer() {
+        return player;
+    }
+    
+    public BulletThread getBulletThread() {
+        return bulletThread;
+    }
+
+    public boolean isExplode() {
+        return explode;
+    }
+
+    public void setExplode(boolean explode) {
+        this.explode = explode;
     }
 
     @Override

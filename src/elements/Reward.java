@@ -75,4 +75,9 @@ public class Reward extends Sprite implements Collidable{
         }
         return false;
     }    
+
+    @Override
+    public void touched(Collidable collidable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

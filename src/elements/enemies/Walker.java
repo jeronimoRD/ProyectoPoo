@@ -5,10 +5,11 @@
 package elements.enemies;
 
 import elements.player.Player;
+import interfaces.Collidable;
 import threads.WalkerThread;
 import java.awt.Color;
 
-public class Walker extends Enemy{
+public class Walker extends Creature{
     
     public static final int LIFE = 50;
     public static final int WIDTH = 20;

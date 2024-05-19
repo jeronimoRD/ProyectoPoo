@@ -142,6 +142,11 @@ public class HitBox extends Sprite implements Collidable{ //EXTEND SPRITE*
     public void setCollidable(Collidable collidable) {
         this.collidable = collidable;
     }
+
+    @Override
+    public void touched(Collidable collidable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
 }

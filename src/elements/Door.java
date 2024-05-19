@@ -96,4 +96,9 @@ public class Door extends Sprite implements Boundable{
         }
         return false;
     }
+
+    @Override
+    public void touched(Collidable collidable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

@@ -37,7 +37,7 @@ public class WalkerThread extends Thread{
             
             //HURT ITSELF
             if(walker.getPlayer().getActualWeapon().getHitbox() != null){
-                if(walker.checkCollision(walker.getPlayer().getActualWeapon().getHitbox())){
+                if(walker.getPlayer().getActualWeapon().getHitbox().checkCollision(walker)){
                     walker.takeDamage(walker.getPlayer().getActualWeapon().getDamage());
                 }
             }
@@ -127,11 +127,6 @@ public class WalkerThread extends Thread{
                         }
                     }
                 }
-            }
-            
-            //HURT PLAYER
-            if(walker.checkCollision(walker.getPlayer())){
-                walker.getPlayer().takeDamage(0);
             }
             
             try{

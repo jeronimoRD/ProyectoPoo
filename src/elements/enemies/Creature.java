@@ -6,6 +6,7 @@ package elements.enemies;
 
 import elements.Sprite;
 import elements.player.Player;
+import threads.TouchCollisionThread;
 import interfaces.Boundable;
 import interfaces.Collidable;
 import interfaces.Damageable;
@@ -13,20 +14,35 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABLE TOO
+public abstract class Creature extends Sprite implements Damageable{
     
+    //BOUNDABLE
     protected ArrayList<Boundable> boundables;
+    
+    //PLAYER
     protected Player player;
+    
+    //CHARACTERISTICS
     protected int lifeBar;
     
-    public Enemy(int x, int y, int width, int height, Color color) {
+    //COLLIDABLES
+    private TouchCollisionThread touchCollisionThread;
+    
+    public Creature(int x, int y, int width, int height, Color color) {
         super(x, y, width, height, color);
+        touchCollisionThread = new TouchCollisionThread(this);
+        touchCollisionThread.start();
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillRect(x, y, width, height);
+    }
+    
+    @Override
+    public void touched(Collidable collidable) {
+        
     }
     
     @Override
@@ -38,6 +54,7 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
         lifeBar = actualLife;
     }
     
+    @Override
     public abstract void die(); //DAMAGEABLE
     
     @Override
@@ -114,8 +131,12 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     }
     
     //GETTERS AND SETTERS
-    public void setPlayer(Player damageable){
-        this.player = damageable;
+    public void setPlayer(Player player){
+        this.player = player;
+        
+        if(player.getActualWeapon().getHitbox() != null){
+            touchCollisionThread.addCollidable(player.getActualWeapon().getHitbox());
+        }
     }
 
     public Player getPlayer() {
@@ -133,4 +154,5 @@ public abstract class Enemy extends Sprite implements Damageable{ //IS COLLIDABL
     public int getLifeBar() {
         return lifeBar;
     }
+    
 }

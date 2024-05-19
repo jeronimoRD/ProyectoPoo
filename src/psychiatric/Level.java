@@ -192,10 +192,13 @@ public class Level {
                         break;
                     }
                 }
+                System.out.println("si");
                 //!!Test!!
                 room.addWalker(1);
                 room.addShooter(1);
-                rewardRoom.addReward(1);
+                /*
+                rewardRoom.addCollectible(1);
+                */
             }
         }
         

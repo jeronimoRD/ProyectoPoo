@@ -4,15 +4,14 @@
  */
 package elements.enemies;
 
-import elements.Bullet;
+import elements.bullets.Bullet;
 import elements.player.Player;
-import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import threads.ShooterThread;
 
-public class Shooter extends Enemy{
+public class Shooter extends Creature{
     
     public static final int LIFE = 100;
     public static final int WIDTH = 20;
@@ -69,4 +68,6 @@ public class Shooter extends Enemy{
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
+
+    
 }

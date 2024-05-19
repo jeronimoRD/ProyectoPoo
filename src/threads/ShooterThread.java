@@ -4,7 +4,7 @@
  */
 package threads;
 
-import elements.Bullet;
+import elements.bullets.Bullet;
 import elements.enemies.Shooter;
 
 public class ShooterThread extends Thread{
@@ -25,7 +25,7 @@ public class ShooterThread extends Thread{
         while(running){
             //HURT ITSELF
             if(shooter.getPlayer().getActualWeapon().getHitbox() != null){
-                if(shooter.checkCollision(shooter.getPlayer().getActualWeapon().getHitbox())){
+                if(shooter.getPlayer().getActualWeapon().getHitbox().checkCollision(shooter)){
                     shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
                 }
             }
@@ -35,11 +35,6 @@ public class ShooterThread extends Thread{
             bullet.setPlayer(shooter.getPlayer());
             shooter.addBullet(bullet);
             bullet.move(direction);
-            
-            //HURT PLAYER
-            if(shooter.checkCollision(shooter.getPlayer())){
-                shooter.getPlayer().takeDamage(0);
-            }
             
             try {
                 Thread.sleep(1000); //SPEED OF SPAWN BULLET

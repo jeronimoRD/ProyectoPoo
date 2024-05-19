@@ -5,14 +5,14 @@
 package psychiatric;
 
 import elements.enemies.Walker;
-import elements.enemies.Enemy;
+import elements.enemies.Creature;
 import elements.enemies.Shooter;
-import elements.Reward;
 import elements.player.Player;
 import elements.Sprite;
+import elements.collectibles.StickC;
+import elements.collectibles.WeaponC;
 import elements.player.Heart;
-import interfaces.Boundable;
-import interfaces.Collidable;
+import interfaces.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -35,15 +35,15 @@ public class Room extends Sprite{
     private boolean doorLeft;
     
     private Player player;
-    private ArrayList<Enemy> enemies;
-    private ArrayList<Reward> rewards;
+    private ArrayList<Creature> enemies;
+    private ArrayList<Collectible> collectibles;
     private ArrayList<Boundable> boundables;
     
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         
         boundables = new ArrayList<>();
-        rewards = new ArrayList<>();
+        collectibles = new ArrayList<>();
         enemies = new ArrayList<>();
         
         roomUp = null;
@@ -68,12 +68,12 @@ public class Room extends Sprite{
             boundable.draw(g);
         }
         //ENEMIES
-        for(Enemy enemy: enemies){
+        for(Creature enemy: enemies){
             enemy.draw(g);
         }
         //REWARDS
-        for(Reward reward: rewards){
-            reward.draw(g);
+        for(Collectible collectible: collectibles){
+            collectible.draw(g);
         }
         //HEARTS
         for(Heart heart: player.getHearts()){
@@ -112,7 +112,7 @@ public class Room extends Sprite{
         if(code == MouseEvent.BUTTON1){
             player.attack();
         }
-        for(Enemy enemy: enemies){
+        for(Creature enemy: enemies){
             if(enemy.getLifeBar() == 0){
                 enemy.die();
                 enemies.remove(enemy);
@@ -128,7 +128,7 @@ public class Room extends Sprite{
     public void addWalker(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
-            Enemy enemy = null;
+            Creature enemy = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
@@ -151,7 +151,7 @@ public class Room extends Sprite{
     public void addShooter(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
-            Enemy enemy = null;
+            Creature enemy = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
@@ -170,24 +170,25 @@ public class Room extends Sprite{
         }
     }
     
-    public void addReward(int numberRewards){
+    public void addCollectible(int numberRewards){
         for(int i = 0; i < numberRewards; i++){
             boolean aggregate;
-            Reward reward = null;
+            WeaponC weapon = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
-                reward = new Reward(px, py);
+                //!TEST!
+                weapon = new StickC(px, py);
                 aggregate = true;
 
                 for(Collidable collidable: boundables){
-                    if(reward.checkCollision(collidable)){
+                    if(weapon.checkCollision(collidable)){
                         aggregate = false;
                         break;
                     }
                 }
             }while(!aggregate);
-            rewards.add(reward); //¿Se agrega a collidables?
+            collectibles.add(weapon);
         }
     }
     //---------------------------------------------------
@@ -200,7 +201,8 @@ public class Room extends Sprite{
     public void setPlayer(Player player) {
         this.player = player;
         player.setBoundables(boundables);
-        for(Enemy enemy: enemies){
+        for(Creature enemy: enemies){
+            player.setCreatures(enemies);
             enemy.setPlayer(player);
         }
     }

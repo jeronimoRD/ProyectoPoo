@@ -19,4 +19,7 @@ public interface Collidable {
     public int getY();
     public int getWidth();
     public int getHeight();
+    
+    //THREAD
+    public void touched(Collidable collidable);
 }

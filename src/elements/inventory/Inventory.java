@@ -4,6 +4,7 @@
  */
 package elements.inventory;
 
+import elements.player.Player;
 import elements.weapons.Stick;
 import elements.weapons.Weapon;
 import exceptions.FullInventoryException;
@@ -12,13 +13,13 @@ import java.awt.Graphics;
 
 public class Inventory {
     
-    private Collidable collidable;
+    private Player player;
     private Space[] spaces;
     private Space selectedWeapon;
     public static final int SPACES_WEAPONS = 2;
     
     public Inventory(Collidable collidable) {
-        this.collidable = collidable;
+        this.player = player;
         spaces = new Space[SPACES_WEAPONS];
         
         int px = 800;
@@ -29,7 +30,7 @@ public class Inventory {
         }
         
         //!!TEST!!
-        addWeapon(new Stick(collidable));
+        addWeapon(new Stick(player));
         selectedWeapon = spaces[0];
     }
     

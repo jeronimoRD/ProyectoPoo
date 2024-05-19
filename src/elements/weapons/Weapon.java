@@ -5,101 +5,35 @@
 package elements.weapons;
 
 import elements.Sprite;
+import elements.player.Player;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public abstract class Weapon extends Sprite implements Collidable{
+public abstract class Weapon extends Sprite{
 
-    protected Collidable collidable;
-    protected HitBox hitbox;
-    protected int damage;
+    //OWNER
+    protected Player player;
     
-    public Weapon(int x, int y, int width, int height, Color color, Collidable collidable) {
+    //CHARACTERISTICS
+    protected int damage;
+    protected HitBox hitbox;
+    protected boolean attacking;
+    
+    public Weapon(int x, int y, int width, int height, Color color, Player player) {
         super(x, y, width, height, color);
-        this.collidable = collidable;
+        this.player = player;
+        this.damage = 0;
+        this.hitbox = null;
+        this.attacking = false;
     }
 
     @Override
     public abstract void draw(Graphics g);
     
-    public abstract void drawIcon(Graphics g);
-    
     public abstract void attack(Collidable collidable);
-    
-    @Override
-    public boolean checkCollision(Collidable collidable) { // =?
-        if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
-            return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
-            return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
-            return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
-            return true;
-        }
-        return false;
-    }
 
-    @Override
-    public boolean checkCollision(Collidable collidable, int direction) {
-        if(direction == UP){
-            if(y == collidable.getY() + collidable.getHeight()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == DOWN){
-            if(y + height == collidable.getY()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == LEFT){
-            if(x == collidable.getX() + collidable.getWidth()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == RIGHT){
-            if(x + width == collidable.getX()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        return false;
-    }
-
+    //GETTERS AND SETTERS
     public HitBox getHitbox() {
         return hitbox;
     }
@@ -115,6 +49,12 @@ public abstract class Weapon extends Sprite implements Collidable{
     public void setDamage(int damage) {
         this.damage = damage;
     }
-    
-    
+
+    public boolean isAttacking() {
+        return attacking;
+    }
+
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
+    }
 }

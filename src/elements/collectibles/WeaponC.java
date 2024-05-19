@@ -2,63 +2,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements;
+package elements.collectibles;
 
-import interfaces.Boundable;
+import elements.Sprite;
+import interfaces.Collectible;
 import interfaces.Collidable;
-import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import threads.BulletThread;
 
-public class Bullet extends Sprite implements Collidable{
+public abstract class WeaponC extends Sprite implements Collectible{
+    
+    public WeaponC(int x, int y, int width, int height, Color color) {
+        super(x, y, width, height, color);
+    }
 
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
-    public static final int STEP = 5;
-    
-    private BulletThread bulletThread;
-    private ArrayList<Boundable> boundables;
-    private ArrayList<Bullet> bullets;
-    private Damageable player;
-    private boolean explode;
-    
-    public Bullet(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.ORANGE);
-        boundables = new ArrayList<>();
-        bulletThread = new BulletThread(this);
-        explode = false;
-    }
-    
-    public void move(int direction){
-        if(!bulletThread.isRunning()){
-            bulletThread.setDirection(direction);
-            bulletThread.start();
-        }
-        bulletThread.setRunning(true);
-    }
-    
     @Override
-    public void draw(Graphics g) {
-        if(!explode){
-            g.setColor(color);
-            g.fillRect(x, y, width, height);
-        }
-    }
+    public abstract void draw(Graphics g);
 
     @Override
     public boolean checkCollision(Collidable collidable) {
-        if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
             return true;
         }
         return false;
@@ -119,34 +91,9 @@ public class Bullet extends Sprite implements Collidable{
         }
         return false;
     }
-    
-    //GETTERS AND SETTERS
-    public void setPlayer(Damageable player) {
-        this.player = player;
-    }
 
-    public ArrayList<Boundable> getBoundables() {
-        return boundables;
+    @Override
+    public void touched(Collidable collidable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    public void setBoundables(ArrayList<Boundable> boundables) {
-        this.boundables = boundables;
-    }
-
-    public Damageable getPlayer() {
-        return player;
-    }
-    
-    public BulletThread getBulletThread() {
-        return bulletThread;
-    }
-
-    public boolean isExplode() {
-        return explode;
-    }
-
-    public void setExplode(boolean explode) {
-        this.explode = explode;
-    }
-    
 }

@@ -4,7 +4,7 @@
  */
 package threads;
 
-import elements.Bullet;
+import elements.bullets.Bullet;
 import interfaces.Collidable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +30,7 @@ public class BulletThread extends Thread{
         while(running){
             int py = bullet.getY();
             int px = bullet.getX();
-
+            
             //UP
             if(direction == Bullet.UP){
                 py -= Bullet.STEP;
@@ -79,11 +79,6 @@ public class BulletThread extends Thread{
                         }
                     }
                 }
-            }
-            
-            //HURT PLAYER
-            if(bullet.checkCollision(bullet.getPlayer())){
-                bullet.getPlayer().takeDamage(0);
             }
             
             try {
