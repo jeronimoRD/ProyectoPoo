@@ -4,6 +4,7 @@
  */
 package elements.collectibles;
 
+import elements.weapons.Stick;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -14,6 +15,7 @@ public class StickC extends WeaponC{
     
     public StickC(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.YELLOW);
+        weapon = new Stick(null);
     }
 
     @Override

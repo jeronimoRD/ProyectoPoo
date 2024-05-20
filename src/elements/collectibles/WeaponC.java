@@ -5,6 +5,7 @@
 package elements.collectibles;
 
 import elements.Sprite;
+import elements.weapons.Weapon;
 import interfaces.Collectible;
 import interfaces.Collidable;
 import java.awt.Color;
@@ -12,8 +13,12 @@ import java.awt.Graphics;
 
 public abstract class WeaponC extends Sprite implements Collectible{
     
+    protected boolean grabed;
+    protected Weapon weapon;
+    
     public WeaponC(int x, int y, int width, int height, Color color) {
         super(x, y, width, height, color);
+        this.grabed = false;
     }
 
     @Override
@@ -95,5 +100,15 @@ public abstract class WeaponC extends Sprite implements Collectible{
     @Override
     public void touched(Collidable collidable) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean getGrabed(){
+        return grabed;
+    }
+    
+    @Override
+    public Weapon grabWeapon() {
+        grabed = true;
+        return weapon;
     }
 }

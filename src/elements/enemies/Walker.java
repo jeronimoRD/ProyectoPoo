@@ -4,40 +4,62 @@
  */
 package elements.enemies;
 
-import elements.player.Player;
+import interfaces.Boundable;
 import interfaces.Collidable;
+import static interfaces.Collidable.DOWN;
+import static interfaces.Collidable.LEFT;
+import static interfaces.Collidable.RIGHT;
+import static interfaces.Collidable.UP;
 import threads.WalkerThread;
 import java.awt.Color;
 
 public class Walker extends Creature{
     
-    public static final int LIFE = 50;
+    //CHARACTERISTICS
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
-    public static final int STEP = 5;
     
+    //MOVE
+    public static final int STEP = 5;
     private WalkerThread walkerThread;
+    private int lastMove = -1;
+    
+    //LIFE
+    public static final int LIFE = 50;
     
     public Walker(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.RED);
         walkerThread = new WalkerThread(this); //¿(this)debería tener una interfaz?
         this.lifeBar = LIFE; //VIDA
+        walkerThread.start();
+    }
+    
+    public void touched(Collidable collidable) {
+        for(Boundable boundable: boundables){
+            if(collidable == boundable){
+                if(lastMove == UP){
+                    y = boundable.getY()+boundable.getHeight();
+                }
+                if(lastMove == DOWN){
+                    y = boundable.getY() - HEIGHT;
+                }
+                if(lastMove == RIGHT){
+                    x = boundable.getX() - WIDTH;
+                }
+                if(lastMove == LEFT){
+                    x = boundable.getX()+boundable.getWidth();
+                }
+            }
+        }
     }
     
     @Override
     public void die(){
-        walkerThread.setRunning(false);
+        walkerThread.stopRun();
         walkerThread = null;
     }
     
-    @Override
-    public void setPlayer(Player damageable){
-        this.player = damageable;
-        
-        if(!walkerThread.isRunning()){
-            walkerThread.start();
-        }
-        walkerThread.setRunning(true);
-        
+    public void setLastMove(int lastMove) {
+        this.lastMove = lastMove;
     }
 }

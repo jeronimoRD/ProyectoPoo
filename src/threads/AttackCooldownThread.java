@@ -13,7 +13,8 @@ import elements.weapons.Weapon;
 public class AttackCooldownThread extends CooldownThread{
     private Weapon weapon; //¿Interfaz?
     
-    public AttackCooldownThread(Weapon weapon){
+    public AttackCooldownThread(Weapon weapon, int time){
+        super(time);
         this.weapon = weapon;
     }
     
@@ -27,6 +28,7 @@ public class AttackCooldownThread extends CooldownThread{
                     System.out.println("ERROR");
                 }
                 weapon.setHitbox(null);
+                weapon.setAttacking(false);
                 recover = false;
             }
             System.out.print("");

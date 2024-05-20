@@ -10,6 +10,7 @@ import elements.enemies.Creature;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
 import interfaces.Boundable;
+import interfaces.Collectible;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
@@ -47,11 +48,13 @@ public class Player extends Sprite implements Damageable{
     //ENEMIES
     private ArrayList<Creature> creatures;
     
+    //WEAPONS
+    private ArrayList<Collectible> collectibles;
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
         hearts = new Heart[LIVES];
-        heartCooldown = new CooldownThread();
+        heartCooldown = new CooldownThread(COOLDOWN_LIVE);
         
         int px = 30; //dimensions of hearts
         int py = 40;
@@ -60,7 +63,6 @@ public class Player extends Sprite implements Damageable{
             hearts[h].setLive(true);
             px += 60;
         }
-        heartCooldown.setTime(COOLDOWN_LIVE);
         heartCooldown.start();
         
         inventory = new Inventory(this);
@@ -78,6 +80,44 @@ public class Player extends Sprite implements Damageable{
             inventory.getSelectedWeapon().setX(x + WIDTH + 10);//!!Test!!
             inventory.getSelectedWeapon().setY(y - 10);//!!Test!!
             inventory.getSelectedWeapon().draw(g);
+        }
+    }
+    
+    @Override
+    public void touched(Collidable collidable) {
+        //WALL
+        for(Boundable boundable: boundables){
+            if(collidable == boundable){
+                if(lastMove == UP){
+                    y = boundable.getY()+boundable.getHeight();
+                }
+                if(lastMove == DOWN){
+                    y = boundable.getY() - HEIGHT;
+                }
+                if(lastMove == RIGHT){
+                    x = boundable.getX() - WIDTH;
+                }
+                if(lastMove == LEFT){
+                    x = boundable.getX()+boundable.getWidth();
+                }
+            }
+        }
+        //ENEMY
+        if(creatures != null){
+            for(Creature creature: creatures){
+                if(collidable == creature){
+                    takeDamage(0);
+                }
+            }
+        }
+        if(collectibles != null){
+            for(Collectible collectible: collectibles){
+                if(collidable == collectible){
+                    inventory.addWeapon(collectible.grabWeapon());
+                    collectibles.remove(collectible);
+                    setCollidables(boundables, creatures, collectibles);
+                }
+            }
         }
     }
     
@@ -117,7 +157,7 @@ public class Player extends Sprite implements Damageable{
             for(int h = LIVES - 1; h >= 0; h--){
                 if(hearts[h].isLive()){
                     hearts[h].setLive(false);
-                    heartCooldown.setRecover(true);
+                    heartCooldown.startCoolDown();
                     break;
                 }
             }
@@ -129,34 +169,7 @@ public class Player extends Sprite implements Damageable{
         //GAME OVER
     }
     
-    @Override
-    public void touched(Collidable collidable) {
-        //WALL
-        for(Boundable boundable: boundables){
-            if(collidable == boundable){
-                if(lastMove == UP){
-                    y = boundable.getY()+boundable.getHeight();
-                }
-                if(lastMove == DOWN){
-                    y = boundable.getY() - HEIGHT;
-                }
-                if(lastMove == RIGHT){
-                    x = boundable.getX() - WIDTH;
-                }
-                if(lastMove == LEFT){
-                    x = boundable.getX()+boundable.getWidth();
-                }
-            }
-        }
-        //ENEMY
-        if(creatures != null){
-            for(Creature creature: creatures){
-                if(collidable == creature){
-                    takeDamage(0);
-                }
-            }
-        }
-    }
+    
 
     @Override
     public boolean checkCollision(Collidable collidable) {
@@ -240,22 +253,25 @@ public class Player extends Sprite implements Damageable{
         return boundables;
     }
     
-    public void setBoundables(ArrayList<Boundable> boundables) {
+    public void setCollidables(ArrayList<Boundable> boundables, ArrayList<Creature> creatures, ArrayList<Collectible> collectibles){
         this.boundables = boundables;
+        this.creatures = creatures;
+        this.collectibles = collectibles;
         
+        ArrayList<Collidable> collidables = new ArrayList<>();
         for(Boundable boundable: boundables){
-            touchCollisionThread.addCollidable(boundable);
+            collidables.add(boundable);
         }
+        for(Creature creature: creatures){
+            collidables.add(creature);
+        }
+        for(Collectible collectible: collectibles){
+            collidables.add(collectible);
+        }
+        
+        touchCollisionThread.addCollidable(collidables);
     }
     
-    public void setCreatures(ArrayList<Creature> creatures) {
-        this.creatures = creatures;
-        
-        for(Creature creature: creatures){
-            touchCollisionThread.addCollidable(creature);
-        }
-    }
-
     public Inventory getInventory() {
         return inventory;
     }

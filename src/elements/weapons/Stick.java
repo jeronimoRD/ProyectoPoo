@@ -30,8 +30,7 @@ public class Stick extends Weapon{
     public Stick(Player player) {
         super(0, 0, WIDTH, HEIGHT, Color.orange, player);
         setDamage(DAMAGE);
-        attackCooldownThread = new AttackCooldownThread(this); //INTERFAZ
-        attackCooldownThread.setTime(COOLDOWN_ATTACK);
+        attackCooldownThread = new AttackCooldownThread(this, COOLDOWN_ATTACK); //INTERFAZ
         attackCooldownThread.start();
     }
     
@@ -39,7 +38,7 @@ public class Stick extends Weapon{
     public void draw(Graphics g){
         g.setColor(color);
         g.fillRect(x, y, width, height);
-        if(hitbox != null){
+        if(attacking){
             int px = 0;
             int py = 0;
             int pwidth = 0;
@@ -77,6 +76,7 @@ public class Stick extends Weapon{
     public void attack(Collidable player) {
         setHitbox(new HitBox(0, 0, 0, 0));
         hitbox.setCollidable(player);
-        attackCooldownThread.setRecover(true);
+        setAttacking(true);
+        attackCooldownThread.startCoolDown();
     }
 }

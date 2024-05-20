@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import threads.BulletThread;
+import threads.TouchCollisionThread;
 
 public class Bullet extends Sprite implements Collidable{
 
@@ -19,25 +20,34 @@ public class Bullet extends Sprite implements Collidable{
     public static final int HEIGHT = 10;
     public static final int STEP = 5;
     
-    protected BulletThread bulletThread;
-    protected ArrayList<Boundable> boundables;
-    protected ArrayList<Bullet> bullets;
-    protected Damageable player;
-    protected boolean explode;
+    private BulletThread bulletThread;
+    private TouchCollisionThread touchCollisionThread;
+    private ArrayList<Boundable> boundables;
+    private Damageable player;
     
-    public Bullet(int x, int y) {
+    private boolean explode;
+    
+    public Bullet(int x, int y, int direction) {
         super(x, y, WIDTH, HEIGHT, Color.ORANGE);
         boundables = new ArrayList<>();
-        bulletThread = new BulletThread(this);
+        
         explode = false;
+        
+        bulletThread = new BulletThread(this, direction);
+        bulletThread.start();
+        
+        touchCollisionThread = new TouchCollisionThread(this);
+        touchCollisionThread.start();
     }
     
-    public void move(int direction){
-        if(!bulletThread.isRunning()){
-            bulletThread.setDirection(direction);
-            bulletThread.start();
+    @Override
+    public void touched(Collidable collidable) {
+        for(Boundable boundable: boundables){
+            if(collidable == boundable){
+                
+                explode = true;
+            }
         }
-        bulletThread.setRunning(true);
     }
     
     @Override
@@ -133,6 +143,14 @@ public class Bullet extends Sprite implements Collidable{
     
     public void setBoundables(ArrayList<Boundable> boundables) {
         this.boundables = boundables;
+        
+        ArrayList<Collidable> collidables = new ArrayList<>();
+        if(boundables != null){
+            for(Boundable boundable: boundables){
+                collidables.add(boundable);
+            }
+            touchCollisionThread.addCollidable(collidables);
+        }
     }
 
     public Damageable getPlayer() {
@@ -145,14 +163,5 @@ public class Bullet extends Sprite implements Collidable{
 
     public boolean isExplode() {
         return explode;
-    }
-
-    public void setExplode(boolean explode) {
-        this.explode = explode;
-    }
-
-    @Override
-    public void touched(Collidable collidable) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -5,9 +5,9 @@
 package elements.inventory;
 
 import elements.player.Player;
-import elements.weapons.Stick;
 import elements.weapons.Weapon;
 import exceptions.FullInventoryException;
+import interfaces.Collectible;
 import interfaces.Collidable;
 import java.awt.Graphics;
 
@@ -30,7 +30,6 @@ public class Inventory {
         }
         
         //!!TEST!!
-        addWeapon(new Stick(player));
         selectedWeapon = spaces[0];
     }
     

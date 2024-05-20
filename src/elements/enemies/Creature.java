@@ -6,9 +6,15 @@ package elements.enemies;
 
 import elements.Sprite;
 import elements.player.Player;
+import static elements.player.Player.HEIGHT;
+import static elements.player.Player.WIDTH;
 import threads.TouchCollisionThread;
 import interfaces.Boundable;
 import interfaces.Collidable;
+import static interfaces.Collidable.DOWN;
+import static interfaces.Collidable.LEFT;
+import static interfaces.Collidable.RIGHT;
+import static interfaces.Collidable.UP;
 import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -30,6 +36,9 @@ public abstract class Creature extends Sprite implements Damageable{
     
     public Creature(int x, int y, int width, int height, Color color) {
         super(x, y, width, height, color);
+        
+        this.player = null;
+        
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
     }
@@ -41,9 +50,7 @@ public abstract class Creature extends Sprite implements Damageable{
     }
     
     @Override
-    public void touched(Collidable collidable) {
-        
-    }
+    public abstract void touched(Collidable collidable);
     
     @Override
     public void takeDamage(int damage) {
@@ -59,16 +66,16 @@ public abstract class Creature extends Sprite implements Damageable{
     
     @Override
     public boolean checkCollision(Collidable collidable) { // =?
-        if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
             return true;
         }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
             return true;
         }
         return false;
@@ -131,12 +138,19 @@ public abstract class Creature extends Sprite implements Damageable{
     }
     
     //GETTERS AND SETTERS
+    public void setCollidables(ArrayList<Boundable> boundables){
+        this.boundables = boundables;
+        
+        ArrayList<Collidable> collidables = new ArrayList<>();
+        
+        for(Boundable boundable: boundables){
+            collidables.add(boundable);
+        }
+        
+        touchCollisionThread.addCollidable(collidables);
+    }
     public void setPlayer(Player player){
         this.player = player;
-        
-        if(player.getActualWeapon().getHitbox() != null){
-            touchCollisionThread.addCollidable(player.getActualWeapon().getHitbox());
-        }
     }
 
     public Player getPlayer() {
@@ -146,13 +160,8 @@ public abstract class Creature extends Sprite implements Damageable{
     public ArrayList<Boundable> getBoundables() {
         return boundables;
     }
-    
-    public void setBoundables(ArrayList<Boundable> boundables) {
-        this.boundables = boundables;
-    }
 
     public int getLifeBar() {
         return lifeBar;
     }
-    
 }

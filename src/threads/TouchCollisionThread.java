@@ -22,8 +22,8 @@ public class TouchCollisionThread extends Thread{
     @Override
     public void run(){
         while(running){
+            System.out.print("");
             try{
-                System.out.print("");
                 for(Collidable collidable: collidables){
                    if(reference.checkCollision(collidable)){
                        reference.touched(collidable);
@@ -31,7 +31,7 @@ public class TouchCollisionThread extends Thread{
                 }
             }catch(ConcurrentModificationException e){
                 try{
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex) {
                     System.out.println("ERROR");
                 }
@@ -46,10 +46,7 @@ public class TouchCollisionThread extends Thread{
         this.running = true;
     }
     
-    public void addCollidable(Collidable collidable){
-        if(!collidables.contains(collidable)){
-           collidables.add(collidable); 
-        }else{
-        }
+    public void addCollidable(ArrayList<Collidable> collidables){
+        this.collidables = collidables; 
     }
 }

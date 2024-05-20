@@ -11,6 +11,7 @@ import elements.player.Player;
 import elements.Sprite;
 import elements.collectibles.StickC;
 import elements.collectibles.WeaponC;
+import elements.enemies.ShooterAllDirections;
 import elements.player.Heart;
 import interfaces.*;
 import java.awt.Color;
@@ -72,8 +73,16 @@ public class Room extends Sprite{
             enemy.draw(g);
         }
         //REWARDS
+        Collectible elimatedCollectible = null;
         for(Collectible collectible: collectibles){
-            collectible.draw(g);
+            if(collectible.getGrabed() == true){
+                elimatedCollectible = collectible;
+            }else{
+                collectible.draw(g);
+            }
+        }
+        if(elimatedCollectible != null){
+            collectibles.remove(elimatedCollectible);
         }
         //HEARTS
         for(Heart heart: player.getHearts()){
@@ -143,7 +152,7 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setBoundables(boundables); //¿Se agrega a collidables?
+            enemy.setCollidables(boundables);
         }
     }
     
@@ -155,7 +164,7 @@ public class Room extends Sprite{
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
-                enemy = new Shooter(px, py); 
+                enemy = new ShooterAllDirections(px, py); 
                 aggregate = true;
 
                 for(Collidable collidable: boundables){
@@ -166,7 +175,7 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setBoundables(boundables); //¿Se agrega a collidables?
+            enemy.setCollidables(boundables); //¿Se agrega a collidables?
         }
     }
     
@@ -200,9 +209,8 @@ public class Room extends Sprite{
 
     public void setPlayer(Player player) {
         this.player = player;
-        player.setBoundables(boundables);
+        player.setCollidables(boundables, enemies, collectibles);
         for(Creature enemy: enemies){
-            player.setCreatures(enemies);
             enemy.setPlayer(player);
         }
     }

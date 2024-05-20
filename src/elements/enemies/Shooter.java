@@ -6,59 +6,56 @@ package elements.enemies;
 
 import elements.bullets.Bullet;
 import elements.player.Player;
+import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import threads.ShooterThread;
 
-public class Shooter extends Creature{
+public abstract class Shooter extends Creature{
     
-    public static final int LIFE = 100;
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 20;
+    protected ArrayList<Bullet> bullets;
+    protected ShooterThread shooterThread;
     
-    private ArrayList<Bullet> bullets;
-    private ShooterThread shooterThread;
-    
-    public Shooter(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.BLUE);
-        this.lifeBar = LIFE; //ADD LIFE
+    public Shooter(int x, int y, int width, int height, Color color) {
+        super(x, y, width, height, color);
+        
         bullets = new ArrayList<>();
-        shooterThread = new ShooterThread(this); //¿4 hilos para 4 dirreciones?
-    }
-    
-    private void shot(int direction){
-        if(!shooterThread.isRunning()){
-            shooterThread.setDirection(direction);
-            shooterThread.start();
-        }
-        shooterThread.setRunning(true);
     }
     
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillRect(x, y, width, height);
+        
+        ArrayList<Bullet> eliminatedBullets =  new ArrayList<>();
         for(Bullet bullet: bullets){
-            bullet.draw(g);
+            if(bullet.isExplode()){
+                eliminatedBullets.add(bullet);
+            }else{
+                bullet.draw(g);
+            }
         }
-    }
-    
-    public void explode(Bullet bullet){
-        bullets.remove(bullet);
+        for(int b = 0; b < eliminatedBullets.size(); b++){
+           bullets.remove(eliminatedBullets.get(b));
+        }
     }
     
     @Override
     public void die() {
-        shooterThread.setRunning(false);
+        shooterThread.stopRun();
         shooterThread = null;
+    }
+    
+    @Override
+    public void touched(Collidable collidable) {
+        //DIE
     }
     
     //GETTERS AND SETTERS
     @Override
     public void setPlayer(Player damageable){
         this.player = damageable;
-        shot(DOWN); //!!Test!! ¿Por qué solo permite uno?
     }
     
     public void addBullet(Bullet bullet){
@@ -68,6 +65,4 @@ public class Shooter extends Creature{
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
-
-    
 }

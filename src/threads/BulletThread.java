@@ -14,15 +14,14 @@ import java.util.logging.Logger;
  * @author korez
  */
 public class BulletThread extends Thread{
-    private volatile boolean paused;
     private boolean running;
     private Bullet bullet;
     private int direction;
     
-    public BulletThread(Bullet bullet) {
-        this.running = false;
-        this.paused = false;
+    public BulletThread(Bullet bullet, int direction) {
+        this.running = true;
         this.bullet = bullet;
+        this.direction = direction;
     }
     
     @Override
@@ -35,50 +34,18 @@ public class BulletThread extends Thread{
             if(direction == Bullet.UP){
                 py -= Bullet.STEP;
                 bullet.setY(py);
-                for(Collidable collision: bullet.getBoundables()){
-                    if(bullet.checkCollision(collision)){
-                        if(collision != bullet & collision != bullet.getPlayer()){
-                            running = false;
-                            bullet.setExplode(true);
-                        }
-                    }
-                }
             //DOWN
             }else if(direction == Bullet.DOWN){
                 py += Bullet.STEP;
                 bullet.setY(py);
-                for(Collidable collision: bullet.getBoundables()){
-                    if(bullet.checkCollision(collision)){
-                        if(collision != bullet & collision != bullet.getPlayer()){
-                            running = false;
-                            bullet.setExplode(true);
-                        }
-                    }
-                }
             //RIGHT
             }else if(direction == Bullet.RIGHT){
                 px += Bullet.STEP;
                 bullet.setX(px);
-                for(Collidable collision: bullet.getBoundables()){
-                    if(bullet.checkCollision(collision)){
-                        if(collision != bullet & collision != bullet.getPlayer()){
-                            running = false;
-                            bullet.setExplode(true);
-                        }
-                    }
-                }
             //LEFT
             }else if(direction == Bullet.LEFT){
                 px -= Bullet.STEP;
                 bullet.setX(px);
-                for(Collidable collision: bullet.getBoundables()){
-                    if(bullet.checkCollision(collision)){
-                        if(collision != bullet & collision != bullet.getPlayer()){
-                            running = false;
-                            bullet.setExplode(true);
-                        }
-                    }
-                }
             }
             
             try {
@@ -89,28 +56,15 @@ public class BulletThread extends Thread{
         }
     }
     
-    public void pause(){
-        this.paused = !this.paused;
-    }
-    
-    public void halt(){ //Stop
+    //GETTERS AND SETTERS
+    public void stopRun(){
         this.running = false;
     }
-    
-    //GETTERS AND SETTERS
-    public boolean isRunning(){
-        return running;
-    }
-
-    public void setRunning(boolean running){
-        this.running = running;
+    public void startRun(){
+        this.running = true;
     }
 
     public int getDirection(){
         return direction;
-    }
-
-    public void setDirection(int direction){
-        this.direction = direction;
     }
 }

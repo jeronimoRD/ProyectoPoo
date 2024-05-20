@@ -9,15 +9,14 @@ package threads;
  * @author korez
  */
 public class CooldownThread extends Thread{
-    protected volatile boolean paused;
     protected boolean running;
     protected boolean recover;
     protected int time;
     
-    public CooldownThread(){
-        this.recover = false;
+    public CooldownThread(int time){
         this.running = true;
-        this.paused = false;
+        this.time = time;
+        this.recover = false;
     }
     
     @Override
@@ -26,41 +25,27 @@ public class CooldownThread extends Thread{
             if(recover){
                 try{
                     Thread.sleep(time); //SPEED OF COOLDOWN
-                    recover = false;
                 } catch (InterruptedException ex) {
                     System.out.println("ERROR");
                 }
+                recover = false;
             }
             System.out.print(""); //¿QUE?
         }
     }
     
-    public void pause(){
-        this.paused = !this.paused;
-    }
-    
-    public void halt(){ //Stop
+    public void stopRun(){
         this.running = false;
     }
+    public void startRun(){
+        this.running = true;
+    }
     
-    //GETTERS AND SETTERS
-    public boolean isRunning(){
-        return running;
+    public void startCoolDown() {
+        this.recover = true;
     }
-
-    public void setRunning(boolean running){
-        this.running = running;
-    }
-
+    
     public boolean isRecover() {
         return recover;
-    }
-
-    public void setRecover(boolean recover) {
-        this.recover = recover;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
     }
 }
