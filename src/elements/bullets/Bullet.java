@@ -27,6 +27,8 @@ public class Bullet extends Sprite implements Collidable{
     
     private boolean explode;
     
+    private Graphics g;
+    
     public Bullet(int x, int y, int direction) {
         super(x, y, WIDTH, HEIGHT, Color.ORANGE);
         boundables = new ArrayList<>();
@@ -54,6 +56,7 @@ public class Bullet extends Sprite implements Collidable{
     
     @Override
     public void draw(Graphics g) {
+        this.g = g;
         if(!explode){
             g.setColor(color);
             g.fillRect(x, y, width, height);
@@ -168,5 +171,9 @@ public class Bullet extends Sprite implements Collidable{
 
     public boolean isExplode() {
         return explode;
+    }
+
+    public Graphics getG() {
+        return g;
     }
 }

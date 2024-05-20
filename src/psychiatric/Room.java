@@ -68,8 +68,17 @@ public class Room extends Sprite{
             boundable.draw(g);
         }
         //ENEMIES
+        ArrayList<Creature> eliminatedCreatures = new ArrayList<>();
         for(Creature enemy: enemies){
-            enemy.draw(g);
+            if(enemy.getLifeBar() == 0){
+                eliminatedCreatures.add(enemy);
+            }else{
+               enemy.draw(g); 
+            }
+        }
+        for(int e = 0; e < eliminatedCreatures.size(); e++){
+            eliminatedCreatures.get(e).die();
+            enemies.remove(eliminatedCreatures.get(e));
         }
         //REWARDS
         Collectible elimatedCollectible = null;
@@ -131,13 +140,6 @@ public class Room extends Sprite{
     public void mousePressed(int code){
         if(code == MouseEvent.BUTTON1){
             player.attack();
-        }
-        for(Creature enemy: enemies){
-            if(enemy.getLifeBar() == 0){
-                enemy.die();
-                enemies.remove(enemy);
-                break;
-            }
         }
     }
     

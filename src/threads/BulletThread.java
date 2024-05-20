@@ -47,6 +47,10 @@ public class BulletThread extends Thread{
                 bullet.setX(px);
             }
             
+            if(bullet.getG() != null){
+            bullet.draw(bullet.getG());
+            }
+            
             try {
                 Thread.sleep(50); //SPEED OF BULLET
             } catch (InterruptedException ex) {
