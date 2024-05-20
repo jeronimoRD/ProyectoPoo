@@ -6,6 +6,8 @@ package threads;
 
 import elements.bullets.Bullet;
 import elements.enemies.Shooter;
+import interfaces.Damageable;
+import java.util.ArrayList;
 
 public class ShooterThread extends Thread{
     private boolean running;
@@ -41,26 +43,34 @@ public class ShooterThread extends Thread{
                             shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
                         }
                     }
+                    else if(shooter.getPlayer().getInventory().getSelectedWeapon().getBullets() != null){
+                        for(Bullet bullet: shooter.getPlayer().getInventory().getSelectedWeapon().getBullets()){
+                            if(shooter.checkCollision(bullet)){
+                                shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
+                            }
+                        }
+                    }
                 }
-                
+                ArrayList<Damageable> objective = new ArrayList<>();
+                objective.add(shooter.getPlayer());
                 if(up){
-                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.UP, 50);
-                    bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.UP, 50, 0);
+                    bullet.setCollidables(shooter.getBoundables(), objective);;
                     shooter.addBullet(bullet);
                 }
                 if(down){
-                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.DOWN, 50);
-                    bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.DOWN, 50, 0);
+                    bullet.setCollidables(shooter.getBoundables(), objective);
                     shooter.addBullet(bullet);
                 }
                 if(right){
-                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.RIGHT, 50);
-                    bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.RIGHT, 50, 0);
+                    bullet.setCollidables(shooter.getBoundables(), objective);
                     shooter.addBullet(bullet);
                 }
                 if(left){
-                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.LEFT, 50);
-                    bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.LEFT, 50, 0);
+                    bullet.setCollidables(shooter.getBoundables(), objective);
                     shooter.addBullet(bullet);
                 }
                 

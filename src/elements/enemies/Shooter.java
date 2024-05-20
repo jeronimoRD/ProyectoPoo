@@ -50,7 +50,7 @@ public abstract class Shooter extends Creature{
     public void setPlayer(Player player){
         if(player == null){
             for(Bullet bullet: bullets){
-                bullet.setPlayer(null);
+                bullet.setObjectives(null);
             }
         }
         this.player = player;

@@ -19,17 +19,20 @@ public class Bullet extends Sprite implements Collidable{
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
     public static final int STEP = 5;
+    private int damage;
     
     private BulletThread bulletThread;
     private TouchCollisionThread touchCollisionThread;
     private ArrayList<Boundable> boundables;
-    private Damageable player;
+    private ArrayList<Damageable> objectives;
     
     private boolean explode;
     
-    public Bullet(int x, int y, int direction, int speed) {
+    public Bullet(int x, int y, int direction, int speed, int damage) {
         super(x, y, WIDTH, HEIGHT, Color.ORANGE);
+        this.damage = damage;
         boundables = new ArrayList<>();
+        
         
         explode = false;
         
@@ -47,8 +50,13 @@ public class Bullet extends Sprite implements Collidable{
                 explode = true;
             }
         }
-        if(collidable == player){
-            player.takeDamage(0);
+        if(objectives != null){
+            for(Damageable damageable: objectives){
+                if(collidable == damageable){
+                    damageable.takeDamage(damage);
+                    explode = true;
+                }
+            }
         }
     }
     
@@ -140,26 +148,26 @@ public class Bullet extends Sprite implements Collidable{
         return boundables;
     }
     
-    public void setCollidables(ArrayList<Boundable> boundables, Damageable player) {
+    public void setCollidables(ArrayList<Boundable> boundables, ArrayList<Damageable> objectives) {
         this.boundables = boundables;
-        this.player = player;
+        this.objectives = objectives;
         
         ArrayList<Collidable> collidables = new ArrayList<>();
-        collidables.add(player);
         if(boundables != null){
             for(Boundable boundable: boundables){
                 collidables.add(boundable);
             }
-            touchCollisionThread.addCollidable(collidables);
         }
+        if(objectives != null){
+            for(Damageable damageable: objectives){
+                collidables.add(damageable);
+            }
+        }
+        touchCollisionThread.addCollidable(collidables);
     }
 
-    public void setPlayer(Damageable player) {
-        this.player = player;
-    }
-
-    public Damageable getPlayer() {
-        return player;
+    public void setObjectives(ArrayList<Damageable> objectives) {
+        this.objectives = objectives;
     }
     
     public BulletThread getBulletThread() {
@@ -169,4 +177,6 @@ public class Bullet extends Sprite implements Collidable{
     public boolean isExplode() {
         return explode;
     }
+    
+    
 }

@@ -5,10 +5,11 @@
 package elements.weapons;
 
 import elements.Sprite;
+import elements.bullets.Bullet;
 import elements.player.Player;
-import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public abstract class Weapon extends Sprite{
 
@@ -19,6 +20,7 @@ public abstract class Weapon extends Sprite{
     protected int damage;
     protected HitBox hitbox;
     protected boolean attacking;
+    protected ArrayList<Bullet> bullets;
     
     public Weapon(int x, int y, int width, int height, Color color, Player player) {
         super(x, y, width, height, color);
@@ -56,5 +58,9 @@ public abstract class Weapon extends Sprite{
 
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
     }
 }

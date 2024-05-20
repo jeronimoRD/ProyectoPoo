@@ -7,6 +7,7 @@ package elements.weapons;
 import elements.bullets.Bullet;
 import elements.player.Player;
 import interfaces.Collidable;
+import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -18,11 +19,10 @@ public class Gun extends Weapon{
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     
-    private static final int DAMAGE = 100;
+    private static final int DAMAGE = 1000;
     private static final int SPEED = 10;
     public static final int COOLDOWN_ATTACK= 500;
     
-    private ArrayList<Bullet> bullets;
     private CooldownThread cooldownThread;
     
     public Gun(Player player) {
@@ -57,28 +57,32 @@ public class Gun extends Weapon{
     
     @Override
     public void attack(Player player) {
+        ArrayList<Damageable> objectives = null;
+        if(player.getCreatures() != null){
+            objectives = new ArrayList<>();
+            for(Damageable creature: player.getCreatures()){
+                objectives.add(creature);
+            }
+        }
         if(!cooldownThread.isRecover()){
             if(player.getDirection() == Collidable.UP){
-                Bullet bullet = new Bullet(player.getX(), player.getY(), player.UP, SPEED);
-                bullet.setCollidables(player.getBoundables(), null);
+                Bullet bullet = new Bullet(player.getX(), player.getY(), player.UP, SPEED, DAMAGE);
+                bullet.setCollidables(player.getBoundables(), objectives);
                 addBullet(bullet);
-                
             }
             if(player.getDirection() == Collidable.DOWN){
-                Bullet bullet = new Bullet(player.getX(), player.getY(), player.DOWN, SPEED);
-                bullet.setCollidables(player.getBoundables(), null);
+                Bullet bullet = new Bullet(player.getX(), player.getY(), player.DOWN, SPEED, DAMAGE);
+                bullet.setCollidables(player.getBoundables(), objectives);
                 addBullet(bullet);
-                
             }
             if(player.getDirection() == Collidable.RIGHT){
-                Bullet bullet = new Bullet(player.getX(), player.getY(), player.RIGHT, SPEED);
-                bullet.setCollidables(player.getBoundables(), null);
+                Bullet bullet = new Bullet(player.getX(), player.getY(), player.RIGHT, SPEED, DAMAGE);
+                bullet.setCollidables(player.getBoundables(), objectives);
                 addBullet(bullet);
-                
             }
             if(player.getDirection() == Collidable.LEFT){
-                Bullet bullet = new Bullet(player.getX(), player.getY(), player.LEFT, SPEED);
-                bullet.setCollidables(player.getBoundables(), null);
+                Bullet bullet = new Bullet(player.getX(), player.getY(), player.LEFT, SPEED, DAMAGE);
+                bullet.setCollidables(player.getBoundables(), objectives);
                 addBullet(bullet);
                 
             }

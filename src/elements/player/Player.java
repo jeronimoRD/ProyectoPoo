@@ -284,5 +284,7 @@ public class Player extends Sprite implements Damageable{
         return direction;
     }
 
-    
+    public ArrayList<Creature> getCreatures() {
+        return creatures;
+    }
 }
