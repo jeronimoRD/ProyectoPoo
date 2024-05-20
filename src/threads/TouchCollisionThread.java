@@ -25,9 +25,9 @@ public class TouchCollisionThread extends Thread{
             System.out.print("");
             try{
                 for(Collidable collidable: collidables){
-                   if(reference.checkCollision(collidable)){
-                       reference.touched(collidable);
-                   } 
+                    if(reference.checkCollision(collidable)){
+                        reference.touched(collidable);
+                    } 
                 }
             }catch(ConcurrentModificationException e){
                 try{

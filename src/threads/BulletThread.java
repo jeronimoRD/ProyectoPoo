@@ -5,7 +5,6 @@
 package threads;
 
 import elements.bullets.Bullet;
-import interfaces.Collidable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +26,7 @@ public class BulletThread extends Thread{
     @Override
     public void run(){
         while(running){
+            System.out.println("");
             int py = bullet.getY();
             int px = bullet.getX();
             

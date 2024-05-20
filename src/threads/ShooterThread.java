@@ -31,6 +31,7 @@ public class ShooterThread extends Thread{
     @Override
     public void run(){
         while(running){
+            System.out.print("");
             //HURT ITSELF
             /*
             if(shooter.getPlayer().getActualWeapon().getHitbox() != null){
@@ -39,35 +40,33 @@ public class ShooterThread extends Thread{
                 }
             }
             */
-            if(up){
-                Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.UP);
-                bullet.setBoundables(shooter.getBoundables());
-                bullet.setPlayer(shooter.getPlayer()); //? MACHETE
-                shooter.addBullet(bullet);
-            }
-            if(down){
-                Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.DOWN);
-                bullet.setBoundables(shooter.getBoundables());
-                bullet.setPlayer(shooter.getPlayer()); //? MACHETE
-                shooter.addBullet(bullet);
-            }
-            if(right){
-                Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.RIGHT);
-                bullet.setBoundables(shooter.getBoundables());
-                bullet.setPlayer(shooter.getPlayer()); //? MACHETE
-                shooter.addBullet(bullet);
-            }
-            if(left){
-                Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.LEFT);
-                bullet.setBoundables(shooter.getBoundables());
-                bullet.setPlayer(shooter.getPlayer()); //? MACHETE
-                shooter.addBullet(bullet);
-            }
-            
-            try {
-                Thread.sleep(cooldown); //SPEED OF SPAWN BULLET
-            } catch (InterruptedException ex) {
-                System.out.println("ERROR");
+            if(shooter.getPlayer() != null){
+                if(up){
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.UP);
+                    bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
+                    shooter.addBullet(bullet);
+                }
+                if(down){
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.DOWN);
+                    bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
+                    shooter.addBullet(bullet);
+                }
+                if(right){
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.RIGHT);
+                    bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
+                    shooter.addBullet(bullet);
+                }
+                if(left){
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.LEFT);
+                    bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
+                    shooter.addBullet(bullet);
+                }
+
+                try {
+                    Thread.sleep(cooldown); //SPEED OF SPAWN BULLET
+                } catch (InterruptedException ex) {
+                    System.out.println("ERROR");
+                }
             }
         }
     }

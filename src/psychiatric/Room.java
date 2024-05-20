@@ -6,7 +6,6 @@ package psychiatric;
 
 import elements.enemies.Walker;
 import elements.enemies.Creature;
-import elements.enemies.Shooter;
 import elements.player.Player;
 import elements.Sprite;
 import elements.collectibles.StickC;

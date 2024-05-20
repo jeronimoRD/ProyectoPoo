@@ -5,7 +5,6 @@
 package elements.enemies;
 
 import elements.bullets.Bullet;
-import elements.player.Player;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -50,12 +49,6 @@ public abstract class Shooter extends Creature{
     @Override
     public void touched(Collidable collidable) {
         //DIE
-    }
-    
-    //GETTERS AND SETTERS
-    @Override
-    public void setPlayer(Player damageable){
-        this.player = damageable;
     }
     
     public void addBullet(Bullet bullet){

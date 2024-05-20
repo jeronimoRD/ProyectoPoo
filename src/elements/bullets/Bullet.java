@@ -44,9 +44,11 @@ public class Bullet extends Sprite implements Collidable{
     public void touched(Collidable collidable) {
         for(Boundable boundable: boundables){
             if(collidable == boundable){
-                
                 explode = true;
             }
+        }
+        if(collidable == player){
+            player.takeDamage(0);
         }
     }
     
@@ -133,18 +135,17 @@ public class Bullet extends Sprite implements Collidable{
     }
     
     //GETTERS AND SETTERS
-    public void setPlayer(Damageable player) {
-        this.player = player;
-    }
 
     public ArrayList<Boundable> getBoundables() {
         return boundables;
     }
     
-    public void setBoundables(ArrayList<Boundable> boundables) {
+    public void setCollidables(ArrayList<Boundable> boundables, Damageable player) {
         this.boundables = boundables;
+        this.player = player;
         
         ArrayList<Collidable> collidables = new ArrayList<>();
+        collidables.add(player);
         if(boundables != null){
             for(Boundable boundable: boundables){
                 collidables.add(boundable);

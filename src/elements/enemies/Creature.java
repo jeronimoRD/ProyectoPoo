@@ -6,8 +6,6 @@ package elements.enemies;
 
 import elements.Sprite;
 import elements.player.Player;
-import static elements.player.Player.HEIGHT;
-import static elements.player.Player.WIDTH;
 import threads.TouchCollisionThread;
 import interfaces.Boundable;
 import interfaces.Collidable;
@@ -36,8 +34,6 @@ public abstract class Creature extends Sprite implements Damageable{
     
     public Creature(int x, int y, int width, int height, Color color) {
         super(x, y, width, height, color);
-        
-        this.player = null;
         
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
@@ -149,6 +145,7 @@ public abstract class Creature extends Sprite implements Damageable{
         
         touchCollisionThread.addCollidable(collidables);
     }
+    
     public void setPlayer(Player player){
         this.player = player;
     }
