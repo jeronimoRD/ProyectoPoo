@@ -168,8 +168,6 @@ public class Player extends Sprite implements Damageable{
     public void die() {
         //GAME OVER
     }
-    
-    
 
     @Override
     public boolean checkCollision(Collidable collidable) {

@@ -29,11 +29,13 @@ public class Walker extends Creature{
     
     public Walker(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.RED);
-        walkerThread = new WalkerThread(this); //¿(this)debería tener una interfaz?
         this.lifeBar = LIFE; //VIDA
+        
+        walkerThread = new WalkerThread(this); //¿(this)debería tener una interfaz?
         walkerThread.start();
     }
     
+    @Override
     public void touched(Collidable collidable) {
         for(Boundable boundable: boundables){
             if(collidable == boundable){

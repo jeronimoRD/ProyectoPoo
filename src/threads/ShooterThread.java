@@ -32,15 +32,15 @@ public class ShooterThread extends Thread{
     public void run(){
         while(running){
             System.out.print("");
-            //HURT ITSELF
-            /*
-            if(shooter.getPlayer().getActualWeapon().getHitbox() != null){
-                if(shooter.getPlayer().getActualWeapon().getHitbox().checkCollision(shooter)){
-                    shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
-                }
-            }
-            */
+            
             if(shooter.getPlayer() != null){
+                if(shooter.getPlayer().getActualWeapon() != null){
+                    if(shooter.getPlayer().getActualWeapon().isAttacking()){
+                        if(shooter.checkCollision(shooter.getPlayer().getActualWeapon().getHitbox())){
+                            shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
+                        }
+                    }
+                }
                 if(up){
                     Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.UP);
                     bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
@@ -61,13 +61,14 @@ public class ShooterThread extends Thread{
                     bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
                     shooter.addBullet(bullet);
                 }
-
+                
                 try {
                     Thread.sleep(cooldown); //SPEED OF SPAWN BULLET
                 } catch (InterruptedException ex) {
                     System.out.println("ERROR");
                 }
             }
+            
         }
     }
     

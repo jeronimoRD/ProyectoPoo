@@ -45,12 +45,6 @@ public abstract class Shooter extends Creature{
         shooterThread.stopRun();
         shooterThread = null;
     }
-    
-    @Override
-    public void touched(Collidable collidable) {
-        //DIE
-    }
-    
     public void addBullet(Bullet bullet){
         bullets.add(bullet);
     }
@@ -58,4 +52,7 @@ public abstract class Shooter extends Creature{
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
+    
+    @Override
+    public void touched(Collidable collidable) {}
 }

@@ -26,6 +26,13 @@ public class WalkerThread extends Thread{
         while(running){
             System.out.print("");
             if(walker.getPlayer() != null){
+                if(walker.getPlayer().getActualWeapon() != null){
+                    if(walker.getPlayer().getActualWeapon().isAttacking()){
+                        if(walker.checkCollision(walker.getPlayer().getActualWeapon().getHitbox())){
+                            walker.takeDamage(walker.getPlayer().getActualWeapon().getDamage());
+                        }
+                    }
+                }
                 px = walker.getPlayer().getX();
                 py = walker.getPlayer().getY();
 

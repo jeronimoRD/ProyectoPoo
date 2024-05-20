@@ -14,8 +14,8 @@ public class Psychiatric {
     private Level [] levels;
     private Level actualLevel;
     public static final int LEVELS = 3;
-    public static final int ROOMS_PER_LEVEL= 4;
-    public static final int REWARDS_PER_LEVEL = 1;
+    public static final int ROOMS_PER_LEVEL= 8;
+    public static final int REWARDS_PER_LEVEL = 2;
     
     public Psychiatric() {
         Player player = new Player(Room.WIDTH/2, Room.HEIGHT/2);
