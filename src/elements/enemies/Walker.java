@@ -10,10 +10,11 @@ import static interfaces.Collidable.DOWN;
 import static interfaces.Collidable.LEFT;
 import static interfaces.Collidable.RIGHT;
 import static interfaces.Collidable.UP;
+import interfaces.Movable;
 import threads.WalkerThread;
 import java.awt.Color;
 
-public class Walker extends Creature{
+public class Walker extends Creature implements Movable{
     
     //CHARACTERISTICS
     public static final int WIDTH = 20;
@@ -63,5 +64,10 @@ public class Walker extends Creature{
     
     public void setLastMove(int lastMove) {
         this.lastMove = lastMove;
+    }
+
+    @Override
+    public int getStep() {
+        return STEP;
     }
 }

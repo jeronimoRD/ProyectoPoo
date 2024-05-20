@@ -33,19 +33,19 @@ public class BulletThread extends Thread{
             
             //UP
             if(direction == Bullet.UP){
-                py -= Bullet.STEP;
+                py -= bullet.getStep();
                 bullet.setY(py);
             //DOWN
             }else if(direction == Bullet.DOWN){
-                py += Bullet.STEP;
+                py += bullet.getStep();
                 bullet.setY(py);
             //RIGHT
             }else if(direction == Bullet.RIGHT){
-                px += Bullet.STEP;
+                px += bullet.getStep();
                 bullet.setX(px);
             //LEFT
             }else if(direction == Bullet.LEFT){
-                px -= Bullet.STEP;
+                px -= bullet.getStep();
                 bullet.setX(px);
             }
             

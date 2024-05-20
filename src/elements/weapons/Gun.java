@@ -5,6 +5,7 @@
 package elements.weapons;
 
 import elements.bullets.Bullet;
+import elements.bullets.LinealBullet;
 import elements.player.Player;
 import interfaces.Collidable;
 import interfaces.Damageable;
@@ -66,22 +67,22 @@ public class Gun extends Weapon{
         }
         if(!cooldownThread.isRecover()){
             if(player.getDirection() == Collidable.UP){
-                Bullet bullet = new Bullet(player.getX(), player.getY(), player.UP, SPEED, DAMAGE);
+                LinealBullet bullet = new LinealBullet(player.getX(), player.getY(), player.UP, DAMAGE, SPEED);
                 bullet.setCollidables(player.getBoundables(), objectives);
                 addBullet(bullet);
             }
             if(player.getDirection() == Collidable.DOWN){
-                Bullet bullet = new Bullet(player.getX(), player.getY(), player.DOWN, SPEED, DAMAGE);
+                LinealBullet bullet = new LinealBullet(player.getX(), player.getY(), player.DOWN, DAMAGE, SPEED);
                 bullet.setCollidables(player.getBoundables(), objectives);
                 addBullet(bullet);
             }
             if(player.getDirection() == Collidable.RIGHT){
-                Bullet bullet = new Bullet(player.getX(), player.getY(), player.RIGHT, SPEED, DAMAGE);
+                LinealBullet bullet = new LinealBullet(player.getX(), player.getY(), player.RIGHT, DAMAGE, SPEED);
                 bullet.setCollidables(player.getBoundables(), objectives);
                 addBullet(bullet);
             }
             if(player.getDirection() == Collidable.LEFT){
-                Bullet bullet = new Bullet(player.getX(), player.getY(), player.LEFT, SPEED, DAMAGE);
+                LinealBullet bullet = new LinealBullet(player.getX(), player.getY(), player.LEFT, DAMAGE, SPEED);
                 bullet.setCollidables(player.getBoundables(), objectives);
                 addBullet(bullet);
                 

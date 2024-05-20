@@ -5,39 +5,31 @@
 package elements.bullets;
 
 import elements.Sprite;
+import static elements.bullets.ChaseBullet.STEP;
 import interfaces.Boundable;
 import interfaces.Collidable;
 import interfaces.Damageable;
+import interfaces.Movable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import threads.BulletThread;
 import threads.TouchCollisionThread;
 
-public class Bullet extends Sprite implements Collidable{
+public class Bullet extends Sprite implements Collidable, Movable{
 
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
-    public static final int STEP = 5;
-    private int damage;
+    protected int damage;
     
-    private BulletThread bulletThread;
-    private TouchCollisionThread touchCollisionThread;
-    private ArrayList<Boundable> boundables;
-    private ArrayList<Damageable> objectives;
+    protected TouchCollisionThread touchCollisionThread;
+    protected ArrayList<Boundable> boundables;
+    protected ArrayList<Damageable> objectives;
     
     private boolean explode;
     
-    public Bullet(int x, int y, int direction, int speed, int damage) {
-        super(x, y, WIDTH, HEIGHT, Color.ORANGE);
-        this.damage = damage;
+    public Bullet(int x, int y, int width, int height, Color color) {
+        super(x, y, width, height, color);
         boundables = new ArrayList<>();
         
-        
         explode = false;
-        
-        bulletThread = new BulletThread(this, direction, speed);
-        bulletThread.start();
         
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
@@ -170,13 +162,19 @@ public class Bullet extends Sprite implements Collidable{
         this.objectives = objectives;
     }
     
-    public BulletThread getBulletThread() {
-        return bulletThread;
-    }
-
     public boolean isExplode() {
         return explode;
     }
+
+    public void setExplode(boolean explode) {
+        this.explode = explode;
+    }
     
-    
+    @Override
+    public int getStep() {
+        return STEP;
+    }
+
+    @Override
+    public void setLastMove(int direction) {};
 }

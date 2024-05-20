@@ -13,13 +13,14 @@ import interfaces.Boundable;
 import interfaces.Collectible;
 import interfaces.Collidable;
 import interfaces.Damageable;
+import interfaces.Movable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import threads.CooldownThread;
 
-public class Player extends Sprite implements Damageable{
+public class Player extends Sprite implements Damageable, Movable{
     
     //CHARACTERISTICS
     public static final int WIDTH = 20;
@@ -294,5 +295,15 @@ public class Player extends Sprite implements Damageable{
 
     public ArrayList<Creature> getCreatures() {
         return creatures;
+    }
+
+    @Override
+    public int getStep() {
+        return STEP;
+    }
+
+    @Override
+    public void setLastMove(int direction) {
+        lastMove = direction;
     }
 }

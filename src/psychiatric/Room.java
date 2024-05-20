@@ -12,6 +12,7 @@ import elements.collectibles.GunC;
 import elements.collectibles.StickC;
 import elements.collectibles.WeaponC;
 import elements.enemies.ShooterAllDirections;
+import elements.enemies.ShooterChase;
 import elements.player.Heart;
 import interfaces.*;
 import java.awt.Color;
@@ -182,6 +183,28 @@ public class Room extends Sprite{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
                 enemy = new ShooterAllDirections(px, py); 
+                aggregate = true;
+
+                for(Collidable collidable: boundables){
+                    if(enemy.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            enemies.add(enemy);
+            enemy.setCollidables(boundables); //¿Se agrega a collidables?
+        }
+    }
+    
+    public void addShooterChase(int numberEnemies){
+        for(int i = 0; i < numberEnemies; i++){
+            boolean aggregate;
+            Creature enemy = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                enemy = new ShooterChase(px, py); 
                 aggregate = true;
 
                 for(Collidable collidable: boundables){

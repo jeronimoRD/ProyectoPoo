@@ -3,11 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package elements.enemies;
-
 import java.awt.Color;
 import threads.ShooterThread;
 
-public class ShooterAllDirections extends Shooter{
+public class ShooterChase extends Shooter{
     
     //CHARACTERISTICS
     public static final int WIDTH = 20;
@@ -17,13 +16,14 @@ public class ShooterAllDirections extends Shooter{
     public static final int LIFE = 100;
     
     //SHOT
-    public static final int COOLDOWNSHOOT = 1000;
+    public static final int COOLDOWNSHOOT = 10000;
     
-    public ShooterAllDirections(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.BLUE);
+    public ShooterChase(int x, int y) {
+        super(x, y, WIDTH, HEIGHT, Color.PINK);
         this.lifeBar = LIFE;
         
-        shooterThread = new ShooterThread(this, true, true, true, true, COOLDOWNSHOOT, 1);
+        shooterThread = new ShooterThread(this, true, true, true, true, COOLDOWNSHOOT, 2);
         shooterThread.start();
     }
+    
 }
