@@ -154,6 +154,10 @@ public class Bullet extends Sprite implements Collidable{
         }
     }
 
+    public void setPlayer(Damageable player) {
+        this.player = player;
+    }
+
     public Damageable getPlayer() {
         return player;
     }

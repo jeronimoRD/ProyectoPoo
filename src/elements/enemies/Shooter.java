@@ -5,6 +5,7 @@
 package elements.enemies;
 
 import elements.bullets.Bullet;
+import elements.player.Player;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -45,6 +46,16 @@ public abstract class Shooter extends Creature{
         shooterThread.stopRun();
         shooterThread = null;
     }
+    
+    public void setPlayer(Player player){
+        if(player == null){
+            for(Bullet bullet: bullets){
+                bullet.setPlayer(null);
+            }
+        }
+        this.player = player;
+    }
+    
     public void addBullet(Bullet bullet){
         bullets.add(bullet);
     }

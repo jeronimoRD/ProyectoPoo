@@ -95,15 +95,27 @@ public class Room extends Sprite{
     //NEXTROOM
     public int checkEntry(){
         if(player.getY() < 0){
+            for(Creature enemy: enemies){
+                enemy.setPlayer(null);
+            }
             return Boundable.UP;
         }
         if(player.getY() > Room.HEIGHT){
+            for(Creature enemy: enemies){
+                enemy.setPlayer(null);
+            }
             return Boundable.DOWN;
         }
         if(player.getX() > Room.WIDTH){
+            for(Creature enemy: enemies){
+                enemy.setPlayer(null);
+            }
             return Boundable.RIGHT;
         }
         if(player.getX() < 0){
+            for(Creature enemy: enemies){
+                enemy.setPlayer(null);
+            }
             return Boundable.LEFT;
         }
         return -1; //NOTNEXTROOM
