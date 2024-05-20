@@ -73,7 +73,7 @@ public class Stick extends Weapon{
     }
 
     @Override
-    public void attack(Collidable player) {
+    public void attack(Player player) {
         setHitbox(new HitBox(0, 0, 0, 0));
         hitbox.setCollidable(player);
         setAttacking(true);

@@ -31,7 +31,7 @@ public abstract class Weapon extends Sprite{
     @Override
     public abstract void draw(Graphics g);
     
-    public abstract void attack(Collidable collidable);
+    public abstract void attack(Player player);
 
     //GETTERS AND SETTERS
     public HitBox getHitbox() {

@@ -27,15 +27,13 @@ public class Bullet extends Sprite implements Collidable{
     
     private boolean explode;
     
-    private Graphics g;
-    
-    public Bullet(int x, int y, int direction) {
+    public Bullet(int x, int y, int direction, int speed) {
         super(x, y, WIDTH, HEIGHT, Color.ORANGE);
         boundables = new ArrayList<>();
         
         explode = false;
         
-        bulletThread = new BulletThread(this, direction);
+        bulletThread = new BulletThread(this, direction, speed);
         bulletThread.start();
         
         touchCollisionThread = new TouchCollisionThread(this);
@@ -56,7 +54,6 @@ public class Bullet extends Sprite implements Collidable{
     
     @Override
     public void draw(Graphics g) {
-        this.g = g;
         if(!explode){
             g.setColor(color);
             g.fillRect(x, y, width, height);
@@ -171,9 +168,5 @@ public class Bullet extends Sprite implements Collidable{
 
     public boolean isExplode() {
         return explode;
-    }
-
-    public Graphics getG() {
-        return g;
     }
 }

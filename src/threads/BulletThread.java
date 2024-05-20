@@ -16,11 +16,13 @@ public class BulletThread extends Thread{
     private boolean running;
     private Bullet bullet;
     private int direction;
+    private int speed;
     
-    public BulletThread(Bullet bullet, int direction) {
+    public BulletThread(Bullet bullet, int direction, int speed) {
         this.running = true;
         this.bullet = bullet;
         this.direction = direction;
+        this.speed = speed;
     }
     
     @Override
@@ -47,12 +49,8 @@ public class BulletThread extends Thread{
                 bullet.setX(px);
             }
             
-            if(bullet.getG() != null){
-            bullet.draw(bullet.getG());
-            }
-            
             try {
-                Thread.sleep(50); //SPEED OF BULLET
+                Thread.sleep(speed); //SPEED OF BULLET
             } catch (InterruptedException ex) {
                 Logger.getLogger(WalkerThread.class.getName()).log(Level.SEVERE, null, ex);
             }

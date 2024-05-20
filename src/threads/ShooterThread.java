@@ -34,6 +34,7 @@ public class ShooterThread extends Thread{
             System.out.print("");
             
             if(shooter.getPlayer() != null){
+                //HURT
                 if(shooter.getPlayer().getActualWeapon() != null){
                     if(shooter.getPlayer().getActualWeapon().isAttacking()){
                         if(shooter.checkCollision(shooter.getPlayer().getActualWeapon().getHitbox())){
@@ -41,23 +42,24 @@ public class ShooterThread extends Thread{
                         }
                     }
                 }
+                
                 if(up){
-                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.UP);
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.UP, 50);
                     bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
                     shooter.addBullet(bullet);
                 }
                 if(down){
-                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.DOWN);
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.DOWN, 50);
                     bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
                     shooter.addBullet(bullet);
                 }
                 if(right){
-                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.RIGHT);
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.RIGHT, 50);
                     bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
                     shooter.addBullet(bullet);
                 }
                 if(left){
-                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.LEFT);
+                    Bullet bullet = new Bullet(shooter.getX(), shooter.getY(), shooter.LEFT, 50);
                     bullet.setCollidables(shooter.getBoundables(), shooter.getPlayer());
                     shooter.addBullet(bullet);
                 }
@@ -68,7 +70,6 @@ public class ShooterThread extends Thread{
                     System.out.println("ERROR");
                 }
             }
-            
         }
     }
     

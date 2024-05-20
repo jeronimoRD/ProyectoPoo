@@ -8,6 +8,7 @@ import elements.enemies.Walker;
 import elements.enemies.Creature;
 import elements.player.Player;
 import elements.Sprite;
+import elements.collectibles.GunC;
 import elements.collectibles.StickC;
 import elements.collectibles.WeaponC;
 import elements.enemies.ShooterAllDirections;
@@ -200,7 +201,7 @@ public class Room extends Sprite{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
                 //!TEST!
-                weapon = new StickC(px, py);
+                weapon = new GunC(px, py);
                 aggregate = true;
 
                 for(Collidable collidable: boundables){

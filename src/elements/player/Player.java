@@ -147,7 +147,9 @@ public class Player extends Sprite implements Damageable{
     public void attack(){
         if(inventory.getSelectedWeapon() != null){
             inventory.getSelectedWeapon().attack(this);
-            inventory.getSelectedWeapon().getHitbox().setDirection(direction);
+            if(inventory.getSelectedWeapon().getHitbox() != null){
+                inventory.getSelectedWeapon().getHitbox().setDirection(direction);
+            }
         }
     }
     
