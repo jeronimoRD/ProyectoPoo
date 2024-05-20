@@ -7,7 +7,6 @@ package elements.inventory;
 import elements.player.Player;
 import elements.weapons.Weapon;
 import exceptions.FullInventoryException;
-import interfaces.Collectible;
 import interfaces.Collidable;
 import java.awt.Graphics;
 
@@ -39,6 +38,10 @@ public class Inventory {
         }
     }
     
+    public void changeSelectedWeapon(int index){
+        selectedWeapon = spaces[index];
+    }
+    
     public void addWeapon(Weapon weapon) throws FullInventoryException{
         for(Space space: spaces){
             if(space.getWeapon() == null){
@@ -53,5 +56,6 @@ public class Inventory {
     public Weapon getSelectedWeapon() {
         return selectedWeapon.getWeapon();
     }
+    
     
 }

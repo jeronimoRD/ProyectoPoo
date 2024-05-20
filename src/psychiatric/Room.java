@@ -135,6 +135,9 @@ public class Room extends Sprite{
         if(code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT){
             player.move(code);
         }
+        if(code == KeyEvent.VK_1 | code == KeyEvent.VK_2){
+            player.changeWeapon(code);
+        }
         return checkEntry();
     }
     

@@ -65,7 +65,8 @@ public class PsychiatricWindow extends javax.swing.JFrame {
             System.exit(0);
         }
         
-        if(evt.getKeyCode() == KeyEvent.VK_UP | evt.getKeyCode() == KeyEvent.VK_DOWN | evt.getKeyCode() == KeyEvent.VK_RIGHT | evt.getKeyCode() == KeyEvent.VK_LEFT){
+        if(evt.getKeyCode() == KeyEvent.VK_UP | evt.getKeyCode() == KeyEvent.VK_DOWN | evt.getKeyCode() == KeyEvent.VK_RIGHT | evt.getKeyCode() == KeyEvent.VK_LEFT | 
+            evt.getKeyCode() == KeyEvent.VK_1 | evt.getKeyCode() == KeyEvent.VK_2){
             psychiatric.keyPressed(evt.getKeyCode());
             repaint();
         }

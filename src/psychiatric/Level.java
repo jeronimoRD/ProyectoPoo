@@ -233,6 +233,9 @@ public class Level {
                 
             }
         }
+        if(code == KeyEvent.VK_1 | code == KeyEvent.VK_2){
+            actualRoom.keyPressed(code);
+        }
     }
     
     public void mousePressed(int code){

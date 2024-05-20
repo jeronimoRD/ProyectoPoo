@@ -144,6 +144,14 @@ public class Player extends Sprite implements Damageable{
         }
     }
     
+    public void changeWeapon(int code){
+        if(code == KeyEvent.VK_1){
+            inventory.changeSelectedWeapon(0);
+        }else if(code == KeyEvent.VK_2){
+            inventory.changeSelectedWeapon(1);
+        }
+    }
+    
     public void attack(){
         if(inventory.getSelectedWeapon() != null){
             inventory.getSelectedWeapon().attack(this);
