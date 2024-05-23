@@ -17,7 +17,7 @@ public class ShooterAllDirections extends Shooter{
     public static final int LIFE = 100;
     
     //SHOT
-    public static final int COOLDOWNSHOOT = 1000;
+    public static final int COOLDOWNSHOOT = 2000;
     
     public ShooterAllDirections(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.BLUE);

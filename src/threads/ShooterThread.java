@@ -55,26 +55,26 @@ public class ShooterThread extends Thread{
                         }
                     }
                 }
+                ArrayList<Damageable> objective = new ArrayList<>();
+                objective.add(shooter.getPlayer());
                 if(typeBullet == 1){
-                    ArrayList<Damageable> objective = new ArrayList<>();
-                    objective.add(shooter.getPlayer());
                     if(up){
-                        LinealBullet bullet = new LinealBullet(shooter.getX(), shooter.getY(), shooter.UP, 0, 0);
+                        LinealBullet bullet = new LinealBullet(shooter.getX(), shooter.getY(), shooter.UP, 0, 100);
                         bullet.setCollidables(shooter.getBoundables(), objective);;
                         shooter.addBullet(bullet);
                     }
                     if(down){
-                        LinealBullet bullet = new LinealBullet(shooter.getX(), shooter.getY(), shooter.DOWN, 0, 0);
+                        LinealBullet bullet = new LinealBullet(shooter.getX(), shooter.getY(), shooter.DOWN, 0, 100);
                         bullet.setCollidables(shooter.getBoundables(), objective);
                         shooter.addBullet(bullet);
                     }
                     if(right){
-                        LinealBullet bullet = new LinealBullet(shooter.getX(), shooter.getY(), shooter.RIGHT, 0, 0);
+                        LinealBullet bullet = new LinealBullet(shooter.getX(), shooter.getY(), shooter.RIGHT, 0, 100);
                         bullet.setCollidables(shooter.getBoundables(), objective);
                         shooter.addBullet(bullet);
                     }
                     if(left){
-                        LinealBullet bullet = new LinealBullet(shooter.getX(), shooter.getY(), shooter.LEFT, 0, 0);
+                        LinealBullet bullet = new LinealBullet(shooter.getX(), shooter.getY(), shooter.LEFT, 0, 100);
                         bullet.setCollidables(shooter.getBoundables(), objective);
                         shooter.addBullet(bullet);
                     }
@@ -85,8 +85,6 @@ public class ShooterThread extends Thread{
                         System.out.println("ERROR");
                     }
                 }else if(typeBullet == 2){
-                    ArrayList<Damageable> objective = new ArrayList<>();
-                    objective.add(shooter.getPlayer());
                     ChaseBullet bullet = new ChaseBullet(shooter.getX(), shooter.getY(), 0, 0, shooter.getPlayer());
                     bullet.setCollidables(shooter.getBoundables(), objective);
                     shooter.addBullet(bullet);

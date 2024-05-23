@@ -29,6 +29,7 @@ public abstract class Shooter extends Creature{
         g.fillRect(x, y, width, height);
         
         ArrayList<Bullet> eliminatedBullets =  new ArrayList<>();
+        //ERROR
         for(Bullet bullet: bullets){
             if(bullet.isExplode()){
                 eliminatedBullets.add(bullet);
@@ -43,10 +44,14 @@ public abstract class Shooter extends Creature{
     
     @Override
     public void die() {
+        for(int b = 0; b < bullets.size(); b++){
+            bullets.remove(bullets.get(b));
+        }
         shooterThread.stopRun();
         shooterThread = null;
     }
     
+    @Override
     public void setPlayer(Player player){
         if(player == null){
             for(Bullet bullet: bullets){

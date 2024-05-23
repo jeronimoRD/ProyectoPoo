@@ -33,39 +33,38 @@ public class ChaseThread extends Thread{
         int wy;
         while(running){
             System.out.print("");
-            if(prey != null){
-                if(cooldownThread.isRecover()){
-                    px = prey.getX();
-                    py = prey.getY();
+            
+            if(prey != null & cooldownThread.isRecover()){
+                px = prey.getX();
+                py = prey.getY();
 
-                    wx = persecutor.getX();
-                    wy = persecutor.getY();
-                    
-                    //UP
-                    if(wy > py){
-                        persecutor.setY(wy - (persecutor.getStep()));
-                    }
-                    //DOWN
-                    if(wy < py){
-                        persecutor.setY(wy + (persecutor.getStep()));
-                    }
-                    //RIGHT
-                    if(wx < px){
-                        persecutor.setX(wx + persecutor.getStep());
-                    }
-                    //LEFT
-                    if(wx > px){
-                        persecutor.setX(wx - persecutor.getStep());
-                    }
-                    try{
-                        Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(WalkerThread.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }else{
-                    persecutor.setExplode(true);
-                    stopRun();
+                wx = persecutor.getX();
+                wy = persecutor.getY();
+
+                //UP
+                if(wy > py){
+                    persecutor.setY(wy - (persecutor.getStep()));
                 }
+                //DOWN
+                if(wy < py){
+                    persecutor.setY(wy + (persecutor.getStep()));
+                }
+                //RIGHT
+                if(wx < px){
+                    persecutor.setX(wx + persecutor.getStep());
+                }
+                //LEFT
+                if(wx > px){
+                    persecutor.setX(wx - persecutor.getStep());
+                }
+                try{
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(WalkerThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if(!cooldownThread.isRecover()){
+                persecutor.setExplode(true);
             }
         }
     }

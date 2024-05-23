@@ -28,6 +28,8 @@ public class BulletThread extends Thread{
     @Override
     public void run(){
         while(running){
+            System.out.print("");
+            
             int py = bullet.getY();
             int px = bullet.getX();
             

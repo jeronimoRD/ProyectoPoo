@@ -9,7 +9,6 @@ import elements.enemies.Creature;
 import elements.player.Player;
 import elements.Sprite;
 import elements.collectibles.GunC;
-import elements.collectibles.StickC;
 import elements.collectibles.WeaponC;
 import elements.enemies.ShooterAllDirections;
 import elements.enemies.ShooterChase;

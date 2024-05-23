@@ -102,7 +102,7 @@ public class Level {
                     }
                 }
                 //!!Test!!
-                room.addWalker(1);
+                //room.addWalker(1);
                 //room.addShooter(1);
                 room.addShooterChase(1);
             }
@@ -194,9 +194,9 @@ public class Level {
                     }
                 }
                 //!!Test!!
-                room.addWalker(1);
-                //room.addShooter(1);
-                room.addShooterChase(1);
+                //room.addWalker(1);
+                room.addShooter(1);
+                //room.addShooterChase(1);
                 rewardRoom.addCollectible(1);
             }
         }
