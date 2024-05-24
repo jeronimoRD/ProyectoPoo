@@ -5,26 +5,31 @@
 package elements.bullets;
 
 import java.awt.Color;
-import threads.BulletThread;
+import threads.MoveLinealThread;
 
 public class LinealBullet extends Bullet{
     
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
-    public static final int STEP = 5;
     
-    private BulletThread bulletThread;
+    public static final int DAMAGE = 100;
     
-    public LinealBullet(int x, int y, int direction, int damage, int speed) {
+    private MoveLinealThread moveLinealThread;
+    
+    public LinealBullet(int x, int y, int direction, int step, int cooldownMove) {
         super(x, y, WIDTH, HEIGHT, Color.ORANGE);
-        this.damage = damage;
+        this.damage = DAMAGE;
+        this.step = step;
+        this.cooldownMove = cooldownMove;
         
-        bulletThread = new BulletThread(this, direction, speed);
-        bulletThread.start();
+        moveLinealThread = new MoveLinealThread(this, direction);
+        moveLinealThread.start();
     }
-    
-    public BulletThread getBulletThread() {
-        return bulletThread;
+
+    @Override
+    public void explode() {
+        explode = true;
+        touchCollisionThread.stopRun();
+        moveLinealThread.stopRun();
     }
-    
 }

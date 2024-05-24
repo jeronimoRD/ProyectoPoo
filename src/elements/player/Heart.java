@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package elements.player;
-import elements.Sprite;
+import another.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
 

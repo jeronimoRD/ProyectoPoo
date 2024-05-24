@@ -4,8 +4,7 @@
  */
 package elements.bullets;
 
-import elements.Sprite;
-import static elements.bullets.ChaseBullet.STEP;
+import another.Sprite;
 import interfaces.Boundable;
 import interfaces.Collidable;
 import interfaces.Damageable;
@@ -15,20 +14,25 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import threads.TouchCollisionThread;
 
-public class Bullet extends Sprite implements Collidable, Movable{
-
-    protected int damage;
+public abstract class Bullet extends Sprite implements Collidable, Movable{
     
-    protected TouchCollisionThread touchCollisionThread;
+    //CHARACTERISTICS
+    protected int step;
+    protected int cooldownMove;
+    protected int damage;
+    protected boolean explode;
+    
+    //KNOW
     protected ArrayList<Boundable> boundables;
     protected ArrayList<Damageable> objectives;
     
-    private boolean explode;
+    protected TouchCollisionThread touchCollisionThread;
     
     public Bullet(int x, int y, int width, int height, Color color) {
         super(x, y, width, height, color);
-        boundables = new ArrayList<>();
         
+        boundables = new ArrayList<>();
+        objectives = new ArrayList<>();
         explode = false;
         
         touchCollisionThread = new TouchCollisionThread(this);
@@ -39,14 +43,14 @@ public class Bullet extends Sprite implements Collidable, Movable{
     public void touched(Collidable collidable) {
         for(Boundable boundable: boundables){
             if(collidable == boundable){
-                explode = true;
+                explode();
             }
         }
         if(objectives != null){
             for(Damageable damageable: objectives){
                 if(collidable == damageable){
                     damageable.takeDamage(damage);
-                    explode = true;
+                    explode();
                 }
             }
         }
@@ -134,47 +138,37 @@ public class Bullet extends Sprite implements Collidable, Movable{
         return false;
     }
     
-    //GETTERS AND SETTERS
-
-    public ArrayList<Boundable> getBoundables() {
-        return boundables;
-    }
     
+    //GETTERS AND SETTERS
     public void setCollidables(ArrayList<Boundable> boundables, ArrayList<Damageable> objectives) {
         this.boundables = boundables;
         this.objectives = objectives;
         
         ArrayList<Collidable> collidables = new ArrayList<>();
-        if(boundables != null){
-            for(Boundable boundable: boundables){
-                collidables.add(boundable);
-            }
+        
+        for(Boundable boundable: boundables){
+            collidables.add(boundable);
         }
-        if(objectives != null){
-            for(Damageable damageable: objectives){
-                collidables.add(damageable);
-            }
+        for(Damageable damageable: objectives){
+            collidables.add(damageable);
         }
         touchCollisionThread.addCollidable(collidables);
     }
-
-    public void setObjectives(ArrayList<Damageable> objectives) {
-        this.objectives = objectives;
-    }
+    
+    public abstract void explode();
     
     public boolean isExplode() {
         return explode;
     }
-
-    public void setExplode(boolean explode) {
-        this.explode = explode;
-    }
     
     @Override
     public int getStep() {
-        return STEP;
+        return step;
     }
-
+    
     @Override
-    public void setLastMove(int direction) {};
+    public int getCoolDownMove() {
+        return cooldownMove;
+    }
+    
 }

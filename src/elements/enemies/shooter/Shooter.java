@@ -2,18 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements.enemies;
+package elements.enemies.shooter;
 
 import elements.bullets.Bullet;
-import elements.player.Player;
+import elements.enemies.Enemy;
 import interfaces.Collidable;
+import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import threads.ShooterThread;
 
-public abstract class Shooter extends Creature{
+
+public abstract class Shooter extends Enemy{
     
+    //CHARACTERISTICS
     protected ArrayList<Bullet> bullets;
     protected ShooterThread shooterThread;
     
@@ -28,13 +30,18 @@ public abstract class Shooter extends Creature{
         g.setColor(color);
         g.fillRect(x, y, width, height);
         
+        for(Bullet bullet: bullets){
+            bullet.draw(g);
+        }
+        
+        update();
+    }
+    
+    public void update(){
         ArrayList<Bullet> eliminatedBullets =  new ArrayList<>();
-        //ERROR
         for(Bullet bullet: bullets){
             if(bullet.isExplode()){
                 eliminatedBullets.add(bullet);
-            }else{
-                bullet.draw(g);
             }
         }
         for(int b = 0; b < eliminatedBullets.size(); b++){
@@ -44,31 +51,29 @@ public abstract class Shooter extends Creature{
     
     @Override
     public void die() {
-        for(int b = 0; b < bullets.size(); b++){
-            bullets.remove(bullets.get(b));
+        ArrayList<Bullet> explodes = new ArrayList<>();
+        for(Bullet bullet: bullets){
+            if(!bullet.isExplode()){
+                explodes.add(bullet);
+            }
+        }
+        for(int b = 0; b < explodes.size(); b++){
+            explodes.get(b).explode();
         }
         shooterThread.stopRun();
-        shooterThread = null;
     }
     
     @Override
-    public void setPlayer(Player player){
-        if(player == null){
-            for(Bullet bullet: bullets){
-                bullet.setObjectives(null);
-            }
-        }
+    public void setPlayer(Damageable player){
+        //NO SALIR A OTRAS HABITACIONES
         this.player = player;
     }
     
     public void addBullet(Bullet bullet){
         bullets.add(bullet);
     }
-
-    public ArrayList<Bullet> getBullets() {
-        return bullets;
-    }
     
     @Override
     public void touched(Collidable collidable) {}
 }
+

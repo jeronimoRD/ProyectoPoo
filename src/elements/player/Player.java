@@ -5,8 +5,8 @@
 package elements.player;
 
 import threads.TouchCollisionThread;
-import elements.Sprite;
-import elements.enemies.Creature;
+import another.Sprite;
+import elements.enemies.Enemy;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
 import interfaces.Boundable;
@@ -47,7 +47,7 @@ public class Player extends Sprite implements Damageable, Movable{
     private ArrayList<Boundable> boundables;
     
     //ENEMIES
-    private ArrayList<Creature> creatures;
+    private ArrayList<Enemy> creatures;
     
     //WEAPONS
     private ArrayList<Collectible> collectibles;
@@ -89,23 +89,23 @@ public class Player extends Sprite implements Damageable, Movable{
         //WALL
         for(Boundable boundable: boundables){
             if(collidable == boundable){
-                if(lastMove == UP){
+                if(direction == UP){
                     y = boundable.getY()+boundable.getHeight();
                 }
-                if(lastMove == DOWN){
+                if(direction == DOWN){
                     y = boundable.getY() - HEIGHT;
                 }
-                if(lastMove == RIGHT){
+                if(direction == RIGHT){
                     x = boundable.getX() - WIDTH;
                 }
-                if(lastMove == LEFT){
+                if(direction == LEFT){
                     x = boundable.getX()+boundable.getWidth();
                 }
             }
         }
         //ENEMY
         if(creatures != null){
-            for(Creature creature: creatures){
+            for(Enemy creature: creatures){
                 if(collidable == creature){
                     takeDamage(0);
                 }
@@ -123,22 +123,22 @@ public class Player extends Sprite implements Damageable, Movable{
     }
     
     public void move(int code){
-        if(code == KeyEvent.VK_UP){
+        if(code == KeyEvent.VK_W){
             direction = UP; //¿Aburrido?
             lastMove = UP;
             y -= STEP;
         }
-        if(code == KeyEvent.VK_DOWN){
+        if(code == KeyEvent.VK_S){
             direction = DOWN; //¿Aburrido?
             lastMove = DOWN;
             y += STEP;
         }
-        if(code == KeyEvent.VK_RIGHT){
+        if(code == KeyEvent.VK_D){
             direction = RIGHT; //¿Aburrido?
             lastMove = RIGHT;
             x += STEP;
         }
-        if(code == KeyEvent.VK_LEFT){
+        if(code == KeyEvent.VK_A){
             direction = LEFT; //¿Aburrido?
             lastMove = LEFT;
             x -= STEP;
@@ -156,9 +156,6 @@ public class Player extends Sprite implements Damageable, Movable{
     public void attack(){
         if(inventory.getSelectedWeapon() != null){
             inventory.getSelectedWeapon().attack(this);
-            if(inventory.getSelectedWeapon().getHitbox() != null){
-                inventory.getSelectedWeapon().getHitbox().setDirection(direction);
-            }
         }
     }
     
@@ -262,7 +259,7 @@ public class Player extends Sprite implements Damageable, Movable{
         return boundables;
     }
     
-    public void setCollidables(ArrayList<Boundable> boundables, ArrayList<Creature> creatures, ArrayList<Collectible> collectibles){
+    public void setCollidables(ArrayList<Boundable> boundables, ArrayList<Enemy> creatures, ArrayList<Collectible> collectibles){
         this.boundables = boundables;
         this.creatures = creatures;
         this.collectibles = collectibles;
@@ -271,7 +268,7 @@ public class Player extends Sprite implements Damageable, Movable{
         for(Boundable boundable: boundables){
             collidables.add(boundable);
         }
-        for(Creature creature: creatures){
+        for(Enemy creature: creatures){
             collidables.add(creature);
         }
         for(Collectible collectible: collectibles){
@@ -293,7 +290,7 @@ public class Player extends Sprite implements Damageable, Movable{
         return direction;
     }
 
-    public ArrayList<Creature> getCreatures() {
+    public ArrayList<Enemy> getCreatures() {
         return creatures;
     }
 
@@ -303,7 +300,7 @@ public class Player extends Sprite implements Damageable, Movable{
     }
 
     @Override
-    public void setLastMove(int direction) {
-        lastMove = direction;
+    public int getCoolDownMove() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -4,27 +4,37 @@
  */
 package elements.bullets;
 
-import interfaces.Movable;
+import interfaces.Collidable;
 import java.awt.Color;
 import threads.ChaseThread;
 
+/**
+ *
+ * @author korez
+ */
 public class ChaseBullet extends Bullet{
     
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
-    public static final int STEP = 5;
     
-    public static final int TIME = 10000; //TIME OF LIVE
+    public static final int DAMAGE = 50;
     
     private ChaseThread chaseThread;
-    private int lastMove;
-    
-    public ChaseBullet(int x, int y, int speed, int damage, Movable movable) {
+
+    public ChaseBullet(int x, int y, int step, int cooldownMove, Collidable prey) {
         super(x, y, WIDTH, HEIGHT, Color.PINK);
-        this.damage = damage;
+        this.damage = DAMAGE;
+        this.step = step;
+        this.cooldownMove = cooldownMove;
         
-        chaseThread = new ChaseThread(this, movable, TIME);
+        chaseThread = new ChaseThread(this, prey);
         chaseThread.start();
     }
-    
+
+    @Override
+    public void explode() {
+        explode = true;
+        touchCollisionThread.stopRun();
+        chaseThread.stopRun();
+    }
 }

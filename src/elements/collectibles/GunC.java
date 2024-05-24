@@ -4,7 +4,7 @@
  */
 package elements.collectibles;
 
-import elements.weapons.Gun;
+import elements.weapons.large.GunLineal;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -18,7 +18,7 @@ public class GunC extends WeaponC{
     
     public GunC(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.GREEN);
-        weapon = new Gun(null);
+        weapon = new GunLineal(null);
     }
 
     @Override

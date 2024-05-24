@@ -5,7 +5,7 @@
 package elements.inventory;
 
 import elements.weapons.Weapon;
-import elements.Sprite;
+import another.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
 

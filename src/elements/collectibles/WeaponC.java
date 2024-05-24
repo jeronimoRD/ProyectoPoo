@@ -4,7 +4,7 @@
  */
 package elements.collectibles;
 
-import elements.Sprite;
+import another.Sprite;
 import elements.weapons.Weapon;
 import interfaces.Collectible;
 import interfaces.Collidable;

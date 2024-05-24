@@ -4,7 +4,7 @@
  */
 package elements.collectibles;
 
-import elements.weapons.Stick;
+import elements.weapons.cut.Stick;
 import java.awt.Color;
 import java.awt.Graphics;
 

@@ -4,22 +4,21 @@
  */
 package threads;
 
-import elements.bullets.Bullet;
+import interfaces.Collidable;
 import interfaces.Movable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+/**
+ *
+ * @author korez
+ */
 public class ChaseThread extends Thread{
-    private CooldownThread cooldownThread;
-    private Bullet persecutor;
-    private Movable prey;
     private boolean running;
+    
+    //ELEMENTS
+    private Movable persecutor;
+    private Collidable prey;
 
-    public ChaseThread(Bullet persecutor, Movable prey, int time) {
-        cooldownThread = new CooldownThread(time);
-        cooldownThread.start();
-        cooldownThread.startCoolDown();
-        
+    public ChaseThread(Movable persecutor, Collidable prey) {
         this.persecutor = persecutor;
         this.prey = prey;
         running = true;
@@ -27,44 +26,31 @@ public class ChaseThread extends Thread{
     
     @Override
     public void run(){
-        int px;
-        int py;
-        int wx;
-        int wy;
         while(running){
             System.out.print("");
-            
-            if(prey != null & cooldownThread.isRecover()){
-                px = prey.getX();
-                py = prey.getY();
+            if(prey != null){
+                int pX = persecutor.getX();
+                int pY = persecutor.getY();        
+                int preyX = prey.getX();
+                int preyY = prey.getY();
 
-                wx = persecutor.getX();
-                wy = persecutor.getY();
-
-                //UP
-                if(wy > py){
-                    persecutor.setY(wy - (persecutor.getStep()));
+                if(pX < preyX){
+                    persecutor.setX(pX + persecutor.getStep());
                 }
-                //DOWN
-                if(wy < py){
-                    persecutor.setY(wy + (persecutor.getStep()));
+                if(pX > preyX){
+                    persecutor.setX(pX - persecutor.getStep());
                 }
-                //RIGHT
-                if(wx < px){
-                    persecutor.setX(wx + persecutor.getStep());
+                if(pY < preyY){
+                    persecutor.setY(pY + persecutor.getStep());
                 }
-                //LEFT
-                if(wx > px){
-                    persecutor.setX(wx - persecutor.getStep());
+                if(pY > preyY){
+                    persecutor.setY(pY - persecutor.getStep());
                 }
                 try{
-                    Thread.sleep(100);
+                    Thread.sleep(persecutor.getCoolDownMove());
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(WalkerThread.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR");
                 }
-            }
-            if(!cooldownThread.isRecover()){
-                persecutor.setExplode(true);
             }
         }
     }

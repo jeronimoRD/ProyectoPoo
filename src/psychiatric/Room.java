@@ -4,14 +4,12 @@
  */
 package psychiatric;
 
-import elements.enemies.Walker;
-import elements.enemies.Creature;
+import elements.enemies.walker.Walker;
+import elements.enemies.Enemy;
 import elements.player.Player;
-import elements.Sprite;
-import elements.collectibles.GunC;
-import elements.collectibles.WeaponC;
-import elements.enemies.ShooterAllDirections;
-import elements.enemies.ShooterChase;
+import another.Sprite;
+import elements.collectibles.*;
+import elements.enemies.shooter.*;
 import elements.player.Heart;
 import interfaces.*;
 import java.awt.Color;
@@ -36,7 +34,7 @@ public class Room extends Sprite{
     private boolean doorLeft;
     
     private Player player;
-    private ArrayList<Creature> enemies;
+    private ArrayList<Enemy> enemies;
     private ArrayList<Collectible> collectibles;
     private ArrayList<Boundable> boundables;
     
@@ -69,29 +67,12 @@ public class Room extends Sprite{
             boundable.draw(g);
         }
         //ENEMIES
-        ArrayList<Creature> eliminatedCreatures = new ArrayList<>();
-        for(Creature enemy: enemies){
-            if(enemy.getLifeBar() == 0){
-                eliminatedCreatures.add(enemy);
-            }else{
-               enemy.draw(g); 
-            }
-        }
-        for(int e = 0; e < eliminatedCreatures.size(); e++){
-            eliminatedCreatures.get(e).die();
-            enemies.remove(eliminatedCreatures.get(e));
+        for(Enemy enemy: enemies){
+            enemy.draw(g); 
         }
         //REWARDS
-        Collectible elimatedCollectible = null;
         for(Collectible collectible: collectibles){
-            if(collectible.getGrabed() == true){
-                elimatedCollectible = collectible;
-            }else{
-                collectible.draw(g);
-            }
-        }
-        if(elimatedCollectible != null){
-            collectibles.remove(elimatedCollectible);
+            collectible.draw(g);
         }
         //HEARTS
         for(Heart heart: player.getHearts()){
@@ -100,30 +81,52 @@ public class Room extends Sprite{
         //INVENTORY
         player.getInventory().draw(g);
         player.draw(g);
+        
+        update(); //REPAINT
+    }
+    
+    public void update(){
+        ArrayList<Enemy> eliminatedCreatures = new ArrayList<>();
+        for(Enemy enemy: enemies){
+            if(enemy.getLifeBar() == 0){
+                eliminatedCreatures.add(enemy);
+            }
+        }for(int e = 0; e < eliminatedCreatures.size(); e++){
+            enemies.remove(eliminatedCreatures.get(e));
+        }
+        
+        ArrayList<Collectible> elimatedCollectible = new ArrayList<>();
+        for(Collectible collectible: collectibles){
+            if(collectible.getGrabed() == true){
+                elimatedCollectible.add(collectible);
+            }
+        }for(int c = 0; c < elimatedCollectible.size(); c++){
+            collectibles.remove(elimatedCollectible.get(c));
+        }
     }
 
     //NEXTROOM
     public int checkEntry(){
         if(player.getY() < 0){
-            for(Creature enemy: enemies){
+            for(Enemy enemy: enemies){
                 enemy.setPlayer(null);
             }
             return Boundable.UP;
         }
         if(player.getY() > Room.HEIGHT){
-            for(Creature enemy: enemies){
+            for(Enemy enemy: enemies){
                 enemy.setPlayer(null);
             }
             return Boundable.DOWN;
         }
         if(player.getX() > Room.WIDTH){
-            for(Creature enemy: enemies){
+            for(Enemy enemy: enemies){
                 enemy.setPlayer(null);
             }
             return Boundable.RIGHT;
         }
         if(player.getX() < 0){
-            for(Creature enemy: enemies){
+            for(Enemy enemy: enemies){
                 enemy.setPlayer(null);
             }
             return Boundable.LEFT;
@@ -132,7 +135,7 @@ public class Room extends Sprite{
     }
     
     public int keyPressed(int code){
-        if(code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT){
+        if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A){
             player.move(code);
         }
         if(code == KeyEvent.VK_1 | code == KeyEvent.VK_2){
@@ -150,11 +153,13 @@ public class Room extends Sprite{
     public void addBoundable(Boundable boundable) {
         boundables.add(boundable);
     }
-
+    
+    //TEST -> RANDOM
+    //---------------------ADD---------------------
     public void addWalker(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
-            Creature enemy = null;
+            Enemy enemy = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
@@ -169,15 +174,14 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setCollidables(boundables);
+            enemy.setBoundables(boundables);
         }
     }
     
-    //---------------------ENEMIES---------------------
     public void addShooter(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
-            Creature enemy = null;
+            Enemy enemy = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
@@ -192,14 +196,14 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setCollidables(boundables); //¿Se agrega a collidables?
+            enemy.setBoundables(boundables); //¿Se agrega a collidables?
         }
     }
     
     public void addShooterChase(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
-            Creature enemy = null;
+            Enemy enemy = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
@@ -214,11 +218,33 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setCollidables(boundables); //¿Se agrega a collidables?
+            enemy.setBoundables(boundables); //¿Se agrega a collidables?
         }
     }
     
-    public void addCollectible(int numberRewards){
+    public void addStick(int numberRewards){
+        for(int i = 0; i < numberRewards; i++){
+            boolean aggregate;
+            WeaponC weapon = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                //!TEST!
+                weapon = new StickC(px, py);
+                aggregate = true;
+
+                for(Collidable collidable: boundables){
+                    if(weapon.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            collectibles.add(weapon);
+        }
+    }
+    
+    public void addGun(int numberRewards){
         for(int i = 0; i < numberRewards; i++){
             boolean aggregate;
             WeaponC weapon = null;
@@ -249,7 +275,7 @@ public class Room extends Sprite{
     public void setPlayer(Player player) {
         this.player = player;
         player.setCollidables(boundables, enemies, collectibles);
-        for(Creature enemy: enemies){
+        for(Enemy enemy: enemies){
             enemy.setPlayer(player);
         }
     }

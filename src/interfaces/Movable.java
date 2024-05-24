@@ -9,10 +9,10 @@ package interfaces;
  * @author korez
  */
 public interface Movable extends Collidable{
-    
+    //GETTERS AND SETTERS
     public void setX(int x);
     public void setY(int y);
     
     public int getStep();
-    public void setLastMove(int direction);
+    public int getCoolDownMove();
 }

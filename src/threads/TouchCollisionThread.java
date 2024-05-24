@@ -23,19 +23,21 @@ public class TouchCollisionThread extends Thread{
     public void run(){
         while(running){
             System.out.print("");
-            try{
-                for(Collidable collidable: collidables){
-                    if(collidable != null){
-                        if(reference.checkCollision(collidable)){
-                            reference.touched(collidable);
-                        } 
-                    }
-                }
-            }catch(ConcurrentModificationException e){
+            if(collidables != null){
                 try{
-                    Thread.sleep(10);
-                } catch (InterruptedException ex) {
-                    System.out.println("ERROR");
+                    for(Collidable collidable: collidables){
+                        if(collidable != null){
+                            if(reference.checkCollision(collidable)){
+                                reference.touched(collidable);
+                            } 
+                        }
+                    }
+                }catch(ConcurrentModificationException e){
+                    try{
+                        Thread.sleep(10);
+                    } catch (InterruptedException ex) {
+                        System.out.println("ERROR");
+                    }
                 }
             }
         }
