@@ -4,14 +4,17 @@
  */
 package psychiatric;
 
-import another.Menu;
+import elements.collectibles.pills.HeartPill;
+import elements.collectibles.pills.Pill;
+import elements.collectibles.weapons.GunC;
+import elements.collectibles.weapons.WeaponC;
+import elements.collectibles.weapons.StickC;
+import sprites.Menu;
 import elements.enemies.walker.Walker;
 import elements.enemies.Enemy;
 import elements.player.Player;
-import another.Sprite;
-import elements.collectibles.*;
+import sprites.Sprite;
 import elements.enemies.shooter.*;
-import elements.player.Heart;
 import interfaces.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -90,11 +93,6 @@ public class Room extends Sprite{
         menu.draw(g);
         player.getInventory().draw(g);
         
-        //HEARTS
-        for(Heart heart: player.getHearts()){
-            heart.draw(g);
-        }
-        
         update();
     }
     
@@ -157,9 +155,14 @@ public class Room extends Sprite{
         if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A){
             player.move(code);
         }
-        if(code == KeyEvent.VK_1 | code == KeyEvent.VK_2){
+        if(code == KeyEvent.VK_Q | code == KeyEvent.VK_E){
             player.changeWeapon(code);
         }
+        
+        if(code == KeyEvent.VK_1 |code == KeyEvent.VK_2 |code == KeyEvent.VK_3){
+            player.takePill(code);
+        }
+        
         return checkEntry();
     }
     
@@ -286,6 +289,28 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             collectibles.add(weapon);
+        }
+    }
+    
+    public void addHearthPill(int numberRewards){
+        for(int i = 0; i < numberRewards; i++){
+            boolean aggregate;
+            Pill pill = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                //!TEST!
+                pill = new HeartPill(px, py);
+                aggregate = true;
+
+                for(Collidable collidable: boundables){
+                    if(pill.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            collectibles.add(pill);
         }
     }
     //---------------------------------------------------

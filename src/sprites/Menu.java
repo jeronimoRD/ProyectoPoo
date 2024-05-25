@@ -2,23 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements.collectibles;
+package sprites;
 
-import elements.weapons.large.GunLineal;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- *
- * @author korez
- */
-public class GunC extends WeaponC{
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 40;
-    
-    public GunC(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.GREEN);
-        weapon = new GunLineal(null);
+public class Menu extends Sprite{
+
+    public Menu(int x, int y, int width, int height) {
+        super(x, y, width, height, Color.PINK);
     }
 
     @Override

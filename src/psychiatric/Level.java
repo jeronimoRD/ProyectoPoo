@@ -200,6 +200,7 @@ public class Level {
                 room.addShooter(1);
                 room.addShooterChase(1);
                 rewardRoom.addGun(1);
+                rewardRoom.addHearthPill(1);
             }
         }
         
@@ -237,7 +238,7 @@ public class Level {
                 
             }
         }
-        if(code == KeyEvent.VK_1 | code == KeyEvent.VK_2){
+        if(code == KeyEvent.VK_Q | code == KeyEvent.VK_E |code == KeyEvent.VK_1 |code == KeyEvent.VK_2 |code == KeyEvent.VK_3){
             actualRoom.keyPressed(code);
         }
     }

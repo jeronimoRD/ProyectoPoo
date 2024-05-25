@@ -4,7 +4,7 @@
  */
 package elements.furniture;
 
-import another.Sprite;
+import sprites.Sprite;
 import interfaces.Boundable;
 import interfaces.Collidable;
 import java.awt.Color;

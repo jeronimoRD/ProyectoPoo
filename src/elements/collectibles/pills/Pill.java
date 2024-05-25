@@ -2,28 +2,39 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements.collectibles;
+package elements.collectibles.pills;
 
-import another.Sprite;
+import sprites.Sprite;
 import elements.weapons.Weapon;
 import interfaces.Collectible;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public abstract class WeaponC extends Sprite implements Collectible{
-    
+public abstract class Pill extends Sprite implements Collectible{
+
     protected boolean grabed;
-    protected Weapon weapon;
     
-    public WeaponC(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height, color);
-        this.grabed = false;
+    public Pill(int x, int y, Color color) {
+        super(x, y, WIDTH, HEIGHT, color);
     }
 
     @Override
     public abstract void draw(Graphics g);
 
+    @Override
+    public boolean getGrabed() {
+        return grabed;
+    }
+    
+    @Override
+    public abstract int getType();
+
+    @Override
+    public Weapon grabWeapon() {
+        return null;
+    }
+    
     @Override
     public boolean checkCollision(Collidable collidable) {
         if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
@@ -43,7 +54,7 @@ public abstract class WeaponC extends Sprite implements Collectible{
 
     @Override
     public boolean checkCollision(Collidable collidable, int direction) {
-        if(direction == UP){
+                if(direction == UP){
             if(y == collidable.getY() + collidable.getHeight()){
                 if(x <= collidable.getX() & collidable.getX() <= x + width){
                     return true;
@@ -98,17 +109,5 @@ public abstract class WeaponC extends Sprite implements Collectible{
     }
 
     @Override
-    public void touched(Collidable collidable) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public boolean getGrabed(){
-        return grabed;
-    }
-    
-    @Override
-    public Weapon grabWeapon() {
-        grabed = true;
-        return weapon;
-    }
+    public void touched(Collidable collidable) {};
 }

@@ -5,7 +5,7 @@
 package elements.player;
 
 import threads.TouchCollisionThread;
-import another.Sprite;
+import sprites.Sprite;
 import elements.enemies.Enemy;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
@@ -49,8 +49,13 @@ public class Player extends Sprite implements Damageable, Movable{
     //ENEMIES
     private ArrayList<Enemy> creatures;
     
-    //WEAPONS
+    //COLLECTIBLES - PILLS
     private ArrayList<Collectible> collectibles;
+    private static final int HEARTHPILL = 1;
+    
+    private int heartPills;
+    private CooldownThread pillCooldown;
+    public static final int COOLDOWN_PILL = 1000;
     
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
@@ -67,6 +72,10 @@ public class Player extends Sprite implements Damageable, Movable{
         heartCooldown.start();
         
         inventory = new Inventory(this);
+        
+        heartPills = 2;
+        pillCooldown = new CooldownThread(COOLDOWN_PILL);
+        pillCooldown.start();
         
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
@@ -102,7 +111,7 @@ public class Player extends Sprite implements Damageable, Movable{
                     x = boundable.getX()+boundable.getWidth();
                 }
             }
-        }
+        }   
         //ENEMY
         if(creatures != null){
             for(Enemy creature: creatures){
@@ -111,10 +120,15 @@ public class Player extends Sprite implements Damageable, Movable{
                 }
             }
         }
+        //COLLECTTBLES
         if(collectibles != null){
             for(Collectible collectible: collectibles){
                 if(collidable == collectible){
-                    inventory.addWeapon(collectible.grabWeapon());
+                    if(collectible.getType() == 0){
+                        inventory.addWeapon(collectible.grabWeapon());
+                    }else if(collectible.getType() == HEARTHPILL){
+                        heartPills ++;
+                    }
                     collectibles.remove(collectible);
                     setCollidables(boundables, creatures, collectibles);
                 }
@@ -146,9 +160,9 @@ public class Player extends Sprite implements Damageable, Movable{
     }
     
     public void changeWeapon(int code){
-        if(code == KeyEvent.VK_1){
+        if(code == KeyEvent.VK_Q){
             inventory.changeSelectedWeapon(0);
-        }else if(code == KeyEvent.VK_2){
+        }else if(code == KeyEvent.VK_E){
             inventory.changeSelectedWeapon(1);
         }
     }
@@ -156,6 +170,27 @@ public class Player extends Sprite implements Damageable, Movable{
     public void attack(){
         if(inventory.getSelectedWeapon() != null){
             inventory.getSelectedWeapon().attack(this);
+        }
+    }
+    
+    public void takePill(int code){
+        if(!pillCooldown.isRecover()){
+            if(code == KeyEvent.VK_1){
+                if(heartPills > 0){
+                    for(Heart heart: hearts){ 
+                        if(!heart.isLive()){
+                            heart.setLive(true);
+                            heartPills --;
+                            pillCooldown.startCoolDown();
+                            break;
+                        }
+                    }
+                }
+            }
+            else if(code == KeyEvent.VK_2){
+            }
+            else if(code == KeyEvent.VK_3){
+            }
         }
     }
     
@@ -282,6 +317,11 @@ public class Player extends Sprite implements Damageable, Movable{
         return inventory;
     }
     
+    //PILLS
+    public int getHearthPills(){
+        return heartPills;
+    }
+    
     public Weapon getActualWeapon(){
         return inventory.getSelectedWeapon();
     }
@@ -301,6 +341,6 @@ public class Player extends Sprite implements Damageable, Movable{
 
     @Override
     public int getCoolDownMove() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return 0;
     }
 }

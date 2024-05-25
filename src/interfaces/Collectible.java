@@ -7,9 +7,15 @@ import elements.weapons.Weapon;
 import java.awt.Graphics;
 
 public interface Collectible extends Collidable{
+    public static final int WIDTH = 40;
+    public static final int HEIGHT = 40;
+    
     public boolean getGrabed();
     public void draw(Graphics g);
     
     //GETTERS AND SETTERS
     public Weapon grabWeapon();
+    
+    //TYPE
+    public int getType();
 }

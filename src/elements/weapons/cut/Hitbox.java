@@ -4,7 +4,7 @@
  */
 package elements.weapons.cut;
 
-import another.Sprite;
+import sprites.Sprite;
 import interfaces.Collidable;
 import static interfaces.Collidable.DOWN;
 import static interfaces.Collidable.LEFT;

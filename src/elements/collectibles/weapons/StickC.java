@@ -2,19 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package another;
+package elements.collectibles.weapons;
 
+import elements.weapons.cut.Stick;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- *
- * @author korez
- */
-public class Menu extends Sprite{
-
-    public Menu(int x, int y, int width, int height) {
-        super(x, y, width, height, Color.PINK);
+public class StickC extends WeaponC{
+    
+    public StickC(int x, int y) {
+        super(x, y, Color.YELLOW);
+        weapon = new Stick(null);
     }
 
     @Override
