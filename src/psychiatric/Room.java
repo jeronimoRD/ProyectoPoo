@@ -37,11 +37,13 @@ public class Room extends Sprite{
     private ArrayList<Enemy> enemies;
     private ArrayList<Collectible> collectibles;
     private ArrayList<Boundable> boundables;
+    private ArrayList<Collapsible> collapsibles;
     
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         
         boundables = new ArrayList<>();
+        collapsibles = new ArrayList<>();
         collectibles = new ArrayList<>();
         enemies = new ArrayList<>();
         
@@ -82,7 +84,7 @@ public class Room extends Sprite{
         player.getInventory().draw(g);
         player.draw(g);
         
-        update(); //REPAINT
+        update();
     }
     
     public void update(){
@@ -102,6 +104,12 @@ public class Room extends Sprite{
             }
         }for(int c = 0; c < elimatedCollectible.size(); c++){
             collectibles.remove(elimatedCollectible.get(c));
+        }
+        
+        if(enemies.size() <= 0){
+            for(int d = 0; d < collapsibles.size(); d++){
+                boundables.remove(collapsibles.get(d));
+            }
         }
     }
 
@@ -152,6 +160,10 @@ public class Room extends Sprite{
     
     public void addBoundable(Boundable boundable) {
         boundables.add(boundable);
+    }
+    
+    public void addCollapsible(Collapsible collapsible){
+        collapsibles.add(collapsible);
     }
     
     //TEST -> RANDOM

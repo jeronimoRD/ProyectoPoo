@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package io;
-import elements.furniture.Wall;
+import elements.furniture.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -66,7 +66,9 @@ public class RoomReader {
                 quadrantX += Wall.WIDTH;
 
             }else if((char)instruction == DOOR){
-                //collisions.add(new rDoor(quadrantX, quadrantY));
+                Door door = new Door(quadrantX, quadrantY);
+                room.addBoundable(door);
+                room.addCollapsible(door);
                 if(row == 0){
                     room.setDoorUp(true);
                 }else if(row + 1 == quadrants_height){

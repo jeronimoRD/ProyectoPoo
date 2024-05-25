@@ -5,15 +5,15 @@
 package elements.furniture; 
 
 import another.Sprite;
-import interfaces.Boundable;
+import interfaces.Collapsible;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Door extends Sprite implements Boundable{
+public class Door extends Sprite implements Collapsible{
     
-    public static final int WIDTH = 50;
-    public static final int HEIGHT = 50;
+    public static final int WIDTH = 100;
+    public static final int HEIGHT = 100;
     
     public Door(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.ORANGE);
@@ -27,7 +27,7 @@ public class Door extends Sprite implements Boundable{
 
     @Override
     public boolean checkCollision(Collidable collidable) {
-    if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
