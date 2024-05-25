@@ -6,7 +6,6 @@ package elements.weapons.cut;
 
 import elements.player.Player;
 import interfaces.Damageable;
-import java.util.ArrayList;
 import threads.CooldownThread;
 
 public class HitboxThread extends Thread{
