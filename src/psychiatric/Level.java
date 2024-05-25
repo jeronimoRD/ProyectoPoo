@@ -216,22 +216,22 @@ public class Level {
             Player player = actualRoom.getPlayer();
             
             if(mov == Collidable.UP & actualRoom.isDoorUp()){
-                player.setY(Room.HEIGHT);
+                player.setY(Room.HEIGHT - 120);
                 actualRoom = actualRoom.getRoomUp();
                 actualRoom.setPlayer(player);
                 
             }else if(mov == Collidable.DOWN & actualRoom.isDoorDown()){
-                player.setY(0);
+                player.setY(0 + 120);
                 actualRoom = actualRoom.getRoomDown();
                 actualRoom.setPlayer(player);
                 
             }else if(mov == Collidable.RIGHT & actualRoom.isDoorRight()){
-                player.setX(0);
+                player.setX(0 + 120);
                 actualRoom = actualRoom.getRoomRight();
                 actualRoom.setPlayer(player);
                 
             }else if(mov == Collidable.LEFT & actualRoom.isDoorLeft()){
-                player.setX(Room.WIDTH);
+                player.setX(Room.WIDTH - 120);
                 actualRoom = actualRoom.getRoomLeft();
                 actualRoom.setPlayer(player);
                 
