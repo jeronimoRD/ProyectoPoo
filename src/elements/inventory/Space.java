@@ -14,8 +14,8 @@ import java.awt.Graphics;
  * @author korez
  */
 public class Space extends Sprite{
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 40;
+    public static final int WIDTH = 60;
+    public static final int HEIGHT = 60;
     
     private Weapon weapon;
     

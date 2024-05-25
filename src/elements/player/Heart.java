@@ -9,8 +9,8 @@ import java.awt.Graphics;
 
 public class Heart extends Sprite {
 
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 40;
+    public static final int WIDTH = 60;
+    public static final int HEIGHT = 60;
     
     private boolean live;
     

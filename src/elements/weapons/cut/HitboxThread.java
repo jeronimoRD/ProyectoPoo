@@ -35,56 +35,57 @@ public class HitboxThread extends Thread{
         while(running){
             System.out.print("");
             if(player != null){
-                System.out.print("");
-                if(player.getActualWeapon().isAttacking() & hitbox == null){
-                    hitbox = new Hitbox(player.getX(), player.getY(), scope, scope);
-                    cooldownThread.startCoolDown();
-                }
-                if(player.getActualWeapon().isAttacking() & hitbox != null){
-                    
-                    
-                    int px = 0;
-                    int py = 0;
-                    
-                    if(player.getDirection() == player.UP){
-                        px = (player.getX() + (player.getWidth()/2)) - (hitbox.getWidth()/2);
-                        py = player.getY() - hitbox.getHeight() - 10;
-                        
-                    }else if(player.getDirection() == player.DOWN){
-                        px = (player.getX() + (player.getWidth()/2)) - (hitbox.getWidth()/2);
-                        py = player.getY() + player.getHeight() + 10;
-                        
-                    }else if(player.getDirection() == player.RIGHT){
-                        px = player.getX() + player.getWidth() + 10;
-                        py = (player.getY() + (player.getHeight()/2)) - (hitbox.getHeight()/2);
-                        
-                    }else if(player.getDirection() == player.LEFT){
-                        px = player.getX() - hitbox.getWidth() - 10;
-                        py = (player.getY() + (player.getHeight()/2)) - (hitbox.getHeight()/2);
+                if(player.getActualWeapon() != null){
+                    if(player.getActualWeapon().isAttacking() & hitbox == null){
+                        hitbox = new Hitbox(player.getX(), player.getY(), scope, scope);
+                        cooldownThread.startCoolDown();
                     }
-                    
-                    hitbox.setX(px);
-                    hitbox.setY(py);
-                    
-                    //KILL ENEMY
-                    Damageable eliminated = null;
-                    for(Damageable creature: player.getCreatures()){
-                        if(creature.checkCollision(hitbox)){
-                            eliminated = creature;
-                            break;
+                    if(player.getActualWeapon().isAttacking() & hitbox != null){
+
+
+                        int px = 0;
+                        int py = 0;
+
+                        if(player.getDirection() == player.UP){
+                            px = (player.getX() + (player.getWidth()/2)) - (hitbox.getWidth()/2);
+                            py = player.getY() - hitbox.getHeight() - 10;
+
+                        }else if(player.getDirection() == player.DOWN){
+                            px = (player.getX() + (player.getWidth()/2)) - (hitbox.getWidth()/2);
+                            py = player.getY() + player.getHeight() + 10;
+
+                        }else if(player.getDirection() == player.RIGHT){
+                            px = player.getX() + player.getWidth() + 10;
+                            py = (player.getY() + (player.getHeight()/2)) - (hitbox.getHeight()/2);
+
+                        }else if(player.getDirection() == player.LEFT){
+                            px = player.getX() - hitbox.getWidth() - 10;
+                            py = (player.getY() + (player.getHeight()/2)) - (hitbox.getHeight()/2);
+                        }
+
+                        hitbox.setX(px);
+                        hitbox.setY(py);
+
+                        //KILL ENEMY
+                        Damageable eliminated = null;
+                        for(Damageable creature: player.getCreatures()){
+                            if(creature.checkCollision(hitbox)){
+                                eliminated = creature;
+                                break;
+                            }
+                        }
+                        if(eliminated != null){
+                            eliminated.takeDamage(player.getActualWeapon().getDamage());
+                        }
+                        ///
+
+                        if(!cooldownThread.isRecover()){
+                            player.getActualWeapon().setAttacking(false);
                         }
                     }
-                    if(eliminated != null){
-                        eliminated.takeDamage(player.getActualWeapon().getDamage());
+                    if(!player.getActualWeapon().isAttacking() & hitbox != null){
+                        hitbox = null;
                     }
-                    ///
-                    
-                    if(!cooldownThread.isRecover()){
-                        player.getActualWeapon().setAttacking(false);
-                    }
-                }
-                if(!player.getActualWeapon().isAttacking() & hitbox != null){
-                    hitbox = null;
                 }
             }
         }

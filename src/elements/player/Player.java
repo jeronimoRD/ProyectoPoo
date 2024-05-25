@@ -58,11 +58,11 @@ public class Player extends Sprite implements Damageable, Movable{
         heartCooldown = new CooldownThread(COOLDOWN_LIVE);
         
         int px = 30; //dimensions of hearts
-        int py = 40;
+        int py = 820;
         for(int h = 0; h < LIVES; h++){
             hearts[h] = new Heart(px, py);
             hearts[h].setLive(true);
-            px += 60;
+            px += 80;
         }
         heartCooldown.start();
         

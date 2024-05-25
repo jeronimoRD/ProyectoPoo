@@ -4,6 +4,7 @@
  */
 package psychiatric;
 
+import another.Menu;
 import elements.enemies.walker.Walker;
 import elements.enemies.Enemy;
 import elements.player.Player;
@@ -39,6 +40,8 @@ public class Room extends Sprite{
     private ArrayList<Boundable> boundables;
     private ArrayList<Collapsible> collapsibles;
     
+    private Menu menu;
+    
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         
@@ -56,6 +59,9 @@ public class Room extends Sprite{
         doorDown = false;
         doorRight = false;
         doorLeft = false;
+        
+        //INVENTORY
+        menu = new Menu(0, HEIGHT, WIDTH, 100);
     }
 
     @Override
@@ -76,13 +82,18 @@ public class Room extends Sprite{
         for(Collectible collectible: collectibles){
             collectible.draw(g);
         }
+        
+        //PLAYER
+        player.draw(g);
+        
+        //INVENTORY
+        menu.draw(g);
+        player.getInventory().draw(g);
+        
         //HEARTS
         for(Heart heart: player.getHearts()){
             heart.draw(g);
         }
-        //INVENTORY
-        player.getInventory().draw(g);
-        player.draw(g);
         
         update();
     }

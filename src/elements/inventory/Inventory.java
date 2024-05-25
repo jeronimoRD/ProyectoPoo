@@ -22,10 +22,10 @@ public class Inventory {
         spaces = new Space[SPACES_WEAPONS];
         
         int px = 800;
-        int py = 40;
+        int py = 820;
         for(int s = 0; s < SPACES_WEAPONS; s++){
             spaces[s] = new Space(px, py);
-            px += 60;
+            px += 80;
         }
         
         //!!TEST!!

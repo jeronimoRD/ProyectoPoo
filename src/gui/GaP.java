@@ -23,8 +23,8 @@ public class GaP extends javax.swing.JPanel implements Runnable {
     
     public GaP(){
         initComponents();
-        this.setPreferredSize(new Dimension(1000, 800));
-        this.setBackground(Color.BLACK);
+        this.setPreferredSize(new Dimension(1000, 900));
+        this.setBackground(Color.RED);
         this.setDoubleBuffered(true);
         this.addKeyListener(kh);
         this.addMouseListener(mh);
