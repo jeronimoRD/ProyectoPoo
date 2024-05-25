@@ -78,7 +78,7 @@ public class PsychiatricWindow extends javax.swing.JFrame {
             repaint();
         }
     }//GEN-LAST:event_formMousePressed
-
+    /*
     public static void main(String args[]) {
         PsychiatricWindow psychiatricW = new PsychiatricWindow();
         Psychiatric psychiatric = new Psychiatric();
@@ -86,7 +86,7 @@ public class PsychiatricWindow extends javax.swing.JFrame {
         psychiatricW.setSize(psychiatric.getScreenWidth(), psychiatric.getScreenHeight());
         psychiatricW.setPsychiatric(psychiatric);
         psychiatricW.setVisible(true);
-    }
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
