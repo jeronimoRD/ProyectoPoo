@@ -2,30 +2,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements; 
+package elements.collectibles;
 
+import another.Sprite;
+import elements.weapons.Weapon;
+import interfaces.Collectible;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Door extends Sprite implements Collidable{
+public abstract class WeaponC extends Sprite implements Collectible{
     
-    public static final int WIDTH = 50;
-    public static final int HEIGHT = 50;
+    protected boolean grabed;
+    protected Weapon weapon;
     
-    public Door(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.ORANGE);
+    public WeaponC(int x, int y, int width, int height, Color color) {
+        super(x, y, width, height, color);
+        this.grabed = false;
     }
 
     @Override
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
-    }
+    public abstract void draw(Graphics g);
 
     @Override
     public boolean checkCollision(Collidable collidable) {
-    if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
+        if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() >= x + width & x + width > collidable.getX())){
@@ -94,5 +95,20 @@ public class Door extends Sprite implements Collidable{
             }
         }
         return false;
+    }
+
+    @Override
+    public void touched(Collidable collidable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean getGrabed(){
+        return grabed;
+    }
+    
+    @Override
+    public Weapon grabWeapon() {
+        grabed = true;
+        return weapon;
     }
 }

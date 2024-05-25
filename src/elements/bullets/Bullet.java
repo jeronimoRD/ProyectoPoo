@@ -2,40 +2,58 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements;
+package elements.bullets;
 
+import another.Sprite;
+import interfaces.Boundable;
 import interfaces.Collidable;
 import interfaces.Damageable;
+import interfaces.Movable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import threads.BulletThread;
+import threads.TouchCollisionThread;
 
-public class Bullet extends Sprite implements Collidable{
-
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
-    public static final int STEP = 5;
+public abstract class Bullet extends Sprite implements Collidable, Movable{
     
-    private BulletThread bulletThread;
-    private ArrayList<Collidable> collidables;
-    private ArrayList<Bullet> bullets;
-    private Damageable player;
-    private boolean explode;
+    //CHARACTERISTICS
+    protected int step;
+    protected int cooldownMove;
+    protected int damage;
+    protected boolean explode;
     
-    public Bullet(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.ORANGE);
-        collidables = new ArrayList<>();
-        bulletThread = new BulletThread(this);
+    //KNOW
+    protected ArrayList<Boundable> boundables;
+    protected ArrayList<Damageable> objectives;
+    
+    protected TouchCollisionThread touchCollisionThread;
+    
+    public Bullet(int x, int y, int width, int height, Color color) {
+        super(x, y, width, height, color);
+        
+        boundables = new ArrayList<>();
+        objectives = new ArrayList<>();
         explode = false;
+        
+        touchCollisionThread = new TouchCollisionThread(this);
+        touchCollisionThread.start();
     }
     
-    public void move(int direction){
-        if(!bulletThread.isRunning()){
-            bulletThread.setDirection(direction);
-            bulletThread.start();
+    @Override
+    public void touched(Collidable collidable) {
+        for(Boundable boundable: boundables){
+            if(collidable == boundable){
+                explode();
+            }
         }
-        bulletThread.setRunning(true);
+        if(objectives != null){
+            for(Damageable damageable: objectives){
+                if(collidable == damageable){
+                    damageable.takeDamage(damage);
+                    explode();
+                }
+            }
+        }
     }
     
     @Override
@@ -48,16 +66,17 @@ public class Bullet extends Sprite implements Collidable{
 
     @Override
     public boolean checkCollision(Collidable collidable) {
-        if((collidable.getY() + collidable.getHeight() > y  & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        //PUNTO ARRIBA-IZQUIERDO
+        if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+        //PUNTO ABAJO-DERECHA
+        }else if((collidable.getY() <= y + height & y + height <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x + width & x + width <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y & y > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x + width & x + width > collidable.getX())){
+         //PUNTO ARRIBA-DERECHA
+        }else if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x + width & x + width <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        if((collidable.getY() + collidable.getHeight() > y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
+        //PUNTO ABAJO-IZQUIERDA    
+        }else if((collidable.getY() <= y + height & y + height <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;
         }
         return false;
@@ -119,33 +138,37 @@ public class Bullet extends Sprite implements Collidable{
         return false;
     }
     
+    
     //GETTERS AND SETTERS
-    public void setPlayer(Damageable player) {
-        this.player = player;
-    }
-
-    public void setCollidables(ArrayList<Collidable> collidables) {
-        this.collidables = collidables;
+    public void setCollidables(ArrayList<Boundable> boundables, ArrayList<Damageable> objectives) {
+        this.boundables = boundables;
+        this.objectives = objectives;
+        
+        ArrayList<Collidable> collidables = new ArrayList<>();
+        
+        for(Boundable boundable: boundables){
+            collidables.add(boundable);
+        }
+        for(Damageable damageable: objectives){
+            collidables.add(damageable);
+        }
+        touchCollisionThread.addCollidable(collidables);
     }
     
-    public ArrayList<Collidable> getCollidables() {
-        return collidables;
-    }
-
-    public Damageable getPlayer() {
-        return player;
-    }
+    public abstract void explode();
     
-    public BulletThread getBulletThread() {
-        return bulletThread;
-    }
-
     public boolean isExplode() {
         return explode;
     }
-
-    public void setExplode(boolean explode) {
-        this.explode = explode;
+    
+    @Override
+    public int getStep() {
+        return step;
+    }
+    
+    @Override
+    public int getCoolDownMove() {
+        return cooldownMove;
     }
     
 }

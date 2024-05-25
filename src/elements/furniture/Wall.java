@@ -2,25 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements;
+package elements.furniture;
 
+import another.Sprite;
+import interfaces.Boundable;
 import interfaces.Collidable;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Reward extends Sprite implements Collidable{
+public class Wall extends Sprite implements Boundable{
     
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 20;
-
-    public Reward(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.YELLOW);
+    public static final int WIDTH = 100;
+    public static final int HEIGHT = 100;
+    
+    public Wall(int x, int y) {
+        super(x, y, WIDTH, HEIGHT, Color.BLACK);
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
-        g.fillRect(x, y, WIDTH, HEIGHT);
+        g.fillRect(x, y, width, height);
     }
 
     @Override
@@ -40,11 +42,17 @@ public class Reward extends Sprite implements Collidable{
         return false;
     }
 
+    
     @Override
     public boolean checkCollision(Collidable collidable, int direction) {
         if(direction == UP){
             if(y == collidable.getY() + collidable.getHeight()){
-                return true;
+                if(x <= collidable.getX() & collidable.getX() <= x + width){
+                    return true;
+                }
+                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -52,7 +60,12 @@ public class Reward extends Sprite implements Collidable{
         
         else if(direction == DOWN){
             if(y + height == collidable.getY()){
-                return true;
+                if(x <= collidable.getX() & collidable.getX() <= x + width){
+                    return true;
+                }
+                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -60,7 +73,12 @@ public class Reward extends Sprite implements Collidable{
         
         else if(direction == LEFT){
             if(x == collidable.getX() + collidable.getWidth()){
-                return true;
+                if(y <= collidable.getY() & collidable.getY() <= y + height){
+                    return true;
+                }
+                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
+                    return true;
+                }
             }else{
                 return false;
             }
@@ -68,11 +86,21 @@ public class Reward extends Sprite implements Collidable{
         
         else if(direction == RIGHT){
             if(x + width == collidable.getX()){
-                return true;
+                if(y <= collidable.getY() & collidable.getY() <= y + height){
+                    return true;
+                }
+                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
+                    return true;
+                }
             }else{
                 return false;
             }
         }
         return false;
-    }    
+    }
+
+    @Override
+    public void touched(Collidable collidable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

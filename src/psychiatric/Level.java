@@ -3,12 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
-import elements.Player;
+import elements.player.Player;
 import exceptions.ImpossibleStructureRoomsException;
 import interfaces.Collidable;
 import io.RoomReader;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class Level {
@@ -26,6 +27,8 @@ public class Level {
         //CREATE ROOMS
         rooms = new Room[totalRooms];
         rooms[0] = roomReader.read(1); //INITIAL ROOM
+        //TEST
+        rooms[0].addStick(1);
         
         //CREATE RANDOM HALLWAY
         for(int r = 0; r < hallways; r++){
@@ -100,8 +103,10 @@ public class Level {
                         }
                     }
                 }
-                room.addWalker(1);
-                room.addShooter(1);
+                //!!Test!!
+                room.addWalker(2);
+                //room.addShooter(1);
+                room.addShooterChase(1);
             }
         }
         
@@ -193,7 +198,8 @@ public class Level {
                 //!!Test!!
                 room.addWalker(1);
                 room.addShooter(1);
-                rewardRoom.addReward(1);
+                room.addShooterChase(1);
+                rewardRoom.addGun(1);
             }
         }
         
@@ -205,7 +211,7 @@ public class Level {
     }
     
     public void keyPressed(int code){
-        if(code == KeyEvent.VK_UP | code == KeyEvent.VK_DOWN | code == KeyEvent.VK_RIGHT | code == KeyEvent.VK_LEFT){
+        if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A){
             int mov = actualRoom.keyPressed(code);
             Player player = actualRoom.getPlayer();
             
@@ -230,6 +236,15 @@ public class Level {
                 actualRoom.setPlayer(player);
                 
             }
+        }
+        if(code == KeyEvent.VK_1 | code == KeyEvent.VK_2){
+            actualRoom.keyPressed(code);
+        }
+    }
+    
+    public void mousePressed(int code){
+        if(code == MouseEvent.BUTTON1){
+            actualRoom.mousePressed(code);
         }
     }
     

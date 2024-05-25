@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import psychiatric.Psychiatric;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 public class PsychiatricWindow extends javax.swing.JFrame {
 
@@ -34,6 +35,11 @@ public class PsychiatricWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -59,11 +65,19 @@ public class PsychiatricWindow extends javax.swing.JFrame {
             System.exit(0);
         }
         
-        if(evt.getKeyCode() == KeyEvent.VK_UP | evt.getKeyCode() == KeyEvent.VK_DOWN | evt.getKeyCode() == KeyEvent.VK_RIGHT | evt.getKeyCode() == KeyEvent.VK_LEFT){
+        if(evt.getKeyCode() == KeyEvent.VK_W | evt.getKeyCode() == KeyEvent.VK_S | evt.getKeyCode() == KeyEvent.VK_D | evt.getKeyCode() == KeyEvent.VK_A | 
+            evt.getKeyCode() == KeyEvent.VK_1 | evt.getKeyCode() == KeyEvent.VK_2){
             psychiatric.keyPressed(evt.getKeyCode());
             repaint();
         }
     }//GEN-LAST:event_formKeyPressed
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        if(evt.getButton() == MouseEvent.BUTTON1){
+            psychiatric.mousePressed(evt.getButton());
+            repaint();
+        }
+    }//GEN-LAST:event_formMousePressed
 
     public static void main(String args[]) {
         PsychiatricWindow psychiatricW = new PsychiatricWindow();

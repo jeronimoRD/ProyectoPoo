@@ -4,7 +4,15 @@
  */
 package interfaces;
 
-public interface Damageable extends Collidable{
-    public void takeDamage(int damage);
-    public void die();
+/**
+ *
+ * @author korez
+ */
+public interface Movable extends Collidable{
+    //GETTERS AND SETTERS
+    public void setX(int x);
+    public void setY(int y);
+    
+    public int getStep();
+    public int getCoolDownMove();
 }
