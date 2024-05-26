@@ -6,11 +6,7 @@ package elements.weapons.cut;
 
 import sprites.Sprite;
 import interfaces.Collidable;
-import static interfaces.Collidable.DOWN;
-import static interfaces.Collidable.LEFT;
-import static interfaces.Collidable.RIGHT;
-import static interfaces.Collidable.UP;
-import java.awt.Color; // *
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Hitbox extends Sprite implements Collidable{ //EXTEND SPRITE*
@@ -24,74 +20,15 @@ public class Hitbox extends Sprite implements Collidable{ //EXTEND SPRITE*
     
     @Override
     public boolean checkCollision(Collidable collidable) {
-        //PUNTO ARRIBA-IZQUIERDO
+        //V2
         if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;
-        //PUNTO ABAJO-DERECHA
         }else if((collidable.getY() <= y + height & y + height <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x + width & x + width <= collidable.getX() + collidable.getWidth())){
             return true;
-         //PUNTO ARRIBA-DERECHA
         }else if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x + width & x + width <= collidable.getX() + collidable.getWidth())){
-            return true;
-        //PUNTO ABAJO-IZQUIERDA    
+            return true;   
         }else if((collidable.getY() <= y + height & y + height <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean checkCollision(Collidable collidable, int direction) {
-        if(direction == UP){
-            if(y == collidable.getY() + collidable.getHeight()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == DOWN){
-            if(y + height == collidable.getY()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == LEFT){
-            if(x == collidable.getX() + collidable.getWidth()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == RIGHT){
-            if(x + width == collidable.getX()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
         }
         return false;
     }
@@ -146,11 +83,4 @@ public class Hitbox extends Sprite implements Collidable{ //EXTEND SPRITE*
     public void setCollidable(Collidable collidable) {
         this.collidable = collidable;
     }
-
-    @Override
-    public void touched(Collidable collidable) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    
 }

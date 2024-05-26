@@ -77,6 +77,4 @@ public class Inventory {
     public Weapon getSelectedWeapon() {
         return selectedWeapon.getWeapon();
     }
-    
-    
 }

@@ -12,14 +12,10 @@ public interface Collidable {
     public static final int LEFT = 3; 
     
     public boolean checkCollision(Collidable collidable);
-    public boolean checkCollision(Collidable collidable, int direction);
     
     //GETTERS AND SETTERS
     public int getX();
     public int getY();
     public int getWidth();
     public int getHeight();
-    
-    //THREAD
-    public void touched(Collidable collidable);
 }

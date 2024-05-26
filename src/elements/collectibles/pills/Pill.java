@@ -34,6 +34,9 @@ public abstract class Pill extends Sprite implements Collectible{
     public Weapon grabWeapon() {
         return null;
     }
+
+    @Override
+    public void throwWeapon(){};
     
     @Override
     public boolean checkCollision(Collidable collidable) {
@@ -51,63 +54,4 @@ public abstract class Pill extends Sprite implements Collectible{
         }
         return false;
     }
-
-    @Override
-    public boolean checkCollision(Collidable collidable, int direction) {
-                if(direction == UP){
-            if(y == collidable.getY() + collidable.getHeight()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == DOWN){
-            if(y + height == collidable.getY()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == LEFT){
-            if(x == collidable.getX() + collidable.getWidth()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == RIGHT){
-            if(x + width == collidable.getX()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void touched(Collidable collidable) {};
 }

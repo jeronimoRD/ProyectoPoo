@@ -42,16 +42,6 @@ public class ShooterThread extends Thread{
         while(running){
             System.out.print("");
             if(shooter.getPlayer() != null){
-                //HURT
-                /*
-                if(shooter.getPlayer().getActualWeapon() != null){
-                    if(shooter.getPlayer().getActualWeapon().isAttacking()){
-                        if(shooter.checkCollision(shooter.getPlayer().getActualWeapon().getHitbox())){
-                            shooter.takeDamage(shooter.getPlayer().getActualWeapon().getDamage());
-                        }
-                    }
-                }*/
-                
                 ArrayList<Damageable> objective = new ArrayList<>();
                 objective.add(shooter.getPlayer());
                 if(typeBullet == 1){
@@ -76,7 +66,7 @@ public class ShooterThread extends Thread{
                         shooter.addBullet(bullet);
                     }
                     try {
-                    Thread.sleep(cooldown); //SIMPLIFICACION
+                        Thread.sleep(cooldown);
                     } catch (InterruptedException ex) {
                         System.out.println("ERROR");
                     }
@@ -85,7 +75,7 @@ public class ShooterThread extends Thread{
                     bullet.setCollidables(shooter.getBoundables(), objective);
                     shooter.addBullet(bullet);
                     try {
-                        Thread.sleep(cooldown); //SIMPLIFICACION
+                        Thread.sleep(cooldown); 
                     } catch (InterruptedException ex) {
                         System.out.println("ERROR");
                     }

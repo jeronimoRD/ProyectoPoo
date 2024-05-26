@@ -9,6 +9,7 @@ import sprites.Sprite;
 import elements.enemies.Enemy;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
+import exceptions.FullInventoryException;
 import interfaces.Boundable;
 import interfaces.Collectible;
 import interfaces.Collidable;
@@ -37,8 +38,7 @@ public class Player extends Sprite implements Damageable, Movable{
     
     //MOVE
     public static final int STEP = 5; 
-    private int lastMove = -1;
-    private int direction; //¿Aburrido?
+    private int direction; 
     
     //ITERACTABLE
     private Inventory inventory;
@@ -108,11 +108,17 @@ public class Player extends Sprite implements Damageable, Movable{
             for(Collectible collectible: collectibles){
                 if(collidable == collectible){
                     if(collectible.getType() == 0){
-                        inventory.addWeapon(collectible.grabWeapon());
+                        try{
+                            inventory.addWeapon(collectible.grabWeapon());
+                            collectibles.remove(collectible);
+                        }catch(FullInventoryException e){
+                            collectible.throwWeapon();
+                        }
                     }else if(collectible.getType() == HEARTHPILL){
                         heartPills ++;
+                        collectibles.remove(collectible);
                     }
-                    collectibles.remove(collectible);
+                    
                     setCollidables(boundables, creatures, collectibles);
                 }
             }
@@ -122,8 +128,7 @@ public class Player extends Sprite implements Damageable, Movable{
     public void move(ArrayList<Integer> keys){
         if(keys.contains(KeyEvent.VK_W)){
             y -= STEP;
-            direction = UP; //¿Aburrido?
-            lastMove = UP;
+            direction = UP; 
             for(Boundable boundable: boundables){
                 if(checkCollision(boundable)){
                     y += STEP;
@@ -133,8 +138,7 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         if(keys.contains(KeyEvent.VK_S)){
             y += STEP;
-            direction = DOWN; //¿Aburrido?
-            lastMove = DOWN;
+            direction = DOWN; 
             for(Boundable boundable: boundables){
                 if(checkCollision(boundable)){
                     y -= STEP;
@@ -144,8 +148,7 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         if(keys.contains(KeyEvent.VK_D)){
             x += STEP;
-            direction = RIGHT; //¿Aburrido?
-            lastMove = RIGHT;
+            direction = RIGHT; 
             for(Boundable boundable: boundables){
                 if(checkCollision(boundable)){
                     x -= STEP;
@@ -155,8 +158,7 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         if(keys.contains(KeyEvent.VK_A)){
             x -= STEP;
-            direction = LEFT; //¿Aburrido?
-            lastMove = LEFT;
+            direction = LEFT; 
             for(Boundable boundable: boundables){
                 if(checkCollision(boundable)){
                     x += STEP;
@@ -232,62 +234,6 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
             return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean checkCollision(Collidable collidable, int direction) {
-        if(direction == UP){
-            if(y == collidable.getY() + collidable.getHeight()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == DOWN){
-            if(y + height == collidable.getY()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == LEFT){
-            if(x == collidable.getX() + collidable.getWidth()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == RIGHT){
-            if(x + width == collidable.getX()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
         }
         return false;
     }

@@ -8,10 +8,6 @@ import interfaces.Collidable;
 import java.awt.Color;
 import threads.ChaseThread;
 
-/**
- *
- * @author korez
- */
 public class ChaseBullet extends Bullet{
     
     public static final int WIDTH = 10;

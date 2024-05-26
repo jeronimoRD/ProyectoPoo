@@ -106,15 +106,6 @@ public class Room extends Sprite{
             enemies.remove(eliminatedCreatures.get(e));
         }
         
-        ArrayList<Collectible> elimatedCollectible = new ArrayList<>();
-        for(Collectible collectible: collectibles){
-            if(collectible.getGrabed() == true){
-                elimatedCollectible.add(collectible);
-            }
-        }for(int c = 0; c < elimatedCollectible.size(); c++){
-            collectibles.remove(elimatedCollectible.get(c));
-        }
-        
         if(enemies.size() <= 0){
             for(int d = 0; d < collapsibles.size(); d++){
                 boundables.remove(collapsibles.get(d));
@@ -244,7 +235,7 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setBoundables(boundables); //¿Se agrega a collidables?
+            enemy.setBoundables(boundables);
         }
     }
     
