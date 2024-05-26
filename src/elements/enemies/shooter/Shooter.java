@@ -6,7 +6,6 @@ package elements.enemies.shooter;
 
 import elements.bullets.Bullet;
 import elements.enemies.Enemy;
-import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -65,15 +64,11 @@ public abstract class Shooter extends Enemy{
     
     @Override
     public void setPlayer(Damageable player){
-        //NO SALIR A OTRAS HABITACIONES
         this.player = player;
     }
     
     public void addBullet(Bullet bullet){
         bullets.add(bullet);
     }
-    
-    @Override
-    public void touched(Collidable collidable) {}
 }
 

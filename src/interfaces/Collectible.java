@@ -15,6 +15,7 @@ public interface Collectible extends Collidable{
     
     //GETTERS AND SETTERS
     public Weapon grabWeapon();
+    public void throwWeapon();
     
     //TYPE
     public int getType();

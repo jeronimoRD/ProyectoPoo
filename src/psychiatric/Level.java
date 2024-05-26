@@ -8,9 +8,9 @@ import exceptions.ImpossibleStructureRoomsException;
 import interfaces.Collidable;
 import io.RoomReader;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Level {
     private Room[] rooms;
@@ -211,35 +211,30 @@ public class Level {
         actualRoom.draw(g);
     }
     
-    public void keyPressed(int code){
-        if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A){
-            int mov = actualRoom.keyPressed(code);
-            Player player = actualRoom.getPlayer();
-            
-            if(mov == Collidable.UP & actualRoom.isDoorUp()){
-                player.setY(Room.HEIGHT - 120);
-                actualRoom = actualRoom.getRoomUp();
-                actualRoom.setPlayer(player);
-                
-            }else if(mov == Collidable.DOWN & actualRoom.isDoorDown()){
-                player.setY(0 + 120);
-                actualRoom = actualRoom.getRoomDown();
-                actualRoom.setPlayer(player);
-                
-            }else if(mov == Collidable.RIGHT & actualRoom.isDoorRight()){
-                player.setX(0 + 120);
-                actualRoom = actualRoom.getRoomRight();
-                actualRoom.setPlayer(player);
-                
-            }else if(mov == Collidable.LEFT & actualRoom.isDoorLeft()){
-                player.setX(Room.WIDTH - 120);
-                actualRoom = actualRoom.getRoomLeft();
-                actualRoom.setPlayer(player);
-                
-            }
-        }
-        if(code == KeyEvent.VK_Q | code == KeyEvent.VK_E |code == KeyEvent.VK_1 |code == KeyEvent.VK_2 |code == KeyEvent.VK_3){
-            actualRoom.keyPressed(code);
+    public void keyPressed(ArrayList<Integer> keys){
+        int mov = actualRoom.keyPressed(keys);
+        Player player = actualRoom.getPlayer();
+
+        if(mov == Collidable.UP & actualRoom.isDoorUp()){
+            player.setY(Room.HEIGHT - 120);
+            actualRoom = actualRoom.getRoomUp();
+            actualRoom.setPlayer(player);
+
+        }else if(mov == Collidable.DOWN & actualRoom.isDoorDown()){
+            player.setY(0 + 120);
+            actualRoom = actualRoom.getRoomDown();
+            actualRoom.setPlayer(player);
+
+        }else if(mov == Collidable.RIGHT & actualRoom.isDoorRight()){
+            player.setX(0 + 120);
+            actualRoom = actualRoom.getRoomRight();
+            actualRoom.setPlayer(player);
+
+        }else if(mov == Collidable.LEFT & actualRoom.isDoorLeft()){
+            player.setX(Room.WIDTH - 120);
+            actualRoom = actualRoom.getRoomLeft();
+            actualRoom.setPlayer(player);
+
         }
     }
     

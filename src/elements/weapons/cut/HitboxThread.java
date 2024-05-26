@@ -77,7 +77,6 @@ public class HitboxThread extends Thread{
                         if(eliminated != null){
                             eliminated.takeDamage(player.getActualWeapon().getDamage());
                         }
-                        ///
 
                         if(!cooldownThread.isRecover()){
                             player.getActualWeapon().setAttacking(false);

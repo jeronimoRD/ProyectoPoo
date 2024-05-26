@@ -4,9 +4,5 @@
  */
 package interfaces;
 
-/**
- *
- * @author korez
- */
 public interface Collapsible extends Boundable{
 }

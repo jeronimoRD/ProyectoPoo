@@ -6,9 +6,9 @@ package psychiatric;
 import elements.player.Player;
 import exceptions.*;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Psychiatric {
     private Level [] levels;
@@ -39,11 +39,8 @@ public class Psychiatric {
         actualLevel.setPlayer(player);
     }
     
-    public void keyPressed(int code){
-        if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A | code == KeyEvent.VK_Q | code == KeyEvent.VK_E
-          |code == KeyEvent.VK_1 |code == KeyEvent.VK_2 |code == KeyEvent.VK_3){
-            actualLevel.keyPressed(code);
-        }
+    public void keyPressed(ArrayList<Integer> keys){
+        actualLevel.keyPressed(keys);
     }
     
     public void mousePressed(int code){

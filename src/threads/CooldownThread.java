@@ -30,7 +30,7 @@ public class CooldownThread extends Thread{
                 }
                 recover = false;
             }
-            System.out.print(""); //¿QUE?
+            System.out.print("");
         }
     }
     

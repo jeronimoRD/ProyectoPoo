@@ -5,15 +5,16 @@
 package threads;
 
 import interfaces.Collidable;
+import interfaces.Movable;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
 public class TouchCollisionThread extends Thread{
     private boolean running;
-    private Collidable reference;
+    private Movable reference;
     private ArrayList<Collidable> collidables;
 
-    public TouchCollisionThread(Collidable reference) {
+    public TouchCollisionThread(Movable reference) {
         running = true;
         this.reference = reference;
         this.collidables = new ArrayList<>();

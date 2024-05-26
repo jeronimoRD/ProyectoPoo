@@ -106,15 +106,6 @@ public class Room extends Sprite{
             enemies.remove(eliminatedCreatures.get(e));
         }
         
-        ArrayList<Collectible> elimatedCollectible = new ArrayList<>();
-        for(Collectible collectible: collectibles){
-            if(collectible.getGrabed() == true){
-                elimatedCollectible.add(collectible);
-            }
-        }for(int c = 0; c < elimatedCollectible.size(); c++){
-            collectibles.remove(elimatedCollectible.get(c));
-        }
-        
         if(enemies.size() <= 0){
             for(int d = 0; d < collapsibles.size(); d++){
                 boundables.remove(collapsibles.get(d));
@@ -151,16 +142,16 @@ public class Room extends Sprite{
         return -1; //NOTNEXTROOM
     }
     
-    public int keyPressed(int code){
-        if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A){
-            player.move(code);
+    public int keyPressed(ArrayList<Integer> keys){
+        if(keys.contains(KeyEvent.VK_W) | keys.contains(KeyEvent.VK_S) | keys.contains(KeyEvent.VK_A) | keys.contains(KeyEvent.VK_D)){
+            player.move(keys);
         }
-        if(code == KeyEvent.VK_Q | code == KeyEvent.VK_E){
-            player.changeWeapon(code);
+        if(keys.contains(KeyEvent.VK_Q) | keys.contains(KeyEvent.VK_E)){
+            player.changeWeapon(keys);
         }
         
-        if(code == KeyEvent.VK_1 |code == KeyEvent.VK_2 |code == KeyEvent.VK_3){
-            player.takePill(code);
+        if(keys.contains(KeyEvent.VK_1) | keys.contains(KeyEvent.VK_2)| keys.contains(KeyEvent.VK_3)){
+            player.takePill(keys);
         }
         
         return checkEntry();
@@ -244,7 +235,7 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             enemies.add(enemy);
-            enemy.setBoundables(boundables); //¿Se agrega a collidables?
+            enemy.setBoundables(boundables);
         }
     }
     

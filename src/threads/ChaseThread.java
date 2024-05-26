@@ -7,16 +7,16 @@ package threads;
 import interfaces.Collidable;
 import interfaces.Movable;
 
-/**
- *
- * @author korez
- */
 public class ChaseThread extends Thread{
     private boolean running;
     
     //ELEMENTS
     private Movable persecutor;
     private Collidable prey;
+    
+    //MOVE
+    private int px;
+    private int py;
 
     public ChaseThread(Movable persecutor, Collidable prey) {
         this.persecutor = persecutor;
@@ -29,22 +29,23 @@ public class ChaseThread extends Thread{
         while(running){
             System.out.print("");
             if(prey != null){
-                int pX = persecutor.getX();
-                int pY = persecutor.getY();        
+                px = persecutor.getX();
+                py = persecutor.getY(); 
+                
                 int preyX = prey.getX();
                 int preyY = prey.getY();
-
-                if(pX < preyX){
-                    persecutor.setX(pX + persecutor.getStep());
+                
+                if(px < preyX){
+                    persecutor.setX(px + persecutor.getStep());
                 }
-                if(pX > preyX){
-                    persecutor.setX(pX - persecutor.getStep());
+                if(px > preyX){
+                    persecutor.setX(px - persecutor.getStep());
                 }
-                if(pY < preyY){
-                    persecutor.setY(pY + persecutor.getStep());
+                if(py < preyY){
+                    persecutor.setY(py + persecutor.getStep());
                 }
-                if(pY > preyY){
-                    persecutor.setY(pY - persecutor.getStep());
+                if(py > preyY){
+                    persecutor.setY(py - persecutor.getStep());
                 }
                 try{
                     Thread.sleep(persecutor.getCoolDownMove());
@@ -60,5 +61,13 @@ public class ChaseThread extends Thread{
     }
     public void startRun(){
         this.running = true;
+    }
+
+    public int getPx() {
+        return px;
+    }
+
+    public int getPy() {
+        return py;
     }
 }

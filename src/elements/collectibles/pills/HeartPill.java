@@ -7,10 +7,6 @@ package elements.collectibles.pills;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- *
- * @author korez
- */
 public class HeartPill extends Pill{
 
     private static final int TYPE = 1;
@@ -29,5 +25,4 @@ public class HeartPill extends Pill{
     public int getType() {
         return TYPE;
     }
-    
 }

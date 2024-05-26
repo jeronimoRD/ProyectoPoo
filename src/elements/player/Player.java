@@ -9,6 +9,7 @@ import sprites.Sprite;
 import elements.enemies.Enemy;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
+import exceptions.FullInventoryException;
 import interfaces.Boundable;
 import interfaces.Collectible;
 import interfaces.Collidable;
@@ -36,9 +37,8 @@ public class Player extends Sprite implements Damageable, Movable{
     private Heart[] hearts;
     
     //MOVE
-    public static final int STEP = 10; 
-    private int lastMove = -1;
-    private int direction; //¿Aburrido?
+    public static final int STEP = 5; 
+    private int direction; 
     
     //ITERACTABLE
     private Inventory inventory;
@@ -73,7 +73,7 @@ public class Player extends Sprite implements Damageable, Movable{
         
         inventory = new Inventory(this);
         
-        heartPills = 2;
+        heartPills = 0;
         pillCooldown = new CooldownThread(COOLDOWN_PILL);
         pillCooldown.start();
         
@@ -95,23 +95,6 @@ public class Player extends Sprite implements Damageable, Movable{
     
     @Override
     public void touched(Collidable collidable) {
-        //WALL
-        for(Boundable boundable: boundables){
-            if(collidable == boundable){
-                if(direction == UP){
-                    y = boundable.getY()+boundable.getHeight();
-                }
-                if(direction == DOWN){
-                    y = boundable.getY() - HEIGHT;
-                }
-                if(direction == RIGHT){
-                    x = boundable.getX() - WIDTH;
-                }
-                if(direction == LEFT){
-                    x = boundable.getX()+boundable.getWidth();
-                }
-            }
-        }   
         //ENEMY
         if(creatures != null){
             for(Enemy creature: creatures){
@@ -125,57 +108,77 @@ public class Player extends Sprite implements Damageable, Movable{
             for(Collectible collectible: collectibles){
                 if(collidable == collectible){
                     if(collectible.getType() == 0){
-                        inventory.addWeapon(collectible.grabWeapon());
+                        try{
+                            inventory.addWeapon(collectible.grabWeapon());
+                            collectibles.remove(collectible);
+                        }catch(FullInventoryException e){
+                            collectible.throwWeapon();
+                        }
                     }else if(collectible.getType() == HEARTHPILL){
                         heartPills ++;
+                        collectibles.remove(collectible);
                     }
-                    collectibles.remove(collectible);
+                    
                     setCollidables(boundables, creatures, collectibles);
                 }
             }
         }
     }
     
-    public void move(int code){
-        if(code == KeyEvent.VK_W){
-            direction = UP; //¿Aburrido?
-            lastMove = UP;
+    public void move(ArrayList<Integer> keys){
+        if(keys.contains(KeyEvent.VK_W)){
             y -= STEP;
+            direction = UP; 
+            for(Boundable boundable: boundables){
+                if(checkCollision(boundable)){
+                    y += STEP;
+                    break;
+                }
+            }   
         }
-        if(code == KeyEvent.VK_S){
-            direction = DOWN; //¿Aburrido?
-            lastMove = DOWN;
+        if(keys.contains(KeyEvent.VK_S)){
             y += STEP;
+            direction = DOWN; 
+            for(Boundable boundable: boundables){
+                if(checkCollision(boundable)){
+                    y -= STEP;
+                    break;
+                }
+            }   
         }
-        if(code == KeyEvent.VK_D){
-            direction = RIGHT; //¿Aburrido?
-            lastMove = RIGHT;
+        if(keys.contains(KeyEvent.VK_D)){
             x += STEP;
+            direction = RIGHT; 
+            for(Boundable boundable: boundables){
+                if(checkCollision(boundable)){
+                    x -= STEP;
+                    break;
+                }
+            }   
         }
-        if(code == KeyEvent.VK_A){
-            direction = LEFT; //¿Aburrido?
-            lastMove = LEFT;
+        if(keys.contains(KeyEvent.VK_A)){
             x -= STEP;
+            direction = LEFT; 
+            for(Boundable boundable: boundables){
+                if(checkCollision(boundable)){
+                    x += STEP;
+                    break;
+                }
+            }   
         }
     }
     
-    public void changeWeapon(int code){
-        if(code == KeyEvent.VK_Q){
+    public void changeWeapon(ArrayList<Integer> keys){
+        if(keys.contains(KeyEvent.VK_Q)){
             inventory.changeSelectedWeapon(0);
-        }else if(code == KeyEvent.VK_E){
+        }else if(keys.contains(KeyEvent.VK_E)){
             inventory.changeSelectedWeapon(1);
         }
     }
     
-    public void attack(){
-        if(inventory.getSelectedWeapon() != null){
-            inventory.getSelectedWeapon().attack(this);
-        }
-    }
-    
-    public void takePill(int code){
+    public void takePill(ArrayList<Integer> keys){
         if(!pillCooldown.isRecover()){
-            if(code == KeyEvent.VK_1){
+            if(keys.contains(KeyEvent.VK_1)){
                 if(heartPills > 0){
                     for(Heart heart: hearts){ 
                         if(!heart.isLive()){
@@ -187,10 +190,16 @@ public class Player extends Sprite implements Damageable, Movable{
                     }
                 }
             }
-            else if(code == KeyEvent.VK_2){
+            else if(keys.contains(KeyEvent.VK_2)){
             }
-            else if(code == KeyEvent.VK_3){
+            else if(keys.contains(KeyEvent.VK_3)){
             }
+        }
+    }
+    
+    public void attack(){
+        if(inventory.getSelectedWeapon() != null){
+            inventory.getSelectedWeapon().attack(this);
         }
     }
     
@@ -225,62 +234,6 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         if((collidable.getY() + collidable.getHeight() >= y + height & y + height > collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x > collidable.getX())){
             return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean checkCollision(Collidable collidable, int direction) {
-        if(direction == UP){
-            if(y == collidable.getY() + collidable.getHeight()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == DOWN){
-            if(y + height == collidable.getY()){
-                if(x <= collidable.getX() & collidable.getX() <= x + width){
-                    return true;
-                }
-                else if(x <= collidable.getX() + collidable.getWidth() & collidable.getX() + collidable.getWidth() <= x + width){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == LEFT){
-            if(x == collidable.getX() + collidable.getWidth()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-        
-        else if(direction == RIGHT){
-            if(x + width == collidable.getX()){
-                if(y <= collidable.getY() & collidable.getY() <= y + height){
-                    return true;
-                }
-                else if(y <= collidable.getY() + collidable.getHeight() & collidable.getY() + collidable.getHeight() <= y + height){
-                    return true;
-                }
-            }else{
-                return false;
-            }
         }
         return false;
     }

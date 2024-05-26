@@ -22,8 +22,8 @@ public class GunLineal extends Weapon{
     public static final int HEIGHT = 20;
     
     //BULLETS
-    private static final int SPEED = 10;
-    private static final int COOLDOWN_MOVE = 10;
+    private static final int SPEED = 1;
+    private static final int COOLDOWN_MOVE = 1;
     private ArrayList<LinealBullet> bullets;
     
     public static final int COOLDOWN_ATTACK= 500;
