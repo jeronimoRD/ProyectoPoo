@@ -5,7 +5,7 @@
 package elements.inventory;
 
 import elements.weapons.Weapon;
-import another.Sprite;
+import sprites.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -14,8 +14,8 @@ import java.awt.Graphics;
  * @author korez
  */
 public class Space extends Sprite{
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 40;
+    public static final int WIDTH = 60;
+    public static final int HEIGHT = 60;
     
     private Weapon weapon;
     

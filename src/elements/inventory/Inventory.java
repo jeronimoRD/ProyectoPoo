@@ -4,37 +4,58 @@
  */
 package elements.inventory;
 
+import elements.player.Heart;
 import elements.player.Player;
 import elements.weapons.Weapon;
 import exceptions.FullInventoryException;
-import interfaces.Collidable;
+import java.awt.Color;
 import java.awt.Graphics;
+import sprites.Icon;
+import sprites.IconHearthPosion;
 
 public class Inventory {
     
     private Player player;
     private Space[] spaces;
     private Space selectedWeapon;
+    private Icon[] icons;
     public static final int SPACES_WEAPONS = 2;
     
-    public Inventory(Collidable collidable) {
+    public Inventory(Player player) {
         this.player = player;
         spaces = new Space[SPACES_WEAPONS];
         
         int px = 800;
-        int py = 40;
+        int py = 820;
         for(int s = 0; s < SPACES_WEAPONS; s++){
             spaces[s] = new Space(px, py);
-            px += 60;
+            px += 80;
         }
         
-        //!!TEST!!
+        //PILLS
+        icons = new Icon[3];
+        IconHearthPosion iconH = new IconHearthPosion(750, 820);
+        icons[0] = iconH;
         selectedWeapon = spaces[0];
     }
     
     public void draw(Graphics g) {
+        //WEAPONS
         for(Space space: spaces){
             space.draw(g);
+        }
+        
+        //HEARTS
+        for(Heart heart: player.getHearts()){
+            heart.draw(g);
+        }
+        
+        //PILL
+        for(Icon icon: icons){
+            if(icon != null)
+                icon.draw(g);
+                g.setColor(Color.BLACK);
+                g.drawString(String.valueOf(player.getHearthPills()), 770, 830); //FONT
         }
     }
     

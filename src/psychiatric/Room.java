@@ -4,13 +4,17 @@
  */
 package psychiatric;
 
+import elements.collectibles.pills.HeartPill;
+import elements.collectibles.pills.Pill;
+import elements.collectibles.weapons.GunC;
+import elements.collectibles.weapons.WeaponC;
+import elements.collectibles.weapons.StickC;
+import sprites.Menu;
 import elements.enemies.walker.Walker;
 import elements.enemies.Enemy;
 import elements.player.Player;
-import another.Sprite;
-import elements.collectibles.*;
+import sprites.Sprite;
 import elements.enemies.shooter.*;
-import elements.player.Heart;
 import interfaces.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -39,6 +43,8 @@ public class Room extends Sprite{
     private ArrayList<Boundable> boundables;
     private ArrayList<Collapsible> collapsibles;
     
+    private Menu menu;
+    
     public Room() {
         super(0, 0, WIDTH, HEIGHT, Color.GRAY);
         
@@ -56,6 +62,9 @@ public class Room extends Sprite{
         doorDown = false;
         doorRight = false;
         doorLeft = false;
+        
+        //INVENTORY
+        menu = new Menu(0, HEIGHT, WIDTH, 100);
     }
 
     @Override
@@ -76,13 +85,13 @@ public class Room extends Sprite{
         for(Collectible collectible: collectibles){
             collectible.draw(g);
         }
-        //HEARTS
-        for(Heart heart: player.getHearts()){
-            heart.draw(g);
-        }
-        //INVENTORY
-        player.getInventory().draw(g);
+        
+        //PLAYER
         player.draw(g);
+        
+        //INVENTORY
+        menu.draw(g);
+        player.getInventory().draw(g);
         
         update();
     }
@@ -146,9 +155,14 @@ public class Room extends Sprite{
         if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A){
             player.move(code);
         }
-        if(code == KeyEvent.VK_1 | code == KeyEvent.VK_2){
+        if(code == KeyEvent.VK_Q | code == KeyEvent.VK_E){
             player.changeWeapon(code);
         }
+        
+        if(code == KeyEvent.VK_1 |code == KeyEvent.VK_2 |code == KeyEvent.VK_3){
+            player.takePill(code);
+        }
+        
         return checkEntry();
     }
     
@@ -275,6 +289,28 @@ public class Room extends Sprite{
                 }
             }while(!aggregate);
             collectibles.add(weapon);
+        }
+    }
+    
+    public void addHearthPill(int numberRewards){
+        for(int i = 0; i < numberRewards; i++){
+            boolean aggregate;
+            Pill pill = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                //!TEST!
+                pill = new HeartPill(px, py);
+                aggregate = true;
+
+                for(Collidable collidable: boundables){
+                    if(pill.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            collectibles.add(pill);
         }
     }
     //---------------------------------------------------

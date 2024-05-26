@@ -4,7 +4,7 @@
  */
 package elements.bullets;
 
-import another.Sprite;
+import sprites.Sprite;
 import interfaces.Boundable;
 import interfaces.Collidable;
 import interfaces.Damageable;

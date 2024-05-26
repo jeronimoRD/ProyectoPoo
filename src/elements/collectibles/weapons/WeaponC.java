@@ -2,64 +2,47 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements.enemies;
+package elements.collectibles.weapons;
 
 import sprites.Sprite;
-import threads.TouchCollisionThread;
-import interfaces.Boundable;
+import elements.weapons.Weapon;
+import interfaces.Collectible;
 import interfaces.Collidable;
-import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
-public abstract class Enemy extends Sprite implements Damageable{
+public abstract class WeaponC extends Sprite implements Collectible{
     
-    //BOUNDABLE
-    protected ArrayList<Boundable> boundables;
+    protected static final int TYPE = 0;
+    protected boolean grabed;
+    protected Weapon weapon;
     
-    //PLAYER
-    protected Damageable player;
-    
-    //CHARACTERISTICS
-    protected int lifeBar;
-    
-    //COLLIDABLES
-    private TouchCollisionThread touchCollisionThread;
-    
-    
-    public Enemy(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height, color);
-        
-        touchCollisionThread = new TouchCollisionThread(this);
-        touchCollisionThread.start();
+    public WeaponC(int x, int y, Color color) {
+        super(x, y, WIDTH, HEIGHT, color);
+        this.grabed = false;
     }
-    
 
     @Override
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
+    public abstract void draw(Graphics g);
+    
+    @Override
+    public boolean getGrabed(){
+        return grabed;
     }
     
     @Override
-    public abstract void touched(Collidable collidable);
-    
-    @Override
-    public void takeDamage(int damage) {
-        int actualLife = lifeBar - damage;
-        if(actualLife <= 0){
-            die();
-            actualLife = 0;
-        }
-        lifeBar = actualLife;
+    public Weapon grabWeapon() {
+        grabed = true;
+        return weapon;
     }
     
     @Override
-    public abstract void die(); //DAMAGEABLE
-    
+    public int getType(){
+        return TYPE;
+    }
+
     @Override
-    public boolean checkCollision(Collidable collidable) { // =?
+    public boolean checkCollision(Collidable collidable) {
         if((collidable.getY() + collidable.getHeight() > y  & y >= collidable.getY()) & (collidable.getX() + collidable.getWidth() > x & x >= collidable.getX())){
             return true;
         }
@@ -130,31 +113,9 @@ public abstract class Enemy extends Sprite implements Damageable{
         }
         return false;
     }
-    
-    
-    //GETTERS AND SETTERS
-    public void setBoundables(ArrayList<Boundable> boundables){
-        this.boundables = boundables;
-        
-        ArrayList<Collidable> collidables = new ArrayList<>();
-        for(Boundable boundable: boundables){
-            collidables.add(boundable);
-        }
-        
-        touchCollisionThread.addCollidable(collidables);
-    }
-    
-    public ArrayList<Boundable> getBoundables() {
-        return boundables;
-    }
-    
-    public abstract void setPlayer(Damageable player);
 
-    public Damageable getPlayer() {
-        return player;
-    }
- 
-    public int getLifeBar() {
-        return lifeBar;
+    @Override
+    public void touched(Collidable collidable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

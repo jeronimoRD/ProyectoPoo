@@ -4,7 +4,7 @@
  */
 package elements.weapons;
 
-import another.Sprite;
+import sprites.Sprite;
 import elements.player.Player;
 import java.awt.Color;
 import java.awt.Graphics;

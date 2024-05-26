@@ -40,7 +40,8 @@ public class Psychiatric {
     }
     
     public void keyPressed(int code){
-        if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A | code == KeyEvent.VK_1 | code == KeyEvent.VK_2){
+        if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A | code == KeyEvent.VK_Q | code == KeyEvent.VK_E
+          |code == KeyEvent.VK_1 |code == KeyEvent.VK_2 |code == KeyEvent.VK_3){
             actualLevel.keyPressed(code);
         }
     }

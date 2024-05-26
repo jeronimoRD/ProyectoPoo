@@ -2,20 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elements.collectibles;
+package sprites;
 
-import elements.weapons.cut.Stick;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class StickC extends WeaponC{
+public class IconHearthPosion extends Icon{
     
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 40;
-    
-    public StickC(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.YELLOW);
-        weapon = new Stick(null);
+    public IconHearthPosion(int x, int y) {
+        super(x, y, Color.RED);
     }
 
     @Override
@@ -23,4 +18,5 @@ public class StickC extends WeaponC{
         g.setColor(color);
         g.fillRect(x, y, width, height);
     }
+    
 }
