@@ -24,7 +24,6 @@ public class Hitbox extends Sprite implements Collidable{ //EXTEND SPRITE*
     
     @Override
     public boolean checkCollision(Collidable collidable) {
-        //NO MOVE
         //PUNTO ARRIBA-IZQUIERDO
         if((collidable.getY() <= y & y <= collidable.getY() + collidable.getHeight()) & (collidable.getX() <= x & x <= collidable.getX() + collidable.getWidth())){
             return true;

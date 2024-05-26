@@ -73,7 +73,7 @@ public class Player extends Sprite implements Damageable, Movable{
         
         inventory = new Inventory(this);
         
-        heartPills = 2;
+        heartPills = 0;
         pillCooldown = new CooldownThread(COOLDOWN_PILL);
         pillCooldown.start();
         
@@ -95,23 +95,6 @@ public class Player extends Sprite implements Damageable, Movable{
     
     @Override
     public void touched(Collidable collidable) {
-        //WALL
-        for(Boundable boundable: boundables){
-            if(collidable == boundable){
-                if(direction == UP){
-                    y = boundable.getY()+boundable.getHeight();
-                }
-                if(direction == DOWN){
-                    y = boundable.getY() - HEIGHT;
-                }
-                if(direction == RIGHT){
-                    x = boundable.getX() - WIDTH;
-                }
-                if(direction == LEFT){
-                    x = boundable.getX()+boundable.getWidth();
-                }
-            }
-        }   
         //ENEMY
         if(creatures != null){
             for(Enemy creature: creatures){
@@ -141,21 +124,45 @@ public class Player extends Sprite implements Damageable, Movable{
             y -= STEP;
             direction = UP; //¿Aburrido?
             lastMove = UP;
+            for(Boundable boundable: boundables){
+                if(checkCollision(boundable)){
+                    y += STEP;
+                    break;
+                }
+            }   
         }
         if(keys.contains(KeyEvent.VK_S)){
             y += STEP;
             direction = DOWN; //¿Aburrido?
             lastMove = DOWN;
+            for(Boundable boundable: boundables){
+                if(checkCollision(boundable)){
+                    y -= STEP;
+                    break;
+                }
+            }   
         }
         if(keys.contains(KeyEvent.VK_D)){
             x += STEP;
             direction = RIGHT; //¿Aburrido?
             lastMove = RIGHT;
+            for(Boundable boundable: boundables){
+                if(checkCollision(boundable)){
+                    x -= STEP;
+                    break;
+                }
+            }   
         }
         if(keys.contains(KeyEvent.VK_A)){
             x -= STEP;
             direction = LEFT; //¿Aburrido?
             lastMove = LEFT;
+            for(Boundable boundable: boundables){
+                if(checkCollision(boundable)){
+                    x += STEP;
+                    break;
+                }
+            }   
         }
     }
     
