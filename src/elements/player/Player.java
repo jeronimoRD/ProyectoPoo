@@ -36,7 +36,7 @@ public class Player extends Sprite implements Damageable, Movable{
     private Heart[] hearts;
     
     //MOVE
-    public static final int STEP = 10; 
+    public static final int STEP = 5; 
     private int lastMove = -1;
     private int direction; //¿Aburrido?
     
@@ -136,46 +136,40 @@ public class Player extends Sprite implements Damageable, Movable{
         }
     }
     
-    public void move(int code){
-        if(code == KeyEvent.VK_W){
+    public void move(ArrayList<Integer> keys){
+        if(keys.contains(KeyEvent.VK_W)){
+            y -= STEP;
             direction = UP; //¿Aburrido?
             lastMove = UP;
-            y -= STEP;
         }
-        if(code == KeyEvent.VK_S){
+        if(keys.contains(KeyEvent.VK_S)){
+            y += STEP;
             direction = DOWN; //¿Aburrido?
             lastMove = DOWN;
-            y += STEP;
         }
-        if(code == KeyEvent.VK_D){
+        if(keys.contains(KeyEvent.VK_D)){
+            x += STEP;
             direction = RIGHT; //¿Aburrido?
             lastMove = RIGHT;
-            x += STEP;
         }
-        if(code == KeyEvent.VK_A){
+        if(keys.contains(KeyEvent.VK_A)){
+            x -= STEP;
             direction = LEFT; //¿Aburrido?
             lastMove = LEFT;
-            x -= STEP;
         }
     }
     
-    public void changeWeapon(int code){
-        if(code == KeyEvent.VK_Q){
+    public void changeWeapon(ArrayList<Integer> keys){
+        if(keys.contains(KeyEvent.VK_Q)){
             inventory.changeSelectedWeapon(0);
-        }else if(code == KeyEvent.VK_E){
+        }else if(keys.contains(KeyEvent.VK_E)){
             inventory.changeSelectedWeapon(1);
         }
     }
     
-    public void attack(){
-        if(inventory.getSelectedWeapon() != null){
-            inventory.getSelectedWeapon().attack(this);
-        }
-    }
-    
-    public void takePill(int code){
+    public void takePill(ArrayList<Integer> keys){
         if(!pillCooldown.isRecover()){
-            if(code == KeyEvent.VK_1){
+            if(keys.contains(KeyEvent.VK_1)){
                 if(heartPills > 0){
                     for(Heart heart: hearts){ 
                         if(!heart.isLive()){
@@ -187,10 +181,16 @@ public class Player extends Sprite implements Damageable, Movable{
                     }
                 }
             }
-            else if(code == KeyEvent.VK_2){
+            else if(keys.contains(KeyEvent.VK_2)){
             }
-            else if(code == KeyEvent.VK_3){
+            else if(keys.contains(KeyEvent.VK_3)){
             }
+        }
+    }
+    
+    public void attack(){
+        if(inventory.getSelectedWeapon() != null){
+            inventory.getSelectedWeapon().attack(this);
         }
     }
     

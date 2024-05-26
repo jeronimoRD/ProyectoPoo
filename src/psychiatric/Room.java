@@ -151,16 +151,16 @@ public class Room extends Sprite{
         return -1; //NOTNEXTROOM
     }
     
-    public int keyPressed(int code){
-        if(code == KeyEvent.VK_W | code == KeyEvent.VK_S | code == KeyEvent.VK_D | code == KeyEvent.VK_A){
-            player.move(code);
+    public int keyPressed(ArrayList<Integer> keys){
+        if(keys.contains(KeyEvent.VK_W) | keys.contains(KeyEvent.VK_S) | keys.contains(KeyEvent.VK_A) | keys.contains(KeyEvent.VK_D)){
+            player.move(keys);
         }
-        if(code == KeyEvent.VK_Q | code == KeyEvent.VK_E){
-            player.changeWeapon(code);
+        if(keys.contains(KeyEvent.VK_Q) | keys.contains(KeyEvent.VK_E)){
+            player.changeWeapon(keys);
         }
         
-        if(code == KeyEvent.VK_1 |code == KeyEvent.VK_2 |code == KeyEvent.VK_3){
-            player.takePill(code);
+        if(keys.contains(KeyEvent.VK_1) | keys.contains(KeyEvent.VK_2)| keys.contains(KeyEvent.VK_3)){
+            player.takePill(keys);
         }
         
         return checkEntry();

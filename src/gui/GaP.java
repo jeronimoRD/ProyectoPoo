@@ -72,8 +72,20 @@ public class GaP extends javax.swing.JPanel implements Runnable {
 
     @Override
     public void run() {
+        double intervalo = 1000000000/60;
+        double delta = 0;
+        long lasttime = System.nanoTime();
+        long currentime;
         while(hilo!=null){
-            repaint();
+            currentime = System.nanoTime();
+            delta += (currentime-lasttime)/intervalo;
+            lasttime = currentime;
+            
+            if(delta >= 1){
+                pyschiatric.keyPressed(kh.getKeys());
+                repaint();
+                delta--;
+            }
             try {
                 Thread.sleep(5);
             } catch (InterruptedException ex) {
