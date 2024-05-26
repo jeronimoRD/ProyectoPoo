@@ -16,8 +16,8 @@ public class ShooterChase extends Shooter{
     public static final int LIFE = 200;
     
     //BULLET
-    public static final int SPEED = 5;
-    private static final int COOLDOWN_MOVE = 100;
+    public static final int SPEED = 1;
+    private static final int COOLDOWN_MOVE = 10;
     
     public ShooterChase(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.PINK);

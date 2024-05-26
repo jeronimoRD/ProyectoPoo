@@ -17,8 +17,8 @@ public class ShooterAllDirections extends Shooter{
     public static final int LIFE = 100;
     
     //BULLET
-    public static final int SPEED = 5;
-    private static final int COOLDOWN_MOVE = 100;
+    public static final int SPEED = 1;
+    private static final int COOLDOWN_MOVE = 10;
     
     public ShooterAllDirections(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.BLUE);

@@ -20,8 +20,8 @@ public class Walker extends Enemy implements Movable{
     public static final int LIFE = 50;
     
     //MOVE
-    public static final int STEP = 5;
-    public static final int COOLDOWNMOVE = 50;
+    public static final int STEP = 1;
+    public static final int COOLDOWNMOVE = 10;
     private ChaseThread chaseThread;
     
     public Walker(int x, int y) {
