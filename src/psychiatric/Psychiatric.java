@@ -3,8 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package psychiatric;
+import elements.furniture.*;
 import elements.player.Player;
 import exceptions.*;
+import interfaces.Boundable;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -13,6 +15,10 @@ import java.util.ArrayList;
 public class Psychiatric {
     private Level [] levels;
     private Level actualLevel;
+    
+    //LEVEL 1
+    private ArrayList<Boundable> furtinuresL1;
+    
     public static final int LEVELS = 3;
     public static final int ROOMS_PER_LEVEL= 8;
     public static final int REWARDS_PER_LEVEL = 2;
@@ -21,10 +27,15 @@ public class Psychiatric {
         Player player = new Player(Room.WIDTH/2, Room.HEIGHT/2);
         levels = new Level[LEVELS];
         
+        furtinuresL1 = new ArrayList<>();
+        //Test
+        furtinuresL1.add(new VerticalGurney(0,0));
+        furtinuresL1.add(new HorizontalGurney(0,0));
+        
         //CREATE LEVELS
         for(int i = 0; i < LEVELS; i++){
             try {
-                levels[i] = new Level(ROOMS_PER_LEVEL, REWARDS_PER_LEVEL);
+                levels[i] = new Level(ROOMS_PER_LEVEL, REWARDS_PER_LEVEL, furtinuresL1);
             }catch (IOException e1) { 
                 //EXCEPTION FILES
                 break;

@@ -343,6 +343,32 @@ public class Room extends Sprite{
             collectibles.add(pill);
         }
     }
+    
+    public void addFurtinure(int numberFurtinure, ArrayList<Boundable> furtinures){
+        for(int i = 0; i < numberFurtinure; i++){
+            boolean aggregate;
+            //RANDOM FURTINURE
+            int index = (int) (Math.random() * (furtinures.size()));
+            Boundable furtinure = furtinures.get(index);
+            
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                
+                furtinure.setX(px);
+                furtinure.setY(py);
+                
+                aggregate = true;
+                for(Collidable collidable: boundables){
+                    if(furtinure.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            boundables.add(furtinure);
+        }
+    }
     //---------------------------------------------------
     
     //GETTERS AND SETTERS

@@ -5,6 +5,7 @@
 package psychiatric;
 import elements.player.Player;
 import exceptions.ImpossibleStructureRoomsException;
+import interfaces.Boundable;
 import interfaces.Collidable;
 import io.RoomReader;
 import java.awt.Graphics;
@@ -15,9 +16,13 @@ import java.util.ArrayList;
 public class Level {
     private Room[] rooms;
     private Room actualRoom; 
+    private ArrayList<Boundable> furnitures;
+    
     private boolean goingDown;
     
-    public Level(int totalRooms, int roomsRewards) throws IOException, ImpossibleStructureRoomsException {
+    public Level(int totalRooms, int roomsRewards, ArrayList<Boundable> furnitures) throws IOException, ImpossibleStructureRoomsException {
+        this.furnitures = furnitures;
+        
         int hallways = totalRooms - roomsRewards; // >= ROOMS_REWARDS + 2
         
         if(hallways - 2 <= 0){
@@ -103,7 +108,8 @@ public class Level {
                         }
                     }
                 }
-                //!!Test!!
+                //---------------------ADD ELEMENTES ZONE-----------------------------
+                room.addFurtinure(1, furnitures);
                 room.addWalker(2);
                 //room.addShooter(1);
                 room.addShooterChase(1);
@@ -195,7 +201,7 @@ public class Level {
                         break;
                     }
                 }
-                //!!Test!!
+                //---------------------ADD ELEMENTES ZONE-----------------------------
                 room.addWalker(1);
                 room.addShooter(1);
                 room.addShooterChase(1);

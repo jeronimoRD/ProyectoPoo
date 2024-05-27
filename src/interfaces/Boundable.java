@@ -7,4 +7,7 @@ import java.awt.Graphics;
 
 public interface Boundable extends Collidable{
     public void draw(Graphics g);
+    
+    public void setX(int x);
+    public void setY(int y);
 }

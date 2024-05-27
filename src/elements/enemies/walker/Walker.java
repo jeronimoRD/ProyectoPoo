@@ -57,6 +57,7 @@ public class Walker extends Enemy implements Movable{
     public void touched(Collidable collidable) {
         for(Boundable boundable: boundables){
             if(boundable == collidable){
+                //ORGANIZE THIS
                 x = chaseThread.getPx();
                 y = chaseThread.getPy();
             }
