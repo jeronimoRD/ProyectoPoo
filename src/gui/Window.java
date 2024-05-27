@@ -7,6 +7,7 @@ package gui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import psychiatric.Psychiatric;
@@ -15,6 +16,7 @@ public class Window extends javax.swing.JPanel implements Runnable{
     
     private Thread thread;
     private Psychiatric pyschiatric;
+    private MouseEvent click;
     
     //CAPTURE EVENTS
     private ArrayList<Integer> keys = new ArrayList<>();
@@ -53,6 +55,9 @@ public class Window extends javax.swing.JPanel implements Runnable{
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                formMouseReleased(evt);
+            }
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -86,8 +91,12 @@ public class Window extends javax.swing.JPanel implements Runnable{
     }//GEN-LAST:event_formKeyReleased
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        pyschiatric.mousePressed(evt.getButton());
+        click = evt;
     }//GEN-LAST:event_formMousePressed
+
+    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
+        click = null;
+    }//GEN-LAST:event_formMouseReleased
 
     @Override
     public void run() {
@@ -103,6 +112,9 @@ public class Window extends javax.swing.JPanel implements Runnable{
             
             if(delta >= 1){
                 pyschiatric.keyPressed(keys);
+                if(click != null){
+                    pyschiatric.mousePressed(click.getButton(), click.getX(), click.getY());
+                }
                 repaint();
                 delta--;
             }
