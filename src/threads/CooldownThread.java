@@ -22,6 +22,7 @@ public class CooldownThread extends Thread{
     @Override
     public void run(){
         while(running){
+            System.out.print("");
             if(recover){
                 try{
                     Thread.sleep(time); //SPEED OF COOLDOWN
@@ -30,7 +31,6 @@ public class CooldownThread extends Thread{
                 }
                 recover = false;
             }
-            System.out.print("");
         }
     }
     

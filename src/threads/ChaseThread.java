@@ -9,6 +9,7 @@ import interfaces.Movable;
 
 public class ChaseThread extends Thread{
     private boolean running;
+    private boolean pause;
     
     //ELEMENTS
     private Movable persecutor;
@@ -22,35 +23,38 @@ public class ChaseThread extends Thread{
         this.persecutor = persecutor;
         this.prey = prey;
         running = true;
+        pause = false;
     }
     
     @Override
     public void run(){
         while(running){
             System.out.print("");
-            if(prey != null){
-                px = persecutor.getX();
-                py = persecutor.getY(); 
-                
-                int preyX = prey.getX();
-                int preyY = prey.getY();
-                
-                if(px < preyX){
-                    persecutor.setX(px + persecutor.getStep());
-                }
-                if(px > preyX){
-                    persecutor.setX(px - persecutor.getStep());
-                }
-                if(py < preyY){
-                    persecutor.setY(py + persecutor.getStep());
-                }
-                if(py > preyY){
-                    persecutor.setY(py - persecutor.getStep());
-                }
-                try{
-                    Thread.sleep(persecutor.getCoolDownMove());
-                } catch (InterruptedException ex) {
-                    System.out.println("ERROR");
+            if(!pause){
+                if(prey != null){
+                    px = persecutor.getX();
+                    py = persecutor.getY(); 
+
+                    int preyX = prey.getX();
+                    int preyY = prey.getY();
+
+                    if(px < preyX){
+                        persecutor.setX(px + persecutor.getStep());
+                    }
+                    if(px > preyX){
+                        persecutor.setX(px - persecutor.getStep());
+                    }
+                    if(py < preyY){
+                        persecutor.setY(py + persecutor.getStep());
+                    }
+                    if(py > preyY){
+                        persecutor.setY(py - persecutor.getStep());
+                    }
+                    try{
+                        Thread.sleep(persecutor.getCoolDownMove());
+                    } catch (InterruptedException ex) {
+                        System.out.println("ERROR");
+                    }
                 }
             }
         }
@@ -61,6 +65,10 @@ public class ChaseThread extends Thread{
     }
     public void startRun(){
         this.running = true;
+    }
+    
+    public void setPause(boolean pause){
+        this.pause = pause;
     }
 
     public int getPx() {

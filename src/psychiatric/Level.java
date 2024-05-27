@@ -28,8 +28,6 @@ public class Level {
         //CREATE ROOMS
         rooms = new Room[totalRooms];
         rooms[0] = roomReader.read(1); //INITIAL ROOM
-        //TEST
-        rooms[0].addStick(1);
         
         //CREATE RANDOM HALLWAY
         for(int r = 0; r < hallways; r++){

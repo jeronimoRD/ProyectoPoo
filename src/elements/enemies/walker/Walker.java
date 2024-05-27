@@ -10,6 +10,7 @@ import interfaces.Collidable;
 import interfaces.Damageable;
 import interfaces.Movable;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import threads.ChaseThread;
 import threads.TouchCollisionThread;
@@ -34,6 +35,22 @@ public class Walker extends Enemy implements Movable{
         this.lifeBar = LIFE; //VIDA
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
+    }
+    
+    @Override
+    public void draw(Graphics g) {
+        g.setColor(color);
+        g.fillRect(x, y, width, height);
+        
+        update();
+    }
+    
+    public void update(){
+        if(stunned.isRecover()){
+            chaseThread.setPause(true);
+        }else{
+            chaseThread.setPause(false);
+        }
     }
     
     @Override

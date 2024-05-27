@@ -11,6 +11,7 @@ import interfaces.Damageable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import threads.CooldownThread;
 
 public abstract class Enemy extends Sprite implements Damageable{
     
@@ -22,9 +23,13 @@ public abstract class Enemy extends Sprite implements Damageable{
     
     //CHARACTERISTICS
     protected int lifeBar;
+    protected CooldownThread stunned;
     
     public Enemy(int x, int y, int width, int height, Color color) {
         super(x, y, width, height, color);
+        
+        stunned = new CooldownThread(500); //COOLDOWN WHEN RECIVE ATTACK
+        stunned.start();
     }
 
     @Override
@@ -35,12 +40,15 @@ public abstract class Enemy extends Sprite implements Damageable{
     
     @Override
     public void takeDamage(int damage) {
-        int actualLife = lifeBar - damage;
-        if(actualLife <= 0){
-            die();
-            actualLife = 0;
+        if(!stunned.isRecover()){
+            stunned.startCoolDown();
+            int actualLife = lifeBar - damage;
+            if(actualLife <= 0){
+                die();
+                actualLife = 0;
+            }
+            lifeBar = actualLife;
         }
-        lifeBar = actualLife;
     }
     
     @Override

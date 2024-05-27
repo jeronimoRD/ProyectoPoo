@@ -9,6 +9,7 @@ import sprites.Sprite;
 import elements.enemies.Enemy;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
+import elements.weapons.cut.Cutter;
 import exceptions.FullInventoryException;
 import interfaces.Boundable;
 import interfaces.Collectible;
@@ -68,7 +69,7 @@ public class Player extends Sprite implements Damageable, Movable{
         hearts = new Heart[LIVES];
         heartCooldown = new CooldownThread(COOLDOWN_LIVE);
         
-        int px = 30; //dimensions of hearts
+        int px = 30; 
         int py = 820;
         for(int h = 0; h < LIVES; h++){
             hearts[h] = new Heart(px, py);
@@ -78,6 +79,8 @@ public class Player extends Sprite implements Damageable, Movable{
         heartCooldown.start();
         
         inventory = new Inventory(this);
+        //FIRST WEAPON
+        inventory.addWeapon(new Cutter(this));
         
         heartPills = 0;
         pillCooldown = new CooldownThread(COOLDOWN_PILL);
