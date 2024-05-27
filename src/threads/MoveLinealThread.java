@@ -13,6 +13,7 @@ import interfaces.Movable;
  */
 public class MoveLinealThread extends Thread{
     private boolean running;
+    private boolean pause;
     private Movable movable;
     private int direction;
     
@@ -21,29 +22,34 @@ public class MoveLinealThread extends Thread{
         this.direction = direction;
         
         running = true;
+        pause = false;
     }
     
     @Override
     public void run(){
         while(running){
-            System.out.print("");
-            if(direction == Collidable.UP){
-                movable.setY(movable.getY() - movable.getStep());
-            }
-            else if(direction == Collidable.DOWN){
-                movable.setY(movable.getY() + movable.getStep());
-            }
-            else if(direction == Collidable.RIGHT){
-                movable.setX(movable.getX() + movable.getStep());
-            }
-            else if(direction == Collidable.LEFT){
-                movable.setX(movable.getX() - movable.getStep());
-            }
-            
-            try{
-                Thread.sleep(movable.getCoolDownMove());
-            } catch (InterruptedException ex) {
-                System.out.println("ERROR");
+            if(!pause){
+                System.out.print("");
+                if(direction == Collidable.UP){
+                    System.out.println("subiendo");
+                    movable.setY(movable.getY() - movable.getStep());
+                }
+                if(direction == Collidable.DOWN){
+                    System.out.println("bajando");
+                    movable.setY(movable.getY() + movable.getStep());
+                }
+                if(direction == Collidable.RIGHT){
+                    movable.setX(movable.getX() + movable.getStep());
+                }
+                if(direction == Collidable.LEFT){
+                    movable.setX(movable.getX() - movable.getStep());
+                }
+
+                try{
+                    Thread.sleep(movable.getCoolDownMove());
+                } catch (InterruptedException ex) {
+                    System.out.println("ERROR");
+                }
             }
         }
     }
@@ -53,6 +59,10 @@ public class MoveLinealThread extends Thread{
     }
     public void startRun(){
         this.running = true;
+    }
+    
+    public void setPause(boolean pause){
+        this.pause = pause;
     }
 
     public int getDirection() {

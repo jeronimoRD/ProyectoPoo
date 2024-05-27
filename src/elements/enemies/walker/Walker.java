@@ -6,70 +6,44 @@ package elements.enemies.walker;
 
 import elements.enemies.Enemy;
 import interfaces.Boundable;
+import interfaces.Collapsible;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import interfaces.Movable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import threads.ChaseThread;
 import threads.TouchCollisionThread;
 
-public class Walker extends Enemy implements Movable{
-    
-    //CHARACTERISTICS
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 20;
-    public static final int LIFE = 50;
-    
+public abstract class Walker extends Enemy implements Movable{
     //MOVE
     public static final int STEP = 1;
     public static final int COOLDOWNMOVE = 10;
-    private ChaseThread chaseThread;
     
     //COLLIDABLES
     private TouchCollisionThread touchCollisionThread;
     
-    public Walker(int x, int y) {
-        super(x, y, WIDTH, HEIGHT, Color.RED);
-        this.lifeBar = LIFE; //VIDA
+    public Walker(int x, int y, int width, int height, Color color, int lifeBar) {
+        super(x, y, width, height, color);
+        this.lifeBar = lifeBar; 
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
     }
     
     @Override
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
-        
-        update();
-    }
+    public abstract void draw(Graphics g);
     
-    public void update(){
-        if(stunned.isRecover()){
-            chaseThread.setPause(true);
-        }else{
-            chaseThread.setPause(false);
-        }
-    }
+    public abstract void update();
     
     @Override
-    public void touched(Collidable collidable) {
-        for(Boundable boundable: boundables){
-            if(boundable == collidable){
-                //ORGANIZE THIS
-                /*
-                x = chaseThread.getPx();
-                y = chaseThread.getPy();*/
-            }
-        }
-    }
+    public abstract void touched(Collidable collidable); 
     
     @Override
-    public void die(){
-        chaseThread.stopRun();
-    }
-
+    public abstract void die();
+    
+    @Override
+    public abstract void setPlayer(Damageable player);
+    
     @Override
     public int getStep() {
         return STEP;
@@ -78,13 +52,6 @@ public class Walker extends Enemy implements Movable{
     @Override
     public int getCoolDownMove() {
         return COOLDOWNMOVE;
-    }
-    @Override
-    public void setPlayer(Damageable player){
-        this.player = player;
-        
-        chaseThread = new ChaseThread(this, player);
-        chaseThread.start();
     }
     
     @Override

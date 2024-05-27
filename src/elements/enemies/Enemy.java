@@ -6,6 +6,7 @@ package elements.enemies;
 
 import sprites.Sprite;
 import interfaces.Boundable;
+import interfaces.Collapsible;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;

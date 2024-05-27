@@ -23,6 +23,9 @@ public class RoomReader {
     
     private static final char HORIZONTALGURNEY = 'G';
     private static final char VERTICALGURNEY = 'H';
+    private static final char DESK = 'M';
+    private static final char TRASH = 'B';
+    private static final char SHELVING = 'E';
 
     public RoomReader(String oneDoor, String twoDoors, String threeDoors){
         File newOneFiles = new File(oneDoor);

@@ -106,7 +106,7 @@ public class Level {
                 }
                 //---------------------ADD ELEMENTES ZONE-----------------------------
                 int nf = (int) (Math.random() * (3));
-                room.addWalker(2);
+                room.addLinealWalker(3);
                 //room.addShooter(1);
                 room.addShooterChase(1);
             }
@@ -201,7 +201,7 @@ public class Level {
                 //ERROR
                 int nf = (int) (Math.random() * (3));
                 
-                room.addWalker(3);
+                room.addChaseWalker(2);
                 room.addShooter(1);
                 room.addShooterChase(1);
                 rewardRoom.addGun(1);

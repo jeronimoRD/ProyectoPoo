@@ -9,12 +9,12 @@ import elements.collectibles.pills.Pill;
 import elements.collectibles.weapons.GunC;
 import elements.collectibles.weapons.WeaponC;
 import sprites.Menu;
-import elements.enemies.walker.Walker;
 import elements.enemies.Enemy;
 import elements.player.Player;
 import sprites.Sprite;
 import elements.enemies.shooter.*;
-import elements.furniture.HorizontalGurney;
+import elements.enemies.walker.ChaseWalker;
+import elements.enemies.walker.LinealWalker;
 import elements.furniture.Stairs;
 import exceptions.NoWeaponToThrows;
 import interfaces.*;
@@ -235,14 +235,36 @@ public class Room extends Sprite{
         }
     }
     
-    public void addWalker(int numberEnemies){
+    public void addChaseWalker(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
             Enemy enemy = null;
             do{
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
-                enemy = new Walker(px, py); 
+                enemy = new ChaseWalker(px, py); 
+                aggregate = true;
+
+                for(Collidable collidable: boundables){
+                    if(enemy.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            enemies.add(enemy);
+            enemy.setBoundables(boundables);
+        }
+    }
+    
+    public void addLinealWalker(int numberEnemies){
+        for(int i = 0; i < numberEnemies; i++){
+            boolean aggregate;
+            Enemy enemy = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                enemy = new LinealWalker(px, py); 
                 aggregate = true;
 
                 for(Collidable collidable: boundables){
