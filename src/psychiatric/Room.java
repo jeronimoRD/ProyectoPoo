@@ -8,7 +8,6 @@ import elements.collectibles.pills.HeartPill;
 import elements.collectibles.pills.Pill;
 import elements.collectibles.weapons.GunC;
 import elements.collectibles.weapons.WeaponC;
-import elements.collectibles.weapons.StickC;
 import sprites.Menu;
 import elements.enemies.walker.Walker;
 import elements.enemies.Enemy;
@@ -283,28 +282,6 @@ public class Room extends Sprite{
             }while(!aggregate);
             enemies.add(enemy);
             enemy.setBoundables(boundables);
-        }
-    }
-    
-    public void addStick(int numberRewards){
-        for(int i = 0; i < numberRewards; i++){
-            boolean aggregate;
-            WeaponC weapon = null;
-            do{
-                int px = (int) (Math.random() * (WIDTH));
-                int py = (int) (Math.random() * (HEIGHT));
-                //!TEST!
-                weapon = new StickC(px, py);
-                aggregate = true;
-
-                for(Collidable collidable: boundables){
-                    if(weapon.checkCollision(collidable)){
-                        aggregate = false;
-                        break;
-                    }
-                }
-            }while(!aggregate);
-            collectibles.add(weapon);
         }
     }
     

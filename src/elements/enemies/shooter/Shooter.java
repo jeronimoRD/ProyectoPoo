@@ -37,6 +37,11 @@ public abstract class Shooter extends Enemy{
     }
     
     public void update(){
+        if(stunned.isRecover()){
+            shooterThread.setPause(true);
+        }else{
+            shooterThread.setPause(false);
+        }
         ArrayList<Bullet> eliminatedBullets =  new ArrayList<>();
         for(Bullet bullet: bullets){
             if(bullet.isExplode()){

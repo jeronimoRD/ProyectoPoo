@@ -48,4 +48,8 @@ public class CooldownThread extends Thread{
     public boolean isRecover() {
         return recover;
     }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
 }

@@ -8,6 +8,7 @@ import sprites.Sprite;
 import elements.player.Player;
 import java.awt.Color;
 import java.awt.Graphics;
+import threads.CooldownThread;
 
 public abstract class Weapon extends Sprite{
 
@@ -16,12 +17,16 @@ public abstract class Weapon extends Sprite{
     
     //CHARACTERISTICS
     protected int damage;
+    protected int timeStunned;
     protected boolean attacking;
     
-    public Weapon(int x, int y, int width, int height, Color color, Player player) {
+    protected CooldownThread cooldownThread;
+    
+    public Weapon(int x, int y, int width, int height, Color color, Player player, int cooldownAttack, int timeStunned) {
         super(x, y, width, height, color);
         this.player = player;
         this.damage = 0;
+        this.timeStunned = timeStunned;
         this.attacking = false;
     }
 
@@ -33,6 +38,10 @@ public abstract class Weapon extends Sprite{
     //GETTERS AND SETTERS
     public int getDamage() {
         return damage;
+    }
+
+    public int getTimeStunned() {
+        return timeStunned;
     }
 
     public boolean isAttacking() {

@@ -23,6 +23,7 @@ public class GunLineal extends Weapon{
     
     //BULLETS
     private static final int SPEED = 1;
+    public static final int TIME_STUNNED = 0;
     private static final int COOLDOWN_MOVE = 1;
     private ArrayList<LinealBullet> bullets;
     
@@ -31,7 +32,7 @@ public class GunLineal extends Weapon{
     private CooldownThread cooldownThread;
     
     public GunLineal(Player player){ //INTERFACE?
-        super(0, 0, WIDTH, HEIGHT, Color.green, player);
+        super(0, 0, WIDTH, HEIGHT, Color.green, player, COOLDOWN_ATTACK, TIME_STUNNED);
         bullets = new ArrayList<>();
         
         cooldownThread = new CooldownThread(COOLDOWN_ATTACK);

@@ -5,6 +5,7 @@
 package elements.weapons.cut;
 
 import elements.player.Player;
+import elements.weapons.Weapon;
 import interfaces.Damageable;
 import java.util.ConcurrentModificationException;
 import threads.CooldownThread;
@@ -14,6 +15,7 @@ public class HitboxThread extends Thread{
     
     //OWNER
     private Player player;
+    private Weapon weapon;
     
     //CHARACTERISTICS
     private int scope;
@@ -22,12 +24,13 @@ public class HitboxThread extends Thread{
     private Hitbox hitbox;
     private CooldownThread cooldownThread;
 
-    public HitboxThread(Player player, int scope, int CooldownAtack) {
+    public HitboxThread(Player player, Weapon weapon, int scope) {
         running = true;
         this.scope = scope;
         this.player = player;
+        this.weapon = weapon;
         
-        cooldownThread = new CooldownThread(CooldownAtack);
+        cooldownThread = new CooldownThread(200);
         cooldownThread.start();
     }
 
@@ -36,13 +39,12 @@ public class HitboxThread extends Thread{
         while(running){
             System.out.print("");
             if(player != null){
-                if(player.getActualWeapon() != null){
+                if(player.getActualWeapon() != null & player.getActualWeapon() == weapon){
                     if(player.getActualWeapon().isAttacking() & hitbox == null){
                         hitbox = new Hitbox(player.getX(), player.getY(), scope, scope);
                         cooldownThread.startCoolDown();
                     }
                     if(player.getActualWeapon().isAttacking() & hitbox != null){
-
 
                         int px = 0;
                         int py = 0;
@@ -77,7 +79,7 @@ public class HitboxThread extends Thread{
                                 }
                             }
                             if(eliminated != null){
-                                eliminated.takeDamage(player.getActualWeapon().getDamage());
+                                eliminated.takeDamage(player.getActualWeapon().getDamage(), player.getActualWeapon().getTimeStunned());
                             }
                         }catch(ConcurrentModificationException e){
                             System.out.println("ostion");

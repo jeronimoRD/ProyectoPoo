@@ -13,11 +13,12 @@ public class LinealBullet extends Bullet{
     public static final int HEIGHT = 10;
     
     public static final int DAMAGE = 100;
+    public static final int TIME_STUNNED = 500;
     
     private MoveLinealThread moveLinealThread;
     
     public LinealBullet(int x, int y, int direction, int step, int cooldownMove) {
-        super(x, y, WIDTH, HEIGHT, Color.ORANGE);
+        super(x, y, WIDTH, HEIGHT, Color.ORANGE, TIME_STUNNED);
         this.damage = DAMAGE;
         this.step = step;
         this.cooldownMove = cooldownMove;

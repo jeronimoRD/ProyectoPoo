@@ -28,7 +28,7 @@ public abstract class Enemy extends Sprite implements Damageable{
     public Enemy(int x, int y, int width, int height, Color color) {
         super(x, y, width, height, color);
         
-        stunned = new CooldownThread(500); //COOLDOWN WHEN RECIVE ATTACK
+        stunned = new CooldownThread(800); //COOLDOWN WHEN RECIVE ATTACK
         stunned.start();
     }
 
@@ -39,8 +39,9 @@ public abstract class Enemy extends Sprite implements Damageable{
     }
     
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, int stun) {
         if(!stunned.isRecover()){
+            stunned.setTime(stun);
             stunned.startCoolDown();
             int actualLife = lifeBar - damage;
             if(actualLife <= 0){

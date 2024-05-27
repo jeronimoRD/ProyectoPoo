@@ -20,6 +20,7 @@ public abstract class Bullet extends Sprite implements Collidable, Movable{
     protected int step;
     protected int cooldownMove;
     protected int damage;
+    protected int timeStunned;
     protected boolean explode;
     
     //KNOW
@@ -28,12 +29,14 @@ public abstract class Bullet extends Sprite implements Collidable, Movable{
     
     protected TouchCollisionThread touchCollisionThread;
     
-    public Bullet(int x, int y, int width, int height, Color color) {
+    public Bullet(int x, int y, int width, int height, Color color, int timeStunned) {
         super(x, y, width, height, color);
         
         boundables = new ArrayList<>();
         objectives = new ArrayList<>();
         explode = false;
+        
+        this.timeStunned = timeStunned;
         
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
@@ -49,7 +52,7 @@ public abstract class Bullet extends Sprite implements Collidable, Movable{
         if(objectives != null){
             for(Damageable damageable: objectives){
                 if(collidable == damageable){
-                    damageable.takeDamage(damage);
+                    damageable.takeDamage(damage, timeStunned);
                     explode();
                 }
             }

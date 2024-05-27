@@ -9,7 +9,7 @@ import sprites.Sprite;
 import elements.enemies.Enemy;
 import elements.inventory.Inventory;
 import elements.weapons.Weapon;
-import elements.weapons.cut.Cutter;
+import elements.weapons.cut.*;
 import exceptions.FullInventoryException;
 import interfaces.Boundable;
 import interfaces.Collectible;
@@ -80,6 +80,7 @@ public class Player extends Sprite implements Damageable, Movable{
         
         inventory = new Inventory(this);
         //FIRST WEAPON
+        inventory.addWeapon(new MedicineBag(this));
         inventory.addWeapon(new Cutter(this));
         
         heartPills = 0;
@@ -113,7 +114,7 @@ public class Player extends Sprite implements Damageable, Movable{
         if(creatures != null){
             for(Enemy creature: creatures){
                 if(collidable == creature){
-                    takeDamage(0);
+                    takeDamage(0, 0);
                 }
             }
         }
@@ -237,7 +238,7 @@ public class Player extends Sprite implements Damageable, Movable{
     }
     
     @Override
-    public void takeDamage(int damage) { //private
+    public void takeDamage(int damage, int stun) { //private
         if(!heartCooldown.isRecover()){
             for(int h = LIVES - 1; h >= 0; h--){
                 if(hearts[h].isLive()){
