@@ -4,6 +4,6 @@
  */
 package exceptions;
 
-public class ImpossibleStructureRoomsException extends RuntimeException{
+public class NoWeaponToThrows extends RuntimeException{
     //---
 }

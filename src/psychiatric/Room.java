@@ -15,6 +15,7 @@ import elements.player.Player;
 import sprites.Sprite;
 import elements.enemies.shooter.*;
 import elements.furniture.Stairs;
+import exceptions.NoWeaponToThrows;
 import interfaces.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -176,6 +177,20 @@ public class Room extends Sprite{
 
             if(keys.contains(KeyEvent.VK_1) | keys.contains(KeyEvent.VK_2)| keys.contains(KeyEvent.VK_3)){
                 player.takePill(keys);
+            }
+            
+            if(keys.contains(KeyEvent.VK_F)){
+                try{
+                    Collectible c = player.drop();
+                    for(Boundable boundable: boundables){
+                        if(c.checkCollision(boundable)){
+                            player.getInventory().addWeapon(c.grabWeapon());
+                            throw new NoWeaponToThrows();
+                        }
+                    }
+                    collectibles.add(c);
+                    player.setCollidables(boundables, enemies, collectibles, iteractables);
+                }catch(NoWeaponToThrows e){};
             }
         }
         

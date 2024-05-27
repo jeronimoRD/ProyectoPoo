@@ -13,7 +13,7 @@ public class ShooterChase extends Shooter{
     public static final int COOLDOWNSHOOT = 10000;
     
     //LIFE
-    public static final int LIFE = 200;
+    public static final int LIFE = 60;
     
     //BULLET
     public static final int SPEED = 1;

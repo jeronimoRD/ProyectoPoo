@@ -6,8 +6,10 @@ package elements.weapons.large;
 
 import elements.bullets.Bullet;
 import elements.bullets.LinealBullet;
+import elements.collectibles.weapons.GunC;
 import elements.player.Player;
 import elements.weapons.Weapon;
+import interfaces.Collectible;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import java.awt.Color;
@@ -23,7 +25,6 @@ public class GunLineal extends Weapon{
     
     //BULLETS
     private static final int SPEED = 1;
-    public static final int TIME_STUNNED = 0;
     private static final int COOLDOWN_MOVE = 1;
     private ArrayList<LinealBullet> bullets;
     
@@ -32,7 +33,7 @@ public class GunLineal extends Weapon{
     private CooldownThread cooldownThread;
     
     public GunLineal(Player player){ //INTERFACE?
-        super(0, 0, WIDTH, HEIGHT, Color.green, player, COOLDOWN_ATTACK, TIME_STUNNED);
+        super(0, 0, WIDTH, HEIGHT, Color.green, player, COOLDOWN_ATTACK, 0);
         bullets = new ArrayList<>();
         
         cooldownThread = new CooldownThread(COOLDOWN_ATTACK);
@@ -95,5 +96,10 @@ public class GunLineal extends Weapon{
         for(int b = 0; b < eliminatedBullets.size(); b++){
            bullets.remove(eliminatedBullets.get(b));
         }
+    }
+
+    @Override
+    public Collectible drop() {
+        return new GunC(player.getX() + 40, player.getY());
     }
 }

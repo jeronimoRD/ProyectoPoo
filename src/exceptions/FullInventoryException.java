@@ -4,10 +4,6 @@
  */
 package exceptions;
 
-/**
- *
- * @author korez
- */
 public class FullInventoryException extends RuntimeException{
     //---
 }

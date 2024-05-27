@@ -11,6 +11,7 @@ import elements.inventory.Inventory;
 import elements.weapons.Weapon;
 import elements.weapons.cut.*;
 import exceptions.FullInventoryException;
+import exceptions.NoWeaponToThrows;
 import interfaces.Boundable;
 import interfaces.Collectible;
 import interfaces.Collidable;
@@ -193,6 +194,15 @@ public class Player extends Sprite implements Damageable, Movable{
             inventory.changeSelectedWeapon(0);
         }else if(keys.contains(KeyEvent.VK_E)){
             inventory.changeSelectedWeapon(1);
+        }
+    }
+    
+    public Collectible drop() throws NoWeaponToThrows{
+        try{
+            Collectible c = inventory.dropSelectedWeapon();
+            return c;
+        }catch(NoWeaponToThrows e){
+            throw new NoWeaponToThrows();
         }
     }
     

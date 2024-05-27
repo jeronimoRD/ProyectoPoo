@@ -4,8 +4,10 @@
  */
 package elements.weapons.cut;
 
+import elements.collectibles.weapons.MedicineBagC;
 import elements.player.Player;
 import elements.weapons.Weapon;
+import interfaces.Collectible;
 import java.awt.Color;
 import java.awt.Graphics;
 import threads.CooldownThread;
@@ -58,5 +60,10 @@ public class MedicineBag extends Weapon {
 
     public static int getSCOPE() {
         return SCOPE;
+    }
+
+    @Override
+    public Collectible drop() {
+        return new MedicineBagC(player.getX() + 40, player.getY());
     }
 }

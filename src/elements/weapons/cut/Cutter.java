@@ -4,8 +4,10 @@
  */
 package elements.weapons.cut;
 
+import elements.collectibles.weapons.CutterC;
 import elements.player.Player;
 import elements.weapons.Weapon;
+import interfaces.Collectible;
 import java.awt.Color;
 import java.awt.Graphics;
 import threads.CooldownThread;
@@ -54,5 +56,10 @@ public class Cutter extends Weapon {
             player.getActualWeapon().setAttacking(true);
             cooldownThread.startCoolDown();
         }
+    }
+
+    @Override
+    public Collectible drop() {
+        return new CutterC(player.getX() + 40, player.getY());
     }
 }

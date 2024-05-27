@@ -8,6 +8,8 @@ import elements.player.Heart;
 import elements.player.Player;
 import elements.weapons.Weapon;
 import exceptions.FullInventoryException;
+import exceptions.NoWeaponToThrows;
+import interfaces.Collectible;
 import java.awt.Color;
 import java.awt.Graphics;
 import sprites.Icon;
@@ -67,10 +69,20 @@ public class Inventory {
         for(Space space: spaces){
             if(space.getWeapon() == null){
                 space.setWeapon(weapon);
+                weapon.setPlayer(player);
                 return;
             }
         }
         throw new FullInventoryException();
+    }
+    
+    public Collectible dropSelectedWeapon() throws NoWeaponToThrows{
+        if(selectedWeapon.getWeapon() == null){
+            throw new NoWeaponToThrows();
+        }
+        Collectible c = selectedWeapon.getWeapon().drop();
+        selectedWeapon.setWeapon(null);
+        return c;
     }
     
     //GETTERS AND SETTERS

@@ -6,6 +6,7 @@ package elements.weapons;
 
 import sprites.Sprite;
 import elements.player.Player;
+import interfaces.Collectible;
 import java.awt.Color;
 import java.awt.Graphics;
 import threads.CooldownThread;
@@ -34,6 +35,8 @@ public abstract class Weapon extends Sprite{
     public abstract void draw(Graphics g);
     
     public abstract void attack(Player player);
+    
+    public abstract Collectible drop();
 
     //GETTERS AND SETTERS
     public int getDamage() {
@@ -50,5 +53,9 @@ public abstract class Weapon extends Sprite{
 
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
