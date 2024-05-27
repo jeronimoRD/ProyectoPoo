@@ -100,6 +100,24 @@ public class RoomReader {
                 column += 1;
                 quadrantX += Wall.WIDTH;
                 
+            }else if((char)instruction == DESK){
+                room.addBoundable(new Desk(quadrantX, quadrantY));
+                
+                column += 1;
+                quadrantX += Wall.WIDTH;
+                
+            }else if((char)instruction == TRASH){
+                room.addBoundable(new Trash(quadrantX, quadrantY));
+                
+                column += 1;
+                quadrantX += Wall.WIDTH;
+                
+            }else if((char)instruction == SHELVING){
+                room.addBoundable(new Shelving(quadrantX, quadrantY));
+                
+                column += 1;
+                quadrantX += Wall.WIDTH;
+                
             }else{ //2 SPACES FOR LINE
                 if(column == 0){
                     row += 1;

@@ -6,7 +6,6 @@ package elements.enemies.walker;
 
 import elements.enemies.Enemy;
 import interfaces.Boundable;
-import interfaces.Collapsible;
 import interfaces.Collidable;
 import interfaces.Damageable;
 import interfaces.Movable;
