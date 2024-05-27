@@ -39,6 +39,7 @@ public class Player extends Sprite implements Damageable, Movable{
     //MOVE
     public static final int STEP = 5; 
     private int direction; 
+    private DirectionThread vision;
     
     //ITERACTABLE
     private Inventory inventory;
@@ -76,6 +77,9 @@ public class Player extends Sprite implements Damageable, Movable{
         heartPills = 0;
         pillCooldown = new CooldownThread(COOLDOWN_PILL);
         pillCooldown.start();
+        
+        vision = new DirectionThread(this);
+        vision.start();
         
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
@@ -128,7 +132,6 @@ public class Player extends Sprite implements Damageable, Movable{
     public void move(ArrayList<Integer> keys){
         if(keys.contains(KeyEvent.VK_W)){
             y -= STEP;
-            direction = UP; 
             for(Boundable boundable: boundables){
                 if(checkCollision(boundable)){
                     y += STEP;
@@ -138,7 +141,6 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         if(keys.contains(KeyEvent.VK_S)){
             y += STEP;
-            direction = DOWN; 
             for(Boundable boundable: boundables){
                 if(checkCollision(boundable)){
                     y -= STEP;
@@ -148,7 +150,6 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         if(keys.contains(KeyEvent.VK_D)){
             x += STEP;
-            direction = RIGHT; 
             for(Boundable boundable: boundables){
                 if(checkCollision(boundable)){
                     x -= STEP;
@@ -158,7 +159,6 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         if(keys.contains(KeyEvent.VK_A)){
             x -= STEP;
-            direction = LEFT; 
             for(Boundable boundable: boundables){
                 if(checkCollision(boundable)){
                     x += STEP;
@@ -197,7 +197,21 @@ public class Player extends Sprite implements Damageable, Movable{
         }
     }
     
-    public void attack(){
+    public void attack(int x, int y){
+        //DIRECTION
+        if(vision.getTriangleUp().contains(x, y)){
+            direction = UP;
+        }
+        else if(vision.getTriangleDown().contains(x, y)){
+            direction = DOWN;
+        }
+        else if(vision.getTriangleRight().contains(x, y)){
+            direction = RIGHT;
+        }
+        else if(vision.getTriangleLeft().contains(x, y)){
+            direction = LEFT;
+        }
+        
         if(inventory.getSelectedWeapon() != null){
             inventory.getSelectedWeapon().attack(this);
         }

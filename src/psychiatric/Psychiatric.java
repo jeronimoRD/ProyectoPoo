@@ -43,19 +43,10 @@ public class Psychiatric {
         actualLevel.keyPressed(keys);
     }
     
-    public void mousePressed(int code){
+    public void mousePressed(int code, int x, int y){
         if(code == MouseEvent.BUTTON1){
-            actualLevel.mousePressed(code);
+            actualLevel.mousePressed(code, x, y);
         }
-    }
-    
-    //GETTERS AND SETTERS
-    public int getScreenWidth(){
-        return Room.WIDTH;
-    }
-    
-    public int getScreenHeight(){
-        return Room.HEIGHT;
     }
     
     public void draw(Graphics g) {

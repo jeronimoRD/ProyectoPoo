@@ -157,9 +157,9 @@ public class Room extends Sprite{
         return checkEntry();
     }
     
-    public void mousePressed(int code){
+    public void mousePressed(int code, int x, int y){
         if(code == MouseEvent.BUTTON1){
-            player.attack();
+            player.attack(x, y);
         }
     }
     

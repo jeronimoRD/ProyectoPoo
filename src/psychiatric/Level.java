@@ -238,9 +238,9 @@ public class Level {
         }
     }
     
-    public void mousePressed(int code){
+    public void mousePressed(int code, int x, int y){
         if(code == MouseEvent.BUTTON1){
-            actualRoom.mousePressed(code);
+            actualRoom.mousePressed(code, x, y);
         }
     }
     
