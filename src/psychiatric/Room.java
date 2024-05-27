@@ -15,15 +15,19 @@ import elements.enemies.Enemy;
 import elements.player.Player;
 import sprites.Sprite;
 import elements.enemies.shooter.*;
+import elements.furniture.Stairs;
 import interfaces.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class Room extends Sprite{
-
+    
+    private boolean goingDown;
+    
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
     
@@ -38,6 +42,7 @@ public class Room extends Sprite{
     private boolean doorLeft;
     
     private Player player;
+    private ArrayList<Iteractable> iteractables;
     private ArrayList<Enemy> enemies;
     private ArrayList<Collectible> collectibles;
     private ArrayList<Boundable> boundables;
@@ -52,6 +57,7 @@ public class Room extends Sprite{
         collapsibles = new ArrayList<>();
         collectibles = new ArrayList<>();
         enemies = new ArrayList<>();
+        iteractables = new ArrayList<>();
         
         roomUp = null;
         roomDown = null;
@@ -65,6 +71,8 @@ public class Room extends Sprite{
         
         //INVENTORY
         menu = new Menu(0, HEIGHT, WIDTH, 100);
+        
+        goingDown = false;
     }
 
     @Override
@@ -74,25 +82,31 @@ public class Room extends Sprite{
         g.fillRect(x, y, WIDTH, HEIGHT);
         
         //BOUNDABLES
-        for(Boundable boundable: boundables){
-            boundable.draw(g);
-        }
-        //ENEMIES
-        for(Enemy enemy: enemies){
-            enemy.draw(g); 
-        }
-        //REWARDS
-        for(Collectible collectible: collectibles){
-            collectible.draw(g);
-        }
+        try{
+            for(Boundable boundable: boundables){
+                boundable.draw(g);
+            }
+            //ITERACTABLES
+            for(Iteractable iteractable: iteractables){
+                iteractable.draw(g);
+            }
+
+            //ENEMIES
+            for(Enemy enemy: enemies){
+                enemy.draw(g); 
+            }
+            //REWARDS
+            for(Collectible collectible: collectibles){
+                collectible.draw(g);
+            }
+        }catch(ConcurrentModificationException e){}
         
         //PLAYER
-        player.draw(g);
-        
-        //INVENTORY
-        menu.draw(g);
-        player.getInventory().draw(g);
-        
+        if(player != null){
+            player.draw(g);
+            menu.draw(g);
+            player.getInventory().draw(g);
+        }    
         update();
     }
     
@@ -111,47 +125,59 @@ public class Room extends Sprite{
                 boundables.remove(collapsibles.get(d));
             }
         }
+        
+        if(player != null){
+            if(player.isGoingDown()){
+                
+                
+                goingDown = true;
+            }
+        }
     }
 
     //NEXTROOM
     public int checkEntry(){
-        if(player.getY() < 0){
-            for(Enemy enemy: enemies){
-                enemy.setPlayer(null);
+        if(player != null){
+            if(player.getY() < 0){
+                for(Enemy enemy: enemies){
+                    enemy.setPlayer(null);
+                }
+                return Boundable.UP;
             }
-            return Boundable.UP;
-        }
-        if(player.getY() > Room.HEIGHT){
-            for(Enemy enemy: enemies){
-                enemy.setPlayer(null);
+            if(player.getY() > Room.HEIGHT){
+                for(Enemy enemy: enemies){
+                    enemy.setPlayer(null);
+                }
+                return Boundable.DOWN;
             }
-            return Boundable.DOWN;
-        }
-        if(player.getX() > Room.WIDTH){
-            for(Enemy enemy: enemies){
-                enemy.setPlayer(null);
+            if(player.getX() > Room.WIDTH){
+                for(Enemy enemy: enemies){
+                    enemy.setPlayer(null);
+                }
+                return Boundable.RIGHT;
             }
-            return Boundable.RIGHT;
-        }
-        if(player.getX() < 0){
-            for(Enemy enemy: enemies){
-                enemy.setPlayer(null);
+            if(player.getX() < 0){
+                for(Enemy enemy: enemies){
+                    enemy.setPlayer(null);
+                }
+                return Boundable.LEFT;
             }
-            return Boundable.LEFT;
         }
         return -1; //NOTNEXTROOM
     }
     
     public int keyPressed(ArrayList<Integer> keys){
-        if(keys.contains(KeyEvent.VK_W) | keys.contains(KeyEvent.VK_S) | keys.contains(KeyEvent.VK_A) | keys.contains(KeyEvent.VK_D)){
-            player.move(keys);
-        }
-        if(keys.contains(KeyEvent.VK_Q) | keys.contains(KeyEvent.VK_E)){
-            player.changeWeapon(keys);
-        }
-        
-        if(keys.contains(KeyEvent.VK_1) | keys.contains(KeyEvent.VK_2)| keys.contains(KeyEvent.VK_3)){
-            player.takePill(keys);
+        if(player != null){
+            if(keys.contains(KeyEvent.VK_W) | keys.contains(KeyEvent.VK_S) | keys.contains(KeyEvent.VK_A) | keys.contains(KeyEvent.VK_D)){
+                player.move(keys);
+            }
+            if(keys.contains(KeyEvent.VK_Q) | keys.contains(KeyEvent.VK_E)){
+                player.changeWeapon(keys);
+            }
+
+            if(keys.contains(KeyEvent.VK_1) | keys.contains(KeyEvent.VK_2)| keys.contains(KeyEvent.VK_3)){
+                player.takePill(keys);
+            }
         }
         
         return checkEntry();
@@ -173,6 +199,27 @@ public class Room extends Sprite{
     
     //TEST -> RANDOM
     //---------------------ADD---------------------
+    public void addIteractable(int numberIteractables) {
+        for(int i = 0; i < numberIteractables; i++){
+            boolean aggregate;
+            Stairs stair = null;
+            do{
+                int px = (int) (Math.random() * (WIDTH));
+                int py = (int) (Math.random() * (HEIGHT));
+                stair = new Stairs(px, py); 
+                aggregate = true;
+
+                for(Collidable collidable: boundables){
+                    if(stair.checkCollision(collidable)){
+                        aggregate = false;
+                        break;
+                    }
+                }
+            }while(!aggregate);
+            iteractables.add(stair);
+        }
+    }
+    
     public void addWalker(int numberEnemies){
         for(int i = 0; i < numberEnemies; i++){
             boolean aggregate;
@@ -313,7 +360,7 @@ public class Room extends Sprite{
 
     public void setPlayer(Player player) {
         this.player = player;
-        player.setCollidables(boundables, enemies, collectibles);
+        player.setCollidables(boundables, enemies, collectibles, iteractables);
         for(Enemy enemy: enemies){
             enemy.setPlayer(player);
         }
@@ -381,5 +428,13 @@ public class Room extends Sprite{
 
     public void setRoomLeft(Room roomLeft) {
         this.roomLeft = roomLeft;
+    }
+
+    public boolean isGoingDown() {
+        return goingDown;
+    }
+
+    public void setGoingDown(boolean goingDown) {
+        this.goingDown = goingDown;
     }
 }

@@ -51,5 +51,20 @@ public class Psychiatric {
     
     public void draw(Graphics g) {
         actualLevel.draw(g);
+        update();
+    }
+    
+    public void update(){
+        if(actualLevel.isGoingDown()){
+            for(int l = 0; l < LEVELS; l++){
+                if(actualLevel == levels[l]){
+                    Player player = actualLevel.getPlayer();
+                    player.setGoingDown(false);
+                    actualLevel = levels[l + 1];
+                    actualLevel.setPlayer(player);
+                    break;
+                }
+            }
+        }
     }
 }
