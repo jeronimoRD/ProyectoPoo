@@ -5,7 +5,6 @@
 package psychiatric;
 import elements.player.Player;
 import exceptions.ImpossibleStructureRoomsException;
-import interfaces.Boundable;
 import interfaces.Collidable;
 import io.RoomReader;
 import java.awt.Graphics;
@@ -16,13 +15,10 @@ import java.util.ArrayList;
 public class Level {
     private Room[] rooms;
     private Room actualRoom; 
-    private ArrayList<Boundable> furnitures;
     
     private boolean goingDown;
     
-    public Level(int totalRooms, int roomsRewards, ArrayList<Boundable> furnitures) throws IOException, ImpossibleStructureRoomsException {
-        this.furnitures = furnitures;
-        
+    public Level(int totalRooms, int roomsRewards, int enviromentLevel, int maxEnemies) throws IOException, ImpossibleStructureRoomsException {
         int hallways = totalRooms - roomsRewards; // >= ROOMS_REWARDS + 2
         
         if(hallways - 2 <= 0){
@@ -32,14 +28,14 @@ public class Level {
         
         //CREATE ROOMS
         rooms = new Room[totalRooms];
-        rooms[0] = roomReader.read(1); //INITIAL ROOM
+        rooms[0] = roomReader.read(1, enviromentLevel); //INITIAL ROOM
         
         //CREATE RANDOM HALLWAY
         for(int r = 0; r < hallways; r++){
             Room room;
             if(r == hallways - 2){
                 while(true){
-                    room = roomReader.read(1); //FINAL ROOM
+                    room = roomReader.read(1, enviromentLevel); //FINAL ROOM
                     room.addIteractable(1);
                     
                     if(rooms[r].getRoomUp() == null && rooms[r].isDoorUp()){
@@ -76,7 +72,7 @@ public class Level {
             }
             else{
                 while(true){
-                    room = roomReader.read(2); // ENEMY ROOM
+                    room = roomReader.read(2, enviromentLevel); // ENEMY ROOM
                     
                     if(rooms[r].isDoorUp() && rooms[r].getRoomUp() == null){
                         if(room.isDoorDown()){
@@ -109,7 +105,7 @@ public class Level {
                     }
                 }
                 //---------------------ADD ELEMENTES ZONE-----------------------------
-                room.addFurtinure(1, furnitures);
+                int nf = (int) (Math.random() * (3));
                 room.addWalker(2);
                 //room.addShooter(1);
                 room.addShooterChase(1);
@@ -135,7 +131,7 @@ public class Level {
                 Room room;
                 Room rewardRoom;
                 while(true){
-                    room = roomReader.read(3); // NEW ENEMY ROOM
+                    room = roomReader.read(3, enviromentLevel); // NEW ENEMY ROOM
                     
                     if((rooms[indexRoom].isDoorUp() & !room.isDoorUp()) | (rooms[indexRoom].isDoorDown() & !room.isDoorDown())
                     | (rooms[indexRoom].isDoorRight() & !room.isDoorRight()) | (rooms[indexRoom].isDoorLeft() & !room.isDoorLeft())){
@@ -166,7 +162,7 @@ public class Level {
                         
                         //CREATE REWARD ROOM
                         while(true){
-                            rewardRoom = roomReader.read(1); //REWARD ROOM
+                            rewardRoom = roomReader.read(1, enviromentLevel); //REWARD ROOM
 
                             if(room.getRoomUp() == null && room.isDoorUp()){
                                 if(rewardRoom.isDoorDown()){
@@ -202,7 +198,10 @@ public class Level {
                     }
                 }
                 //---------------------ADD ELEMENTES ZONE-----------------------------
-                room.addWalker(1);
+                //ERROR
+                int nf = (int) (Math.random() * (3));
+                
+                room.addWalker(3);
                 room.addShooter(1);
                 room.addShooterChase(1);
                 rewardRoom.addGun(1);

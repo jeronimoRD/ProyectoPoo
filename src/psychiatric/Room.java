@@ -14,6 +14,7 @@ import elements.enemies.Enemy;
 import elements.player.Player;
 import sprites.Sprite;
 import elements.enemies.shooter.*;
+import elements.furniture.HorizontalGurney;
 import elements.furniture.Stairs;
 import exceptions.NoWeaponToThrows;
 import interfaces.*;
@@ -343,15 +344,16 @@ public class Room extends Sprite{
             collectibles.add(pill);
         }
     }
-    
-    public void addFurtinure(int numberFurtinure, ArrayList<Boundable> furtinures){
+    /*
+    public void addFurtinure(int numberFurtinure, int levelFurtinures){
         for(int i = 0; i < numberFurtinure; i++){
             boolean aggregate;
             //RANDOM FURTINURE
-            int index = (int) (Math.random() * (furtinures.size()));
-            Boundable furtinure = furtinures.get(index);
-            
+            Boundable furtinure = null;
             do{
+                int index = (int) (Math.random() * (furtinures.size()));
+                furtinure = furtinures.get(index);
+                
                 int px = (int) (Math.random() * (WIDTH));
                 int py = (int) (Math.random() * (HEIGHT));
                 
@@ -368,7 +370,7 @@ public class Room extends Sprite{
             }while(!aggregate);
             boundables.add(furtinure);
         }
-    }
+    }*/
     //---------------------------------------------------
     
     //GETTERS AND SETTERS

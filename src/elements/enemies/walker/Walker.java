@@ -58,8 +58,9 @@ public class Walker extends Enemy implements Movable{
         for(Boundable boundable: boundables){
             if(boundable == collidable){
                 //ORGANIZE THIS
+                /*
                 x = chaseThread.getPx();
-                y = chaseThread.getPy();
+                y = chaseThread.getPy();*/
             }
         }
     }

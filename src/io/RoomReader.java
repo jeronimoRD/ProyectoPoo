@@ -20,6 +20,9 @@ public class RoomReader {
     private static final char DOOR = 'P';
     private static final char WALL = 'X';
     private static final char FLOOR = 'O';
+    
+    private static final char HORIZONTALGURNEY = 'G';
+    private static final char VERTICALGURNEY = 'H';
 
     public RoomReader(String oneDoor, String twoDoors, String threeDoors){
         File newOneFiles = new File(oneDoor);
@@ -32,7 +35,7 @@ public class RoomReader {
         this.threeDoor = newThreeFiles.listFiles();
     }
     
-    public Room read(int numberDoors) throws IOException{
+    public Room read(int numberDoors, int enviromentLevel) throws IOException{
         Room room = new Room();
         FileReader reader = null;
         if(numberDoors == 1){
@@ -82,6 +85,18 @@ public class RoomReader {
                 column += 1;
                 quadrantX += Wall.WIDTH;
 
+            }else if((char)instruction == HORIZONTALGURNEY){
+                room.addBoundable(new HorizontalGurney(quadrantX, quadrantY));
+                
+                column += 1;
+                quadrantX += Wall.WIDTH;
+                
+            }else if((char)instruction == VERTICALGURNEY){
+                room.addBoundable(new VerticalGurney(quadrantX, quadrantY));
+                
+                column += 1;
+                quadrantX += Wall.WIDTH;
+                
             }else{ //2 SPACES FOR LINE
                 if(column == 0){
                     row += 1;
