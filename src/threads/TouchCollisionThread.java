@@ -30,6 +30,11 @@ public class TouchCollisionThread extends Thread{
                         if(collidable != null){
                             if(reference.checkCollision(collidable)){
                                 reference.touched(collidable);
+                                try{
+                                    Thread.sleep(50);
+                                } catch (InterruptedException ex) {
+                                    System.out.println("ERROR");
+                                }
                             } 
                         }
                     }

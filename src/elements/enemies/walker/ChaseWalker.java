@@ -30,6 +30,7 @@ public class ChaseWalker extends Walker{
         update();
     }
     
+    @Override
     public void update(){
         if(stunned.isRecover()){
             chaseThread.setPause(true);
@@ -42,7 +43,6 @@ public class ChaseWalker extends Walker{
     public void touched(Collidable collidable) {
         for(Collidable boundable: boundables){
             if(boundable == collidable){
-                //ORGANIZE THIS
                 x = chaseThread.getPx();
                 y = chaseThread.getPy();
             }

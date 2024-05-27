@@ -28,14 +28,12 @@ public class MoveLinealThread extends Thread{
     @Override
     public void run(){
         while(running){
+            System.out.print("");
             if(!pause){
-                System.out.print("");
                 if(direction == Collidable.UP){
-                    System.out.println("subiendo");
                     movable.setY(movable.getY() - movable.getStep());
                 }
                 if(direction == Collidable.DOWN){
-                    System.out.println("bajando");
                     movable.setY(movable.getY() + movable.getStep());
                 }
                 if(direction == Collidable.RIGHT){
