@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Level {
     private Room[] rooms;
     private Room actualRoom; 
+    private boolean goingDown;
     
     public Level(int totalRooms, int roomsRewards) throws IOException, ImpossibleStructureRoomsException {
         int hallways = totalRooms - roomsRewards; // >= ROOMS_REWARDS + 2
@@ -36,6 +37,7 @@ public class Level {
             if(r == hallways - 2){
                 while(true){
                     room = roomReader.read(1); //FINAL ROOM
+                    room.addIteractable(1);
                     
                     if(rooms[r].getRoomUp() == null && rooms[r].isDoorUp()){
                         if(room.isDoorDown()){
@@ -205,10 +207,18 @@ public class Level {
         }
         
         actualRoom = rooms[0];
+        goingDown = false;
     }
     
     public void draw(Graphics g) {
         actualRoom.draw(g);
+        update();
+    }
+    
+    public void update(){
+        if(actualRoom.isGoingDown()){
+            goingDown = true;
+        }
     }
     
     public void keyPressed(ArrayList<Integer> keys){
@@ -247,5 +257,17 @@ public class Level {
     //GETTERS AND SETTERS
     public void setPlayer(Player player) {
         actualRoom.setPlayer(player);
+    }
+    
+    public Player getPlayer(){
+        return actualRoom.getPlayer();
+    }
+
+    public boolean isGoingDown() {
+        return goingDown;
+    }
+
+    public void setGoingDown(boolean goingDown) {
+        this.goingDown = goingDown;
     }
 }

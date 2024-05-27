@@ -6,6 +6,7 @@ package elements.weapons.cut;
 
 import elements.player.Player;
 import interfaces.Damageable;
+import java.util.ConcurrentModificationException;
 import threads.CooldownThread;
 
 public class HitboxThread extends Thread{
@@ -68,14 +69,23 @@ public class HitboxThread extends Thread{
 
                         //KILL ENEMY
                         Damageable eliminated = null;
-                        for(Damageable creature: player.getCreatures()){
-                            if(creature.checkCollision(hitbox)){
-                                eliminated = creature;
-                                break;
+                        try{
+                            for(Damageable creature: player.getCreatures()){ //WAIT
+                                if(creature.checkCollision(hitbox)){
+                                    eliminated = creature;
+                                    break;
+                                }
                             }
-                        }
-                        if(eliminated != null){
-                            eliminated.takeDamage(player.getActualWeapon().getDamage());
+                            if(eliminated != null){
+                                eliminated.takeDamage(player.getActualWeapon().getDamage());
+                            }
+                        }catch(ConcurrentModificationException e){
+                            System.out.println("ostion");
+                            try{
+                                Thread.sleep(10);
+                            } catch (InterruptedException ex) {
+                                System.out.println("ERROR");
+                            }
                         }
 
                         if(!cooldownThread.isRecover()){

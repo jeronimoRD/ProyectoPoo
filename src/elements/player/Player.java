@@ -14,6 +14,7 @@ import interfaces.Boundable;
 import interfaces.Collectible;
 import interfaces.Collidable;
 import interfaces.Damageable;
+import interfaces.Iteractable;
 import interfaces.Movable;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -58,6 +59,10 @@ public class Player extends Sprite implements Damageable, Movable{
     private CooldownThread pillCooldown;
     public static final int COOLDOWN_PILL = 1000;
     
+    //ITERACTABLES
+    private ArrayList<Iteractable> iteractables;
+    private boolean goingDown;
+    
     public Player(int x, int y) {
         super(x, y, WIDTH, HEIGHT, Color.CYAN);
         hearts = new Heart[LIVES];
@@ -83,6 +88,8 @@ public class Player extends Sprite implements Damageable, Movable{
         
         touchCollisionThread = new TouchCollisionThread(this);
         touchCollisionThread.start();
+        
+        goingDown = false;
     }
     
     @Override
@@ -123,7 +130,16 @@ public class Player extends Sprite implements Damageable, Movable{
                         collectibles.remove(collectible);
                     }
                     
-                    setCollidables(boundables, creatures, collectibles);
+                    setCollidables(boundables, creatures, collectibles, iteractables);
+                }
+            }
+        }
+        //ITERACTABLE
+        if(iteractables != null){
+            for(Iteractable iteractable: iteractables){
+                if(iteractable == collidable){
+                    goingDown = true;
+                    
                 }
             }
         }
@@ -261,10 +277,11 @@ public class Player extends Sprite implements Damageable, Movable{
         return boundables;
     }
     
-    public void setCollidables(ArrayList<Boundable> boundables, ArrayList<Enemy> creatures, ArrayList<Collectible> collectibles){
+    public void setCollidables(ArrayList<Boundable> boundables, ArrayList<Enemy> creatures, ArrayList<Collectible> collectibles, ArrayList<Iteractable> iteractables){
         this.boundables = boundables;
         this.creatures = creatures;
         this.collectibles = collectibles;
+        this.iteractables = iteractables;
         
         ArrayList<Collidable> collidables = new ArrayList<>();
         for(Boundable boundable: boundables){
@@ -275,6 +292,11 @@ public class Player extends Sprite implements Damageable, Movable{
         }
         for(Collectible collectible: collectibles){
             collidables.add(collectible);
+        }
+        if(iteractables != null){
+            for(Iteractable iteractable: iteractables){
+                collidables.add(iteractable);
+            }
         }
         
         touchCollisionThread.addCollidable(collidables);
@@ -309,5 +331,13 @@ public class Player extends Sprite implements Damageable, Movable{
     @Override
     public int getCoolDownMove() {
         return 0;
+    }
+
+    public boolean isGoingDown() {
+        return goingDown;
+    }
+
+    public void setGoingDown(boolean goingDown) {
+        this.goingDown = goingDown;
     }
 }
